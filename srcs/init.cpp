@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/10 18:18:07 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/11 18:31:14 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	Server::_bind_socket_to_port() {
 	}
 }
 
-void	Server::() {
+void	Server::_config_wait_fd_co() {
 	FD_ZERO(&this->_main);
 	FD_ZERO(&this->_tmp);
 
@@ -75,4 +75,70 @@ void	Server::() {
 	FD_SET(this->_fd_l, &this->_main);
 	this->_fdmax = this->_fd_l;
 
+}
+
+void	Server::_start_server_select() {
+	int i;
+
+	while (1) {
+		this->_tmp = this->_main;
+		if (select(this->_fdmax + 1, &this->_tmp, NULL, NULL, NULL) == -1) {
+			perror("select");
+			exit (4);
+		}
+		
+		for (i = 0; i <= this->_fdmax; i++) {
+			if (FD_ISSET(i, &this->_tmp)) {
+				if (i == this->_fd_l)
+					this->_accept_connect_client();
+				else 
+					this->_recv_send_data(i);
+			}
+		}
+	}
+}
+
+
+void	Server::_accept_connect_client() {
+	socklen_t	addrlen = sizeof this->_client_addr;
+	char		remoteIP[INET6_ADDRSTRLEN];
+	
+	this->_fd_acc = accept(this->_fd_l, (struct sockaddr*)&this->_client_addr, &addrlen);
+	if (this->_fd_acc == -1)
+		perror("accept");
+	else {
+		FD_SET(this->_fd_acc, &this->_main);
+		if (this->_fd_acc > this->_fdmax)
+			this->_fdmax = this->_fd_acc;
+		printf("serverinfo: new connection from %s on ""socket %d\n", inet_ntop(this->_client_addr.ss_family, this->_get_in_addr((struct sockaddr*)&this->_client_addr), remoteIP, INET6_ADDRSTRLEN), this->_fd_acc);
+	}
+}
+
+void	Server::_recv_send_data(int i) {
+	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
+	
+	if (nbytes <= 0) {
+		if (nbytes == 0)
+			printf("server: socket %d hung up\n", i);
+		else
+			perror("recv");
+		close(i);
+		FD_CLR(i, &this->_main);
+	}
+	else {
+		for (int j = 0; j <= this->_fdmax; j++) {
+			if (FD_ISSET(j, &this->_main)) {
+				if (j != this->_fd_l && j != i) {
+					if (send(j, this->_buf_client, nbytes, 0) == -1)
+						perror("send");
+				}
+			}
+		}
+	}
+}
+
+void*	Server::_get_in_addr(struct sockaddr *sa) {
+	if (sa->sa_family == AF_INET)
+		return &(((struct sockaddr_in*)sa)->sin_addr);
+	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
