@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.cpp                                           :+:      :+:    :+:   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/11 18:31:14 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/12 14:41:50 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "server.hpp"
+#include "Server.hpp"
 
-Server::Server() {
+Server::Server(const char *port, const char *password) : _port(port) , _password(password) {
+// parsing port et password
+
+	this->_get_server_info();
+	this->_bind_socket_to_port();
+	this->_config_wait_fd_co();
+	this->_start_server_select();
+
+	(void)this->_password;
 }
 
-Server::Server(const Server &src) {
-}
+//Server::Server(const Server &src) {
+//}
 
-Server&	Server::operator=(const Server &rhs) {
-}
+//Server&	Server::operator=(const Server &rhs) {
+//}
 
 Server::~Server() {
 }
@@ -56,6 +64,7 @@ void	Server::_bind_socket_to_port() {
 			close(this->_fd_l);
 			continue ;
 		}
+		break ;
 	}
 	if (this->_cp_serv == NULL) {
 		fprintf(stderr, "serverinfo: failed to bind\n");

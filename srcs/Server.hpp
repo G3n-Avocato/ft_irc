@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   server.hpp                                         :+:      :+:    :+:   */
+/*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/11 18:42:07 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/12 14:34:00 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,17 @@ class Server {
 	
 	public:
 		
-		Server();
-		Server(const Server&);
-		Server&	operator=(const Server&);
+		Server(const char *port, const char* password);
+//		Server(const Server&);
+//		Server&	operator=(const Server&);
 		~Server();
 
 	private:
-		
+		const char				*_port;
+		const char				*_password;
+
 		struct addrinfo			_hints;
 		struct addrinfo			*_servinfo;
-		const char				*_port;
 		void					_get_server_info();
 
 		int 					_fd_l;

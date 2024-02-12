@@ -6,10 +6,26 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 17:06:24 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/08 17:54:50 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/12 14:31:45 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Server.hpp"
+
+int	main(int argc, char **argv) {
+
+	if (argc != 3)
+		return (1);
+//	try {
+	Server	start(argv[1], argv[2]);
+//	}
+//	catch (std::exception &) {
+//		std::cout << e.what();
+//	}
+	return (0);
+}
+
+/*
 #include <netinet/in.h>
 #include <sys/select.h>
 #include <sys/types.h>
@@ -151,3 +167,4 @@ int	main() {
 		}
 	}
 }
+*/
