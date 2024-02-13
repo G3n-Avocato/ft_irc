@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/12 14:41:50 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/13 17:45:46 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 Server::Server(const char *port, const char *password) : _port(port) , _password(password) {
 // parsing port et password
-
+	(void)this->_password;
+	
 	this->_get_server_info();
 	this->_bind_socket_to_port();
 	this->_config_wait_fd_co();
 	this->_start_server_select();
 
-	(void)this->_password;
 }
 
 //Server::Server(const Server &src) {
@@ -86,6 +86,7 @@ void	Server::_config_wait_fd_co() {
 
 }
 
+//verif password pas faite 
 void	Server::_start_server_select() {
 	int i;
 
@@ -123,14 +124,30 @@ void	Server::_accept_connect_client() {
 	}
 }
 
+void*	Server::_get_in_addr(struct sockaddr *sa) {
+	if (sa->sa_family == AF_INET)
+		return &(((struct sockaddr_in*)sa)->sin_addr);
+	return &(((struct sockaddr_in6*)sa)->sin6_addr);
+}
+
+#include <iostream>
+
 void	Server::_recv_send_data(int i) {
 	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
+	//parsing buf_client, data send by client // return erreur si pb // passe direct a send 
 	
+	//si nopb // traiter l'info 
+
+
+
+	std::cout << "nbytes= " << nbytes <<  std::endl;
+	std::cout << "buf= " << this->_buf_client << std::endl;
+
 	if (nbytes <= 0) {
 		if (nbytes == 0)
 			printf("server: socket %d hung up\n", i);
 		else
-			perror("recv");
+	 		perror("recv");
 		close(i);
 		FD_CLR(i, &this->_main);
 	}
@@ -146,8 +163,3 @@ void	Server::_recv_send_data(int i) {
 	}
 }
 
-void*	Server::_get_in_addr(struct sockaddr *sa) {
-	if (sa->sa_family == AF_INET)
-		return &(((struct sockaddr_in*)sa)->sin_addr);
-	return &(((struct sockaddr_in6*)sa)->sin6_addr);
-}
