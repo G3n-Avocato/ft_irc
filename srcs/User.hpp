@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/14 15:47:36 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/14 22:49:26 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class User {
 		void	setpass_user(const char *pass);
 
 	private:
+		
 		User(const User&);
 		User&	operator=(const User&);
 
@@ -33,6 +34,7 @@ class User {
 		char	*_hostname;
 		char	*_servname;
 		char	*_pass_user;
+		
 		bool	_chanop;
 
 		//list channel ?
