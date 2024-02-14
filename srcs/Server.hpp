@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/12 14:34:00 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/14 16:50:37 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
 #include <unistd.h>
+
+#include "User.hpp"
+#include "Channel.hpp"
+#include "Command.hpp"
+
 
 class Server {
 	
@@ -34,6 +38,7 @@ class Server {
 		~Server();
 
 	private:
+		//dev server socket
 		const char				*_port;
 		const char				*_password;
 
@@ -59,4 +64,9 @@ class Server {
 		void					_recv_send_data(int i);
 
 		void*					_get_in_addr(struct sockaddr *sa);
+		//end
+		//dev architecture server chat
+		std::vector<User*>		_l_user;
+		std::vector<Channel*>	_l_channel;
+
 };

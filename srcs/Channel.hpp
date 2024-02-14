@@ -1,39 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   User.hpp                                           :+:      :+:    :+:   */
+/*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/14 15:47:36 by lamasson         ###   ########.fr       */
+/*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
+/*   Updated: 2024/02/14 16:09:26 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once 
 
-class User {
+#include <iostream>
+#include <vector>
+
+class Channel {
 	public:
+		Channel();
+		~Channel();
 
-		User();
-		~User();
+		void	setnamechan(const char* name);
 
-		void	setnickname(const char *nick);
-		void	setusername(const char *usern);
-		void	sethostname(const char *host);
-		void	setservname(const char *name);
-		void	setpass_user(const char *pass);
 
 	private:
-		User(const User&);
-		User&	operator=(const User&);
+		char						_name_chan[200];
+		std::vector<std::string>	_operator;
+		std::string					_pass_chan;
+		int							_limit_user;
 
-		char	_nickname[9];
-		char	*_username;
-		char	*_hostname;
-		char	*_servname;
-		char	*_pass_user;
-		bool	_chanop;
+		bool						_invite;
+		bool						_pass;
+		bool						_limituse;
 
-		//list channel ?
 };
