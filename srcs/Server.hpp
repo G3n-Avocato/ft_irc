@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/14 16:50:37 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/15 16:45:34 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,13 @@ class Server {
 		void*					_get_in_addr(struct sockaddr *sa);
 		//end
 		//dev architecture server chat
-		std::vector<User*>		_l_user;
-		std::vector<Channel*>	_l_channel;
+		
+		std::vector<User*>		_l_user; //list user sur server
+		
+		std::map<Channel*, std::vector<User*> >	_l_channel; //list channel et user associee
+
+
+
+		//ajouter user pass nick host a la list l_user fct membre
 
 };
