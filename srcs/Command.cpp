@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/14 22:44:23 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/15 23:57:49 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,16 @@ Command::Command() {
 Command::~Command() {
 }
 
-void	Command::choose_cmds(const char **str, const User *user) {
+//peut etre return quelque chose a send dans le server 
+void	Command::choose_cmds(std::vector<char*> cmd, User* client, std::map<Channel*, std::vector<User*>>* l_chan) {
 
-	std::map<const std::string, void (Command::*)(const char**, const User*)>::iterator it = this->_l_cmds.find(str[1]);
+	std::map<const std::string, void (Command::*)(std::vector<char*>, User*, std::map<Channel*, std::vector<User*>>*)>::iterator it = this->_l_cmds.find(cmd[1]); //verifier position du name de la cmd /\attention/\
 
-	(this->*(it->second))(str, user); //appel du pointeur sur la fonction membre avec iterateur
+	(this->*(it->second))(cmd, client, l_chan); //appel du pointeur sur la fonction membre avec iterateur
+}
+
+
+void	Command::_cmd_JOIN(std::vector<char*> cmd, User* client, std::map<Channel*, std::vector<User*>>* l_chan) {
+	
+
 }

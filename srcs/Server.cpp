@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/13 17:45:46 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/15 23:29:20 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,23 +133,24 @@ void*	Server::_get_in_addr(struct sockaddr *sa) {
 #include <iostream>
 
 void	Server::_recv_send_data(int i) {
-	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
+//	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
 	//parsing buf_client, data send by client // return erreur si pb // passe direct a send 
 	
 	//si nopb // traiter l'info 
 
 
 
-	std::cout << "nbytes= " << nbytes <<  std::endl;
-	std::cout << "buf= " << this->_buf_client << std::endl;
-
+//	std::cout << "nbytes= " << nbytes <<  std::endl;
+//	std::cout << "buf= " << this->_buf_client << std::endl;
+	int nbytes = this->_fct_de_test_dev_cmds_laura(i);
 	if (nbytes <= 0) {
-		if (nbytes == 0)
-			printf("server: socket %d hung up\n", i);
-		else
-	 		perror("recv");
-		close(i);
-		FD_CLR(i, &this->_main);
+	//	if (nbytes == 0)
+	//		printf("server: socket %d hung up\n", i);
+	//	else
+	 //		perror("recv");
+	//	close(i);
+	//	FD_CLR(i, &this->_main);
+		;
 	}
 	else {
 		for (int j = 0; j <= this->_fdmax; j++) {
@@ -163,3 +164,27 @@ void	Server::_recv_send_data(int i) {
 	}
 }
 
+int	Server::_fct_de_test_dev_cmds_laura(int i) {
+
+	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
+	std::cout << "nbytes= " << nbytes <<  std::endl;
+	std::cout << "buf= " << this->_buf_client << std::endl;
+	if (nbytes <= 0) {
+		if (nbytes == 0)
+			printf("server: socket %d hung up\n", i);
+		else
+	 		perror("recv");
+		close(i);
+		FD_CLR(i, &this->_main);
+	}
+	//code de test // syntaxe pour la connexion entre le 1er parsing, l'init des commandes et l'execution des cmds dans la classe commandes
+
+	//split str en list cmd
+	this->_cmd_split = this->ft_split(this->_buf_client);
+	
+	//envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
+	//comment recuperer le client concerner ?
+	this->_bible.choose_cmds(this->_cmd_split, User *client, &_l_channel)
+
+	return (nbytes);
+}
