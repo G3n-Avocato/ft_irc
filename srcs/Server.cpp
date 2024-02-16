@@ -6,11 +6,12 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/15 23:29:20 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:51:21 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "Error.hpp"
 
 Server::Server(const char *port, const char *password) : _port(port) , _password(password) {
 // parsing port et password
@@ -74,7 +75,7 @@ void	Server::_bind_socket_to_port() {
 
 void	Server::_config_wait_fd_co() {
 	FD_ZERO(&this->_main);
-	FD_ZERO(&this->_tmp);
+	FD_ZERO(&this->_setRead);
 
 	if (listen(this->_fd_l, 10) == -1) {
 		perror("listen");
@@ -82,6 +83,7 @@ void	Server::_config_wait_fd_co() {
 	}
 
 	FD_SET(this->_fd_l, &this->_main);
+	FD_SET(this->_fd_l, &this->_setRead);
 	this->_fdmax = this->_fd_l;
 
 }
@@ -91,14 +93,14 @@ void	Server::_start_server_select() {
 	int i;
 
 	while (1) {
-		this->_tmp = this->_main;
-		if (select(this->_fdmax + 1, &this->_tmp, NULL, NULL, NULL) == -1) {
+		this->_setRead = this->_main;
+		if (select(this->_fdmax + 1, &this->_setRead, NULL, NULL, NULL) == -1) {
 			perror("select");
 			exit (4);
 		}
 		
 		for (i = 0; i <= this->_fdmax; i++) {
-			if (FD_ISSET(i, &this->_tmp)) {
+			if (FD_ISSET(i, &this->_setRead)) {
 				if (i == this->_fd_l)
 					this->_accept_connect_client();
 				else 
@@ -114,6 +116,7 @@ void	Server::_accept_connect_client() {
 	char		remoteIP[INET6_ADDRSTRLEN];
 	
 	this->_fd_acc = accept(this->_fd_l, (struct sockaddr*)&this->_client_addr, &addrlen);
+	std::cout << "fd " << this->_fd_acc << std::endl;
 	if (this->_fd_acc == -1)
 		perror("accept");
 	else {
@@ -133,35 +136,27 @@ void*	Server::_get_in_addr(struct sockaddr *sa) {
 #include <iostream>
 
 void	Server::_recv_send_data(int i) {
-//	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
+/*	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
 	//parsing buf_client, data send by client // return erreur si pb // passe direct a send 
-	
 	//si nopb // traiter l'info 
-
-
-
-//	std::cout << "nbytes= " << nbytes <<  std::endl;
-//	std::cout << "buf= " << this->_buf_client << std::endl;
-	int nbytes = this->_fct_de_test_dev_cmds_laura(i);
 	if (nbytes <= 0) {
-	/*	if (nbytes == 0)
+		if (nbytes == 0)
 			printf("server: socket %d hung up\n", i);
 		else
 	 		perror("recv");
 		close(i);
-		FD_CLR(i, &this->_main); */
-		;
+		FD_CLR(i, &this->_main);
 	}
 	else {
-		for (int j = 0; j <= this->_fdmax; j++) {
-			if (FD_ISSET(j, &this->_main)) {
-				if (j != this->_fd_l && j != i) {
-					if (send(j, this->_buf_client, nbytes, 0) == -1)
-						perror("send");
-				}
+		if (FD_ISSET(i, &this->_main)) {
+			if (i != this->_fd_l) {
+				std::cout << "test send 2-3" << std::endl;
+				if (send(i, this->_buf_client, nbytes, 0) == -1)
+					perror("send");
 			}
 		}
-	}
+	}*/
+	this->_fct_de_test_dev_cmds_laura(i);
 }
 
 int	Server::_fct_de_test_dev_cmds_laura(int i) {
@@ -177,14 +172,20 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 		close(i);
 		FD_CLR(i, &this->_main);
 	}
-	//code de test // syntaxe pour la connexion entre le 1er parsing, l'init des commandes et l'execution des cmds dans la classe commandes
-
-	//split str en list cmd
-	this->_cmd_split = this->ft_split(this->_buf_client);
 	
-	//envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
-	//comment recuperer le client concerner ?
-	this->_bible.choose_cmds(this->_cmd_split, User *client, &_l_channel)
+	else {
+	 // this->_cmd_split = this->ft_split(this->_buf_client); //envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
+	// this->_bible.choose_cmds(this->_cmd_split, User *client, &_l_channel) // peut etre appeler send depuis class cmd
+		if (FD_ISSET(i, &this->_main)) {
+			if (i != this->_fd_l) { //necessaire ??
+				std::string client = "toi";
+				std::string cmd = "debout";
+				std::string err = ERR_NEEDMOREPARAMS(client, cmd);
+				if (send(i, err.c_str(), strlen(err.c_str()), 0) == -1)
+					perror("send");
+			}
+		}
+	}
 
 	return (nbytes);
 }

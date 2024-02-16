@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/15 23:30:44 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 00:31:26 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 #include "User.hpp"
 #include "Channel.hpp"
 #include "Command.hpp"
-
+#include "Error.hpp"
 
 class Server {
 	
@@ -51,7 +51,7 @@ class Server {
 		void					_bind_socket_to_port();
 
 		fd_set					_main;
-		fd_set					_tmp;
+		fd_set					_setRead;
 		int						_fdmax;
 		void					_config_wait_fd_co();
 
@@ -67,12 +67,11 @@ class Server {
 		//end
 		//dev architecture server chat
 		
-		std::vector<char*>		_cmd_split; // format de traitement des commandes envoyer a la class cmd
-		Command					_bible; //bibliotheque des commandes de notre server
-
-		std::vector<User*>		_l_user; //list user sur server
-		std::map<Channel*, std::vector<User*> >	_l_channel; //list channel et user associee au channel
-
+//		std::vector<std::vector<std::string>>		_cmd;
+//		Command					_bible; //bibliotheque des commandes de notre server
+//
+//		std::vector<User*>		_l_user; //list user sur server
+//		std::map<Channel*, std::vector<User*> >	_l_channel; //list channel et user associee au channel
 		int		_fct_de_test_dev_cmds_laura(int i);
 
 
