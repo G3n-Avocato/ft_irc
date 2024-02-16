@@ -39,8 +39,10 @@ void	Command::choose_cmds(std::vector<char*> cmd, User* client, std::map<Channel
 	(this->*(it->second))(cmd, client, l_chan); //appel du pointeur sur la fonction membre avec iterateur
 }
 
-
+//prototype pour les fonctions commandes 
 void	Command::_cmd_JOIN(std::vector<char*> cmd, User* client, std::map<Channel*, std::vector<User*>>* l_chan) {
-	
+
+	if (cmd.size() < 2)
+		return (ERR_NEEDMOREPARAMS())	
 
 }

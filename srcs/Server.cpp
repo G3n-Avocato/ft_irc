@@ -144,12 +144,12 @@ void	Server::_recv_send_data(int i) {
 //	std::cout << "buf= " << this->_buf_client << std::endl;
 	int nbytes = this->_fct_de_test_dev_cmds_laura(i);
 	if (nbytes <= 0) {
-	//	if (nbytes == 0)
-	//		printf("server: socket %d hung up\n", i);
-	//	else
-	 //		perror("recv");
-	//	close(i);
-	//	FD_CLR(i, &this->_main);
+	/*	if (nbytes == 0)
+			printf("server: socket %d hung up\n", i);
+		else
+	 		perror("recv");
+		close(i);
+		FD_CLR(i, &this->_main); */
 		;
 	}
 	else {

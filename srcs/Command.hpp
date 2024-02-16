@@ -15,6 +15,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include "Error.hpp"
 
 class User;
 class Channel;
