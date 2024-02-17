@@ -3,14 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/14 22:49:26 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:14:46 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once 
+
+#include <iostream>
+#include <cstring>
+#include <sys/socket.h>
 
 class User {
 	public:
@@ -22,7 +26,11 @@ class User {
 		void	setusername(const char *usern);
 		void	sethostname(const char *host);
 		void	setservname(const char *name);
-		void	setpass_user(const char *pass);
+		void	setSocket(int socket);
+
+		struct sockaddr_storage	getSockaddr() const;
+		struct sockaddr_storage& getRefSockaddr();
+		int						getSocket() const;
 
 	private:
 		
@@ -33,9 +41,9 @@ class User {
 		char	*_username;
 		char	*_hostname;
 		char	*_servname;
-		char	*_pass_user;
 		
-		bool	_chanop;
-
+		struct sockaddr_storage 	_sockaddr;
+		int							_socket;
+		
 		//list channel ?
 };

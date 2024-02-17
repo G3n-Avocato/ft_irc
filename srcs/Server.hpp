@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/15 23:30:44 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 13:44:41 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ class Server {
 
 		void					_start_server_select();	
 
-		int						_fd_acc;
-		struct sockaddr_storage	_client_addr;
+		// int						_fd_acc;
+		// struct sockaddr_storage	_client_addr;
 		char					_buf_client[256];
 		void					_accept_connect_client();
 		void					_recv_send_data(int i);
@@ -68,12 +68,15 @@ class Server {
 		//dev architecture server chat
 		
 		std::vector<char*>		_cmd_split; // format de traitement des commandes envoyer a la class cmd
-		Command					_bible; //bibliotheque des commandes de notre server
+		// Command					_bible; //bibliotheque des commandes de notre server
 
 		std::vector<User*>		_l_user; //list user sur server
-		std::map<Channel*, std::vector<User*> >	_l_channel; //list channel et user associee au channel
+		// std::map<Channel*, std::vector<User*> >	_l_channel; //list channel et user associee au channel
 
 		int		_fct_de_test_dev_cmds_laura(int i);
+
+		void printUsers(std::vector<User*> users);
+
 
 
 };

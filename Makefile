@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lamasson <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/22 22:27:18 by lamasson          #+#    #+#              #
-#    Updated: 2024/01/27 16:56:55 by lamasson         ###   ########.fr        #
+#    Updated: 2024/02/16 17:33:00 by ecorvisi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,10 @@ CXX				= c++
 CXXFLAGS		= -Wall -Wextra -Werror -std=c++98 -g3
 RM				= rm -rf
 
-SRC				= srcs/main.cpp \
+SRC				=	srcs/main.cpp \
+					srcs/Server.cpp \
+					srcs/User.cpp 
+					
 
 
 OBJ				= ${SRC:%.cpp=%.o}
