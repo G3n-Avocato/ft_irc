@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 00:51:21 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:58:48 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ void	Server::_config_wait_fd_co() {
 
 //verif password pas faite 
 void	Server::_start_server_select() {
-	int i;
 
 	while (1) {
 		this->_setRead = this->_main;
@@ -114,9 +113,13 @@ void	Server::_start_server_select() {
 void	Server::_accept_connect_client() {
 	socklen_t	addrlen = sizeof this->_client_addr;
 	char		remoteIP[INET6_ADDRSTRLEN];
+
+//	struct sockaddr_storage	test;
+//	socklen_t	len = sizeof test;
 	
+//	this->_fd_acc = accept(this->_fd_l, (struct sockaddr *)&test, &len);
 	this->_fd_acc = accept(this->_fd_l, (struct sockaddr*)&this->_client_addr, &addrlen);
-	std::cout << "fd " << this->_fd_acc << std::endl;
+	
 	if (this->_fd_acc == -1)
 		perror("accept");
 	else {
@@ -175,17 +178,13 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 	
 	else {
 	 // this->_cmd_split = this->ft_split(this->_buf_client); //envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
-	// this->_bible.choose_cmds(this->_cmd_split, User *client, &_l_channel) // peut etre appeler send depuis class cmd
-		if (FD_ISSET(i, &this->_main)) {
-			if (i != this->_fd_l) { //necessaire ??
-				std::string client = "toi";
-				std::string cmd = "debout";
-				std::string err = ERR_NEEDMOREPARAMS(client, cmd);
-				if (send(i, err.c_str(), strlen(err.c_str()), 0) == -1)
-					perror("send");
-			}
-		}
+		
+		std::vector<std::vector<std::string> > cmd;
+		cmd[0] = {"JOIN", "#test"};
+		User*	client = new User();
+		
+		if (FD_ISSET(i, &this->_main) && i != this->_fd_l)
+			this->_bible.choose_cmds(cmd, client, &_l_channel); // peut etre appeler send depuis class cmd
 	}
-
 	return (nbytes);
 }

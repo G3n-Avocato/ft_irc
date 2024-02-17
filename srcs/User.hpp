@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/16 23:29:03 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 15:34:06 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 class User {
 	public:
 
-		User();
-		~User();
+		User() {};
+		~User() {};
 
 		void	setnickname(const char *nick);
 		void	setusername(const char *usern);
