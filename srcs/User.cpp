@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:37:14 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/17 13:14:50 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:14:15 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ void User::setSocket(int socket)
 	_socket = socket;
 }
 
+void	User::setNickname(std::string nick)
+{
+	if (nick.length() > 9)
+	{
+		std::cerr << "Nickname too long" << std::endl;
+		return ;
+	}
+	
+	_nickname = nick;
+	
+}
+
+void User::setUsername(std::string usern)
+{
+	_username = usern;
+}
+
 struct sockaddr_storage User::getSockaddr() const
 {
 	return _sockaddr;
@@ -42,15 +59,12 @@ int	User::getSocket() const
 	return 	(_socket);
 }
 
-// void	User::setnickname(const char *nick)
-// {
-// 	if (strlen(nick) > 9)
-// 	{
-// 		std::cerr << "Nickname too long" << std::endl;
-// 		return ;
-// 	}
-	
-// 	char *tmp = new char[10];
-// 	strcpy(_nickname, nick);
-	
-// }
+std::string	User::getNickname() const
+{
+	return _nickname;
+}
+
+std::string User::getUsername() const
+{
+	return _username;
+}

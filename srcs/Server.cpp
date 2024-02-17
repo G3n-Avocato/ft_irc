@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 15:09:05 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:06:10 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,8 +142,8 @@ void*	Server::_get_in_addr(struct sockaddr *sa) {
 void Server::printUsers(std::vector<User*> users) {
     std::cout << "Printing all users:" << std::endl;
     for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); ++it) {
-        std::cout << "User: " << (*it)->getSocket() << std::endl;
-        // Print other user information as needed
+        std::cout << "User Socket: " << (*it)->getSocket() << std::endl;
+        std::cout << "User Nickname: " << (*it)->getNickname() << std::endl;
     }
 }
 
@@ -168,7 +168,7 @@ void	Server::_recv_send_data(int i) {
 		;
 	}
 	else {
-		std::cout << "coucou" << std::endl;
+		std::cout << "--------------------" << std::endl << std::endl;
 		
 		this->printUsers(this->_l_user);
 
@@ -189,9 +189,6 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 	std::cout << "nbytes= " << nbytes <<  std::endl;
 	std::cout << "buf= " << this->_buf_client << std::endl;
 
-	
-	
-	
 	if (nbytes <= 0) {
 		if (nbytes == 0)
 			printf("server: socket %d hung up\n", i);
