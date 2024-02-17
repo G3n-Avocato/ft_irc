@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/27 17:06:24 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/12 14:31:45 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:19:37 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	main(int argc, char **argv) {
 
 	if (argc != 3)
 		return (1);
-//	try {
+	// try {
 	Server	start(argv[1], argv[2]);
-//	}
-//	catch (std::exception &) {
-//		std::cout << e.what();
-//	}
+	// }
+	// catch (std::exception &) {
+		// std::cout << e.what();
+	// }
 	return (0);
 }
 

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 16:04:48 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:45:43 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
+// #pragma once
 
 #include <iostream>
 #include <map>
@@ -29,7 +29,7 @@ class Command {
 
 		void	choose_cmds(std::vector<std::vector<std::string>> cmd, User* client, std::map<std::string, Channel*>* l_chan);
 
-	private:
+// 	private:
 		
 		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*)>	_l_cmds;
 

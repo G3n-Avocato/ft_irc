@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 15:58:48 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:20:17 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	Server::_start_server_select() {
 			perror("select");
 			exit (4);
 		}
-		
+
 		for (i = 0; i <= this->_fdmax; i++) {
 			if (FD_ISSET(i, &this->_setRead)) {
 				if (i == this->_fd_l)
@@ -111,23 +111,28 @@ void	Server::_start_server_select() {
 
 
 void	Server::_accept_connect_client() {
-	socklen_t	addrlen = sizeof this->_client_addr;
+	User		*newclient = new User();
+	socklen_t	addrlen = sizeof newclient->getSockaddr();
+	
+	std::cout << "----------NEW CONNECTION----------" << std::endl;
+	
 	char		remoteIP[INET6_ADDRSTRLEN];
 
 //	struct sockaddr_storage	test;
 //	socklen_t	len = sizeof test;
 	
-//	this->_fd_acc = accept(this->_fd_l, (struct sockaddr *)&test, &len);
-	this->_fd_acc = accept(this->_fd_l, (struct sockaddr*)&this->_client_addr, &addrlen);
+	newclient->setSocket(accept(this->_fd_l, (struct sockaddr*)(&newclient->getRefSockaddr()), &addrlen));
 	
-	if (this->_fd_acc == -1)
+	if (newclient->getSocket() == -1)
 		perror("accept");
 	else {
-		FD_SET(this->_fd_acc, &this->_main);
-		if (this->_fd_acc > this->_fdmax)
-			this->_fdmax = this->_fd_acc;
-		printf("serverinfo: new connection from %s on ""socket %d\n", inet_ntop(this->_client_addr.ss_family, this->_get_in_addr((struct sockaddr*)&this->_client_addr), remoteIP, INET6_ADDRSTRLEN), this->_fd_acc);
+		if (newclient->getSocket() > this->_fdmax)
+			this->_fdmax = newclient->getSocket();
+		FD_SET(newclient->getSocket(), &this->_main);
+		printf("serverinfo: new connection from %s on ""socket %d\n", inet_ntop(newclient->getSockaddr().ss_family, this->_get_in_addr((struct sockaddr*)(&newclient->getRefSockaddr())), remoteIP, INET6_ADDRSTRLEN), newclient->getSocket());
 	}
+	_l_user.push_back(newclient);
+	
 }
 
 void*	Server::_get_in_addr(struct sockaddr *sa) {
@@ -137,6 +142,14 @@ void*	Server::_get_in_addr(struct sockaddr *sa) {
 }
 
 #include <iostream>
+
+void Server::printUsers(std::vector<User*> users) {
+    std::cout << "Printing all users:" << std::endl;
+    for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); ++it) {
+        std::cout << "User Socket: " << (*it)->getSocket() << std::endl;
+        std::cout << "User Nickname: " << (*it)->getNickname() << std::endl;
+    }
+}
 
 void	Server::_recv_send_data(int i) {
 /*	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
@@ -167,6 +180,7 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
 	std::cout << "nbytes= " << nbytes <<  std::endl;
 	std::cout << "buf= " << this->_buf_client << std::endl;
+
 	if (nbytes <= 0) {
 		if (nbytes == 0)
 			printf("server: socket %d hung up\n", i);
@@ -174,6 +188,10 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 	 		perror("recv");
 		close(i);
 		FD_CLR(i, &this->_main);
+
+
+
+
 	}
 	
 	else {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 15:16:31 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:19:08 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ class Server {
 		void					_start_server_select();	
 
 		int						i;
-		int						_fd_acc;
-		struct sockaddr_storage	_client_addr;
+		// int						_fd_acc;
+		// struct sockaddr_storage	_client_addr;
 		char					_buf_client[256];
 		void					_accept_connect_client();
 		void					_recv_send_data(int i);
@@ -77,4 +77,5 @@ class Server {
 
 		void	_send_data_to_client(std::string mess, int i);
 
+		void printUsers(std::vector<User*> users);
 };

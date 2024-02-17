@@ -3,36 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 15:34:06 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/17 16:18:07 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once 
 
+#include <iostream>
+#include <cstring>
+#include <sys/socket.h>
+
 class User {
 	public:
 
-		User() {};
-		~User() {};
+		User();
+		~User();
 
-		void	setnickname(const char *nick);
-		void	setusername(const char *usern);
-		void	sethostname(const char *host);
-		void	setservname(const char *name);
+		void	setNickname(std::string nick);
+		void	setUsername(std::string usern);
+		void	setSocket(int socket);
+
+		struct sockaddr_storage	getSockaddr() const;
+		struct sockaddr_storage& getRefSockaddr();
+		int						getSocket() const;
+		std::string				getNickname() const;
+		std::string				getUsername() const;
 
 	private:
 		
 		User(const User&);
 		User&	operator=(const User&);
 
-		char	_nickname;
-		char	*_username;
-		char	*_hostname;
-		char	*_servname;
-		
+		std::string	_nickname;
+		std::string _username;
 
+		struct sockaddr_storage 	_sockaddr;
+		int							_socket;
+		
 		//list channel ?
 };
