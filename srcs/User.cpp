@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:37:14 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/17 16:14:15 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/17 18:20:48 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,7 @@ void User::setSocket(int socket)
 }
 
 void	User::setNickname(std::string nick)
-{
-	if (nick.length() > 9)
-	{
-		std::cerr << "Nickname too long" << std::endl;
-		return ;
-	}
-	
+{	
 	_nickname = nick;
 	
 }
