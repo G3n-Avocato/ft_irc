@@ -29,7 +29,7 @@ class Command {
 
 		void	choose_cmds(std::vector<std::vector<std::string>> cmd, User* client, std::map<std::string, Channel*>* l_chan);
 
-// 	private:
+ 	private:
 		
 		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*)>	_l_cmds;
 

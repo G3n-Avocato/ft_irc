@@ -178,8 +178,8 @@ void	Server::_recv_send_data(int i) {
 int	Server::_fct_de_test_dev_cmds_laura(int i) {
 
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
-	std::cout << "nbytes= " << nbytes <<  std::endl;
-	std::cout << "buf= " << this->_buf_client << std::endl;
+	// std::cout << "nbytes= " << nbytes <<  std::endl;
+	// std::cout << "buf= " << this->_buf_client << std::endl;
 
 	if (nbytes <= 0) {
 		if (nbytes == 0)
@@ -193,16 +193,17 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 
 
 	}
+	_cmd = cmdParser(this->_buf_client);
+	// else {
+	//  // this->_cmd_split = this->ft_split(this->_buf_client); //envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
+		
+	// 	std::vector<std::vector<std::string> > cmd;
+	// 	cmd[0] = {"JOIN", "#test"};
+	// 	User*	client = new User();
+		
+	// 	if (FD_ISSET(i, &this->_main) && i != this->_fd_l)
+	// 		this->_bible.choose_cmds(cmd, client, &_l_channel); // peut etre appeler send depuis class cmd
+	// }
 	
-	else {
-	 // this->_cmd_split = this->ft_split(this->_buf_client); //envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
-		
-		std::vector<std::vector<std::string> > cmd;
-		cmd[0] = {"JOIN", "#test"};
-		User*	client = new User();
-		
-		if (FD_ISSET(i, &this->_main) && i != this->_fd_l)
-			this->_bible.choose_cmds(cmd, client, &_l_channel); // peut etre appeler send depuis class cmd
-	}
 	return (nbytes);
 }

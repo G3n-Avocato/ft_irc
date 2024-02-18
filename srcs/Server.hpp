@@ -68,7 +68,7 @@ class Server {
 		//end
 		//dev architecture server chat
 		
-//		std::vector<std::vector<std::string>>		_cmd;
+		std::vector<std::vector<std::string>>	_cmd;
 		Command					_bible; //bibliotheque des commandes de notre server
 //
 		std::vector<User*>		_l_user; //list user sur server
@@ -78,4 +78,7 @@ class Server {
 		void	_send_data_to_client(std::string mess, int i);
 
 		void printUsers(std::vector<User*> users);
+		//// Arty Parc
+		std::vector<std::vector<std::string>> cmdParser(std::string buf);
+		////
 };
