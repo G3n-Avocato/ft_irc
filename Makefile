@@ -6,7 +6,7 @@
 #    By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/22 22:27:18 by lamasson          #+#    #+#              #
-#    Updated: 2024/02/16 17:33:00 by ecorvisi         ###   ########.fr        #
+#    Updated: 2024/02/17 17:23:50 by ecorvisi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,8 @@ RM				= rm -rf
 
 SRC				=	srcs/main.cpp \
 					srcs/Server.cpp \
-					srcs/User.cpp 
+					srcs/User.cpp \
+					srcs/Command.cpp
 					
 
 
