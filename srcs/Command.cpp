@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/18 14:31:54 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/19 15:10:16 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,28 +39,37 @@ void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* clie
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) {
 			std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*)>::iterator it = this->_l_cmds.find((*line)[0]); //verifier position du name de la cmd /attention/
 
-	// 	(this->*(it->second))(*line, client, l_chan); //appel du pointeur sur la fonction membre avec iterateur
-	// }
+		(this->*(it->second))(*line, client, l_chan); //appel du pointeur sur la fonction membre avec iterateur
+	}
 }
 
 //prototype pour les fonctions commandes 
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan) {
 
-	// if (cmd.size() < 2)
-	// 	this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
+	(void)l_chan;
+	if (cmd.size() < 2)
+		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
 
 }
 
 void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan) {
 
+	regex_t	regex;
+	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", 0);
+
 	if (cmd.size() < 2)	{
 		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getUsername()), client);
+		return ;
 	}
-	else if (cmd[1].size() > 9) {
+	else if (cmd[1].size() > 9 || regexec(&regex, cmd[1].c_str(), 0, NULL, 0) != 0) {
+		regfree(&regex);
+		std::cout << "Nickname error: " << cmd[1].c_str() << std::endl;
 		this->_send_data_to_client(ERR_ERRONEUSNICKNAME(client->getUsername(), cmd[1]), client);
+		return ;
 	}
 	else
 	{
+		regfree(&regex);
 		for (std::map<std::string, Channel*>::iterator it = l_chan->begin(); it != l_chan->end(); it++) {
 			if (it->first == cmd[1]) {
 				this->_send_data_to_client(ERR_NICKNAMEINUSE(client->getUsername(), cmd[1]), client);
@@ -69,11 +78,12 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std
 		}
 	}
 	client->setNickname(cmd[1]);
-
+	//^([A-}])([A-}0-9\-]{0,8})$
 }
 
 
 void	Command::_send_data_to_client(std::string mess, User* user) {
-	// if (send(4, mess.c_str(), mess.size(), 0) == -1)
-	// 	perror("send");
+	(void)user;
+	if (send(4, mess.c_str(), mess.size(), 0) == -1)
+		perror("send");
 }

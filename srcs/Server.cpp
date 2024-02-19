@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/18 14:33:06 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/18 17:27:47 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,19 +191,25 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 
 
 
+	// _cmd = cmdParser(this->_buf_client);
 
 	}
-	_cmd = cmdParser(this->_buf_client);
-	// else {
-	//  // this->_cmd_split = this->ft_split(this->_buf_client); //envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
+	else {
+	//  this->_cmd_split = this->ft_split(this->_buf_client); //envoyer a la classe cmd pour l'exec // l_channel adresse pour pouvoir la modif
 		
-	// 	std::vector<std::vector<std::string> > cmd;
-	// 	cmd[0] = {"JOIN", "#test"};
-	// 	User*	client = new User();
 		
-	// 	if (FD_ISSET(i, &this->_main) && i != this->_fd_l)
-	// 		this->_bible.choose_cmds(cmd, client, &_l_channel); // peut etre appeler send depuis class cmd
-	// }
+		std::vector<std::vector<std::string> > cmd;
+    	std::vector<std::string> cmd0;
+    	cmd0.push_back("NICK");
+    	cmd0.push_back("1toto");
+    	cmd.push_back(cmd0);
+		
+		if (FD_ISSET(i, &this->_main) && i != this->_fd_l)
+		{
+			this->_bible.choose_cmds(cmd, _l_user[0], &_l_channel); // peut etre appeler send depuis class cmd
+		}
+		this->printUsers(_l_user);
+	}
 	
 	return (nbytes);
 }

@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 17:30:25 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:56:50 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <vector>
 #include <sys/socket.h>
 #include <stdio.h>
+#include <regex.h>
 #include "Error.hpp"
 
 class User;
