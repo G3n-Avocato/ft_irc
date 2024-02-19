@@ -6,12 +6,13 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/19 15:17:13 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:25:41 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "Error.hpp"
+#include <iostream>
 
 Server::Server(const char *port, const char *password) : _port(port) , _password(password) {
 // parsing port et password
@@ -23,12 +24,6 @@ Server::Server(const char *port, const char *password) : _port(port) , _password
 	this->_start_server_select();
 
 }
-
-//Server::Server(const Server &src) {
-//}
-
-//Server&	Server::operator=(const Server &rhs) {
-//}
 
 Server::~Server() {
 }
@@ -141,9 +136,7 @@ void*	Server::_get_in_addr(struct sockaddr *sa) {
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-#include <iostream>
-
-void Server::printUsers(std::vector<User*> users) {
+void Server::_printUsers(std::vector<User*> users) {
     std::cout << "Printing all users:" << std::endl;
     for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); ++it) {
         std::cout << "User Socket: " << (*it)->getSocket() << std::endl;
@@ -152,34 +145,7 @@ void Server::printUsers(std::vector<User*> users) {
 }
 
 void	Server::_recv_send_data(int i) {
-/*	int	nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
-	//parsing buf_client, data send by client // return erreur si pb // passe direct a send 
-	//si nopb // traiter l'info 
-	if (nbytes <= 0) {
-		if (nbytes == 0)
-			printf("server: socket %d hung up\n", i);
-		else
-	 		perror("recv");
-		close(i);
-		FD_CLR(i, &this->_main);
-	}
-	else {
-		if (FD_ISSET(i, &this->_main)) {
-			if (i != this->_fd_l) {
-				std::cout << "test send 2-3" << std::endl;
-				if (send(i, this->_buf_client, nbytes, 0) == -1)
-					perror("send");
-			}
-		}
-	}*/
-	this->_fct_de_test_dev_cmds_laura(i);
-}
-
-int	Server::_fct_de_test_dev_cmds_laura(int i) {
-
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
-	// std::cout << "nbytes= " << nbytes <<  std::endl;
-	// std::cout << "buf= " << this->_buf_client << std::endl;
 
 	if (nbytes <= 0) {
 		if (nbytes == 0)
@@ -190,17 +156,15 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 		FD_CLR(i, &this->_main);
 	}
 	else {
-		this->_cmd = cmdParser(this->_buf_client);	
+		this->_cmd = this->_cmdParser(this->_buf_client);	
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
-	 		for (std::vector<User*>::iterator it = this->_l_user.begin(); it != this->_l_user.end(); it++)
-			{
+	 		std::vector<User*>::iterator it = this->_l_user.begin(); 
+			while (it != this->_l_user.end()) {
 				if ((*it)->getSocket() == i)
 					break ;
+				it++;
 			}
 			this->_bible.choose_cmds(this->_cmd, (*it), &_l_channel, &_l_user);
 		}
 	}
-	return (nbytes);
 }
-
-

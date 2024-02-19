@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/18 14:37:43 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/19 20:28:51 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,13 @@ class Server {
 	public:
 		
 		Server(const char *port, const char* password);
-//		Server(const Server&);
-//		Server&	operator=(const Server&);
 		~Server();
 
 	private:
+
+		Server(const Server&);
+		Server&	operator=(const Server&);
+
 		//dev server socket
 		const char				*_port;
 		const char				*_password;
@@ -66,19 +68,16 @@ class Server {
 
 		void*					_get_in_addr(struct sockaddr *sa);
 		//end
-		//dev architecture server chat
 		
 		std::vector<std::vector<std::string> >	_cmd;
-		Command					_bible; //bibliotheque des commandes de notre server
-//
-		std::vector<User*>		_l_user; //list user sur server
-		std::map<std::string, Channel*>	_l_channel; //list channel et user associee au channel
-		int		_fct_de_test_dev_cmds_laura(int i);
+		Command									_bible; //bibliotheque des commandes de notre server
+		
+		std::vector<User*>						_l_user; //list user sur server
+		std::map<std::string, Channel*>			_l_channel; //list channel
 
-		void	_send_data_to_client(std::string mess, int i);
+		void									_send_data_to_client(std::string mess, int i);
 
-		void printUsers(std::vector<User*> users);
-		//// Arty Parc
-		std::vector<std::vector<std::string> > cmdParser(char *client_buff);
-		////
+		void									_printUsers(std::vector<User*> users);
+		// Arty Parsing
+		std::vector<std::vector<std::string> >	_cmdParser(char *client_buff);
 };

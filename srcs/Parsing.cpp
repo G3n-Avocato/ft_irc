@@ -1,6 +1,5 @@
 #include "Server.hpp"
 
-
 std::vector<std::string> string_to_vector(std::string str, std::string arg){
     std::vector<std::string>    str_vector;
 	std::string                 token;
@@ -18,7 +17,7 @@ std::vector<std::string> string_to_vector(std::string str, std::string arg){
     return (str_vector);
 }
 
-std::vector<std::vector<std::string> > Server::cmdParser(char *client_buff){
+std::vector<std::vector<std::string> > Server::_cmdParser(char *client_buff){
     std::string buf(client_buff);
     std::vector<std::string>                raw_cmd;
     std::vector<std::vector<std::string> >   cmd_vector;
@@ -32,6 +31,5 @@ std::vector<std::vector<std::string> > Server::cmdParser(char *client_buff){
         it++;
         i++;
     }
-    
     return (cmd_vector);
 }

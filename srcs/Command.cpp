@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/19 15:18:02 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/19 23:06:33 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Command::Command() {
 	// this->_l_cmds["PASS"] = &Command::_cmd_PASS;
 	//this->_l_cmds["NICK"] = &Command::_cmd_NICK;
 	// this->_l_cmds["USER"] = &Command::_cmd_USER;
-	this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
+	// this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
 	// this->_l_cmds["PART"] = &Command::_cmd_PART;
 	// this->_l_cmds["PRIVMSG"] = &Command::_cmd_PRIVMSG;
 	// this->_l_cmds["QUIT"] = &Command::_cmd_QUIT;
@@ -35,7 +35,6 @@ Command::~Command() {
 
 void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	std::cout << client->getSocket() << std::endl;
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) 
 	{
 		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]);
@@ -46,15 +45,21 @@ void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* clie
 
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	(void)l_chan; ///error: unused parameter !
 	(void)l_user; ///error: unused parameter !
-
+//# devant / n'importe quel charactere sauf annule la suite garde devant espace nul del 
 	for (size_t i = 0; i != cmd.size(); i++)
 		std::cout << cmd[i] << std::endl;
 
 	if (cmd.size() < 2)
 	 	this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
-	
+	std::map<std::string, Channel*>::iterator it = l_chan->find(cmd[1]);
+	if (it == l_chan->end())
+		; //creer le chan
+	//else if (it != l_chan->end()) {
+	//	if ((*it).second->getFlagLimit())
+
+	//}
+
 
 }
 
