@@ -190,15 +190,14 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 		FD_CLR(i, &this->_main);
 	}
 	else {
-		_cmd = cmdParser(this->_buf_client);	
+		this->_cmd = cmdParser(this->_buf_client);	
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
-			std::vector<User*>::iterator it = this->_l_user.begin();
-			for (User* tmp = *it; i != tmp->getSocket() && it != this->_l_user.end(); it++)
-				;
-			if (it == this->_l_user.end())
-				;
-			else
-	 			this->_bible.choose_cmds(this->_cmd, *it, &_l_channel, &_l_user);
+	 		for (std::vector<User*>::iterator it = this->_l_user.begin(); it != this->_l_user.end(); it++)
+			{
+				if ((*it)->getSocket() == i)
+					break ;
+			}
+			this->_bible.choose_cmds(this->_cmd, (*it), &_l_channel, &_l_user);
 		}
 	}
 	return (nbytes);

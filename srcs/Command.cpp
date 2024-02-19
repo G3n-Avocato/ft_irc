@@ -17,7 +17,7 @@
 Command::Command() {
 
 	// this->_l_cmds["PASS"] = &Command::_cmd_PASS;
-	this->_l_cmds["NICK"] = &Command::_cmd_NICK;
+	//this->_l_cmds["NICK"] = &Command::_cmd_NICK;
 	// this->_l_cmds["USER"] = &Command::_cmd_USER;
 	this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
 	// this->_l_cmds["PART"] = &Command::_cmd_PART;
@@ -35,8 +35,11 @@ Command::~Command() {
 
 void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) {
-			std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]);
+	std::cout << client->getSocket() << std::endl;
+	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) 
+	{
+		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]);
+		if (it != this->_l_cmds.end())
 			(this->*(it->second))(*line, client, l_chan, l_user);
 	}
 }
@@ -46,7 +49,7 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 	(void)l_chan; ///error: unused parameter !
 	(void)l_user; ///error: unused parameter !
 
-	for (long unsigned int i = 0; i != cmd.size(); i++)
+	for (size_t i = 0; i != cmd.size(); i++)
 		std::cout << cmd[i] << std::endl;
 
 	if (cmd.size() < 2)
