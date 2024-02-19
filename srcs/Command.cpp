@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/18 16:04:27 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:15:15 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,24 @@ Command::~Command() {
 }
 
 //peut etre return quelque chose a send dans le server 
-void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*> l_user) {
+void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) {
-			std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>)>::iterator it = this->_l_cmds.find((*line)[0]); //verifier position du name de la cmd /attention/
+			std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]); //verifier position du name de la cmd /attention/
 
 	// 	(this->*(it->second))(*line, client, l_chan, l_user); //appel du pointeur sur la fonction membre avec iterateur
 	}
 }
 
 //prototype pour les fonctions commandes 
-void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*> l_user) {
+void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	// if (cmd.size() < 2)
-	// 	this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
+	if (cmd.size() < 2)
+	 	this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
 
 }
 
-void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*> l_user) {
+void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
 	if (cmd.size() < 2)	{
 		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getUsername()), client);
@@ -74,6 +74,7 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std
 
 
 void	Command::_send_data_to_client(std::string mess, User* user) {
-	// if (send(4, mess.c_str(), mess.size(), 0) == -1)
-	// 	perror("send");
+	int socket = user->getSocket();
+	if (send(socket, mess.c_str(), mess.size(), 0) == -1)
+		perror("send");
 }
