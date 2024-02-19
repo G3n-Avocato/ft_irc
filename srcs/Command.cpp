@@ -43,7 +43,10 @@ void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* clie
 
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	for (int i = 0; i != cmd.size(); i++)
+	(void)l_chan; ///error: unused parameter !
+	(void)l_user; ///error: unused parameter !
+
+	for (long unsigned int i = 0; i != cmd.size(); i++)
 		std::cout << cmd[i] << std::endl;
 
 	if (cmd.size() < 2)

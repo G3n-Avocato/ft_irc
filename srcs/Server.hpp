@@ -79,6 +79,6 @@ class Server {
 
 		void printUsers(std::vector<User*> users);
 		//// Arty Parc
-		std::vector<std::vector<std::string> > cmdParser(std::string buf);
+		std::vector<std::vector<std::string> > cmdParser(char *client_buff);
 		////
 };

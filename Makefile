@@ -18,7 +18,8 @@ RM				= rm -rf
 SRC				=	srcs/main.cpp \
 					srcs/Server.cpp \
 					srcs/User.cpp \
-					srcs/Command.cpp
+					srcs/Command.cpp \
+					srcs/Parsing.cpp
 					
 
 
