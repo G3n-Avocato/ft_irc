@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 16:19:08 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/18 14:37:43 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ class Server {
 		//end
 		//dev architecture server chat
 		
-		std::vector<std::vector<std::string>>	_cmd;
+		std::vector<std::vector<std::string> >	_cmd;
 		Command					_bible; //bibliotheque des commandes de notre server
 //
 		std::vector<User*>		_l_user; //list user sur server
@@ -79,6 +79,6 @@ class Server {
 
 		void printUsers(std::vector<User*> users);
 		//// Arty Parc
-		std::vector<std::vector<std::string>> cmdParser(std::string buf);
+		std::vector<std::vector<std::string> > cmdParser(std::string buf);
 		////
 };
