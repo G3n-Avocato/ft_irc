@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/19 12:15:15 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/19 12:28:14 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,22 @@ Command::Command() {
 Command::~Command() {
 }
 
-//peut etre return quelque chose a send dans le server 
 void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) {
-			std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]); //verifier position du name de la cmd /attention/
-
-	// 	(this->*(it->second))(*line, client, l_chan, l_user); //appel du pointeur sur la fonction membre avec iterateur
+			std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]);
+			(this->*(it->second))(*line, client, l_chan, l_user);
 	}
 }
 
-//prototype pour les fonctions commandes 
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
+
+	for (int i = 0; i != cmd.size(); i++)
+		std::cout << cmd[i] << std::endl;
 
 	if (cmd.size() < 2)
 	 	this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
+	
 
 }
 
