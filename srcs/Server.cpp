@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/19 20:25:41 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/20 23:41:25 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	Server::_recv_send_data(int i) {
 		FD_CLR(i, &this->_main);
 	}
 	else {
-		this->_cmd = this->_cmdParser(this->_buf_client);	
+		this->_cmd = this->_cmdParser(this->_buf_client);
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
 	 		std::vector<User*>::iterator it = this->_l_user.begin(); 
 			while (it != this->_l_user.end()) {

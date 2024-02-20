@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/19 23:06:33 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/20 23:21:34 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Command::Command() {
 	// this->_l_cmds["PASS"] = &Command::_cmd_PASS;
 	//this->_l_cmds["NICK"] = &Command::_cmd_NICK;
 	// this->_l_cmds["USER"] = &Command::_cmd_USER;
-	// this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
+	 this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
 	// this->_l_cmds["PART"] = &Command::_cmd_PART;
 	// this->_l_cmds["PRIVMSG"] = &Command::_cmd_PRIVMSG;
 	// this->_l_cmds["QUIT"] = &Command::_cmd_QUIT;
@@ -42,7 +42,7 @@ void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* clie
 			(this->*(it->second))(*line, client, l_chan, l_user);
 	}
 }
-
+/*
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
 	(void)l_user; ///error: unused parameter !
@@ -56,20 +56,19 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 	if (it == l_chan->end())
 		; //creer le chan
 	//else if (it != l_chan->end()) {
-	//	if ((*it).second->getFlagLimit())
+		//if ((*it).second->getFlagLimit())
 
-	//}
+	//
 
 
 }
-
+*/
 void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
 	regex_t	regex;
 	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", 0);
 
 	(void)l_user;
-
 	if (cmd.size() < 2)	{
 		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getUsername()), client);
 		return ;
