@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Parsing.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/21 23:03:06 by lamasson          #+#    #+#             */
+/*   Updated: 2024/02/21 23:05:15 by lamasson         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Server.hpp"
 
 std::vector<std::string> string_to_vector(std::string str, std::string arg){
@@ -21,6 +33,9 @@ std::vector<std::vector<std::string> > Server::_cmdParser(char *client_buff){
     std::string buf(client_buff);
     std::vector<std::string>                raw_cmd;
     std::vector<std::vector<std::string> >   cmd_vector;
+
+	//test enl;ver
+	std::cout << "bufclient= " << client_buff << std::endl;
 
     raw_cmd = string_to_vector(buf, "\r\n");
     int raw_cmd_size = raw_cmd.size();

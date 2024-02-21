@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/21 14:39:42 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/21 22:30:44 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ std::vector<std::string> string_to_vector_(std::string str, std::string arg) {
         }
    	    token = str.substr(0, pos);
         str_vector.push_back(token);
-        // std::cout << YELLOW << "Server receive CMD: " << RESET << token << std::endl;
 		str.erase(0, pos + arg.length());
     }
     return (str_vector);
@@ -59,7 +58,9 @@ std::map<std::string, std::string>	parsing_cmd_join(std::string chan, std::strin
 		j_mdp = string_to_vector_(mdp, ",");
 	while (i < j_chans.size()) {
 		while (!j_chans[i].empty() && j != j_chans[i].length()) {
-			if (j_chans[i][0] != '#' || j_chans[i][j] == '\0' || j_chans[i][j] == '\a' || j_chans[i][j] == '\n' || j_chans[i][j] == '\r' || j_chans[i][j] == ' ') {
+			if (j_chans[i][0] != '#')
+				break ;
+			if (j_chans[i][j] == '\0' || j_chans[i][j] == '\a' || j_chans[i][j] == '\n' || j_chans[i][j] == '\r' || j_chans[i][j] == ' ') {
 				j--;
 				break ;
 			}
@@ -84,9 +85,10 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 	(void)l_chan;
 	(void)l_user;
 
+	///////////////////////////////////////test1
 	for (size_t i = 0; i != cmd.size(); i++)
 		std::cout << "parsing1: " << cmd[i] << std::endl;
-	
+	/////////////////////////////////////////////////////
 	if (cmd.size() < 2)
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
 	else if (cmd.size() != 2)	
@@ -95,7 +97,8 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 	
 
 
-
+	/////////////////////////////////////////test2
+	std::cout << parse.size() << std::endl;
 	for (std::map<std::string, std::string>::iterator it = parse.begin(); it != parse.end(); it++) {
 		std::cout << "parsing2: " << it->first << " ";
 		if (!it->second.empty())
@@ -103,4 +106,5 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 		else
 			std::cout << std::endl;
 	}
+	/////////////////////////////////////////////////
 }

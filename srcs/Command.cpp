@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/20 23:21:34 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:54:03 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,19 @@ Command::~Command() {
 }
 
 void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
+/*
+	for(size_t i = 0; i != cmd.size(); i++) {
+		for (size_t j = 0; j != cmd[i].size(); j++) {
+			std::cout << "cmd-" << i << "-" << j << " " << cmd[i][j] << std::endl;
+	
+		}
+	}*/
+	
+
 
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) 
 	{
+//		std::cout << "test1 = " << (*line)[0] << std::endl;
 		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]);
 		if (it != this->_l_cmds.end())
 			(this->*(it->second))(*line, client, l_chan, l_user);
