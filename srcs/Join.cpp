@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/21 22:30:44 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/22 18:56:46 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ std::string	parsing_cmd_mdp(std::string mdp) {
 	
 	while (i < mdp.length()) {
 		if (mdp[i] == '\0' || mdp[i] == '\r' || mdp[i] == '\n' || mdp[i] == '\f' || mdp[i] == '\t' || mdp[i] == '\v' || mdp[i] == ' ') {
-			i--;
 			break ;
 		}
 		i++;
@@ -58,10 +57,7 @@ std::map<std::string, std::string>	parsing_cmd_join(std::string chan, std::strin
 		j_mdp = string_to_vector_(mdp, ",");
 	while (i < j_chans.size()) {
 		while (!j_chans[i].empty() && j != j_chans[i].length()) {
-			if (j_chans[i][0] != '#')
-				break ;
-			if (j_chans[i][j] == '\0' || j_chans[i][j] == '\a' || j_chans[i][j] == '\n' || j_chans[i][j] == '\r' || j_chans[i][j] == ' ') {
-				j--;
+			if (j_chans[i][0] != '#'|| j_chans[i][j] == '\0' || j_chans[i][j] == '\a' || j_chans[i][j] == '\n' || j_chans[i][j] == '\r' || j_chans[i][j] == ' ') {
 				break ;
 			}
 			j++;
@@ -94,17 +90,14 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 	else if (cmd.size() != 2)	
 		mdp = cmd[2];
 	parse = parsing_cmd_join(cmd[1], mdp);
-	
 
 
 	/////////////////////////////////////////test2
 	std::cout << parse.size() << std::endl;
 	for (std::map<std::string, std::string>::iterator it = parse.begin(); it != parse.end(); it++) {
-		std::cout << "parsing2: " << it->first << " ";
+		std::cout << "parsing2: " << it->first << " size= " << it->first.size() << std::endl;
 		if (!it->second.empty())
-			std::cout << it->second << std::endl;
-		else
-			std::cout << std::endl;
+			std::cout << "mdp parsing 2: " << it->second << std::endl;
 	}
 	/////////////////////////////////////////////////
 }
