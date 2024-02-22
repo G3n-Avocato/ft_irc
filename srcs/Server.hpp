@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/19 20:28:51 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:23:44 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ class Server {
 		int						i;
 		// int						_fd_acc;
 		// struct sockaddr_storage	_client_addr;
-		char					_buf_client[256];
+		char					_buf_client[500];
 		void					_accept_connect_client();
 		void					_recv_send_data(int i);
 

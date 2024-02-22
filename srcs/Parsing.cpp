@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 23:03:06 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/22 17:00:48 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/22 23:46:21 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ std::vector<std::string> string_to_vector(std::string str, std::string arg){
         }
    	    token = str.substr(0, pos);
         str_vector.push_back(token);
-        // std::cout << YELLOW << "Server receive CMD: " << RESET << token << std::endl;
         str.erase(0, pos + arg.length());
     }
     return (str_vector);
@@ -32,13 +31,26 @@ std::vector<std::string> string_to_vector(std::string str, std::string arg){
 void	hexchat_to_nc(std::vector<std::string>* raw_cmd) {
 	int i = 0;
 	
-	for (std::vector<std::string>::iterator it = raw_cmd->begin(); it != raw_cmd->end(); it++) {
-		std::cout << i << " pos = " << *it << std::endl;
+	for (std::vector<std::string>::iterator itf = raw_cmd->begin(); itf != raw_cmd->end(); itf++) {
+		std::cout << i << " before = " << *itf << std::endl;
 		i++;
 	}
+	std::vector<std::string>::iterator it = raw_cmd->begin();
+	if (it->find("CAP LS") != std::string::npos)
+		return ;
+	else {
+		if (raw_cmd->size() > 1) {
+			it++;
+			raw_cmd->erase(it, raw_cmd->end());
+		}
+	}
+
+	int j = 0;
 	
-
-
+	for (std::vector<std::string>::iterator ite = raw_cmd->begin(); ite != raw_cmd->end(); ite++) {
+		std::cout << j << " after = " << *ite << std::endl;
+		j++;
+	}
 }
 
 std::vector<std::vector<std::string> > Server::_cmdParser(char *client_buff){
@@ -52,14 +64,7 @@ std::vector<std::vector<std::string> > Server::_cmdParser(char *client_buff){
     raw_cmd = string_to_vector(buf, "\r\n");
 	
 	hexchat_to_nc(&raw_cmd);
-
-    int raw_cmd_size = raw_cmd.size();
-    int i = 0;
-    std::vector<std::string>::iterator it = raw_cmd.begin();
-    while (i < raw_cmd_size){
+    for (std::vector<std::string>::iterator it = raw_cmd.begin(); it != raw_cmd.end(); it++)
         cmd_vector.push_back(string_to_vector(*it, " "));
-        it++;
-        i++;
-    }
     return (cmd_vector);
 }
