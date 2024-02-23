@@ -6,12 +6,13 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/19 15:17:13 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:18:27 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "Error.hpp"
+#include <iostream>
 
 Server::Server(const char *port, const char *password) : _port(port) , _password(password) {
 // parsing port et password
@@ -141,7 +142,6 @@ void*	Server::_get_in_addr(struct sockaddr *sa) {
 	return &(((struct sockaddr_in6*)sa)->sin6_addr);
 }
 
-#include <iostream>
 
 void Server::printUsers(std::vector<User*> users) {
     std::cout << "Printing all users:" << std::endl;
@@ -172,6 +172,8 @@ void	Server::_recv_send_data(int i) {
 			}
 		}
 	}*/
+
+	
 	this->_fct_de_test_dev_cmds_laura(i);
 }
 
@@ -179,7 +181,8 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
 	// std::cout << "nbytes= " << nbytes <<  std::endl;
-	// std::cout << "buf= " << this->_buf_client << std::endl;
+	//std::cout << "buf= " << this->_buf_client << std::endl;
+
 
 	if (nbytes <= 0) {
 		if (nbytes == 0)
@@ -190,18 +193,98 @@ int	Server::_fct_de_test_dev_cmds_laura(int i) {
 		FD_CLR(i, &this->_main);
 	}
 	else {
-		_cmd = cmdParser(this->_buf_client);	
+
+
+		std::cout << "----------NEW INPUT----------" << std::endl << std::endl;
+		std::cout << "INPUT = " << _buf_client << std::endl << std::endl;
+		_cmd = cmdParser(this->_buf_client);
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
-			std::vector<User*>::iterator it = this->_l_user.begin();
-			for (User* tmp = *it; i != tmp->getSocket() && it != this->_l_user.end(); it++)
-				;
+	 		std::vector<User*>::iterator it = this->_l_user.begin(); 
+			while (it != this->_l_user.end()) {
+				if ((*it)->getSocket() == i)
+					break ;
+				it++;
+			}
 			if (it == this->_l_user.end())
-				;
+				std::cout << "----------ERROR IT=END----------" << std::endl;
 			else
-	 			this->_bible.choose_cmds(this->_cmd, *it, &_l_channel, &_l_user);
+			{
+				std::cout << "----------ELSE----------" << std::endl;
+				_user_hub_test((*it));
+			}
 		}
 	}
 	return (nbytes);
+}
+
+void	Server::_user_hub_test(User *user) {
+	
+	/*
+	if (user->getInit() != 3)
+	{
+		std::cout << "------USER " << user->getSocket() << " INIT NOT FINISH------" << std::endl;
+		for (unsigned long k = 0; k < _cmd.size(); k++)
+		{
+			std::cout << "cmd[" << k << "]: " << std::endl;
+			for (unsigned long j = 0; j < _cmd[k].size(); j++)
+			{	
+				std::cout << this->_cmd[k][j] << std::endl;
+			}
+			
+			
+			//not finish yet
+			//skip CAP LS
+			if (_cmd[k][0] == "CAP")
+				;
+			else
+			{
+				switch (user->getInit()) {
+					case 0:
+						std::cout << "_cmd[k][0] == |" << _cmd[k][0] << "|" << std::endl;
+						if (_cmd[k][0] == "PASS" || _cmd[k][0] == "PASS\n")						// HEXCHAT = PASS 1234 NC = PASS 1234\n
+						{
+							if (this->_bible.cmd_PASS(_cmd[k], std::string(_password)) == 0)
+								user->setInit(1);
+							break;
+						}
+						else
+							std::cout << "NEED PASS" << std::endl;
+						break;
+					case 1:
+						if (_cmd[k][0] == "NICK")
+						{
+							std::cout << "NICk CMD HERE" << std::endl;
+							user->setInit(2);
+							break;
+						}
+						else
+							std::cout << "NEED NICK" << std::endl;
+						break;
+					case 2:
+						if (_cmd[k][0] == "USER")
+						{
+							std::cout << "USER CMD HERE" << std::endl;
+							user->setInit(3);
+							break;
+						}
+						else
+							std::cout << "NEED USER" << std::endl;
+						break;
+				}	
+			}
+			
+		}
+	
+	}
+	*/
+	//else
+	//{
+		std::cout << "----------NEW CMD----------" << std::endl;
+		this->_bible.choose_cmds(this->_cmd, user, &_l_channel, &_l_user);
+		std::cout << "----------PRINT USER----------" << std::endl;
+		this->printUsers(_l_user);
+	//}
+
 }
 
 

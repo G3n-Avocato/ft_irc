@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/18 14:37:43 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/20 19:29:16 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ class Server {
 		void					_start_server_select();	
 
 		int						i;
-		// int						_fd_acc;
-		// struct sockaddr_storage	_client_addr;
 		char					_buf_client[256];
 		void					_accept_connect_client();
 		void					_recv_send_data(int i);
@@ -74,6 +72,8 @@ class Server {
 		std::vector<User*>		_l_user; //list user sur server
 		std::map<std::string, Channel*>	_l_channel; //list channel et user associee au channel
 		int		_fct_de_test_dev_cmds_laura(int i);
+
+		void		_user_hub_test(User *user); //trier entre les users qui ont fini leur init et les autres
 
 		void	_send_data_to_client(std::string mess, int i);
 

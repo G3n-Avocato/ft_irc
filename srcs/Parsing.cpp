@@ -18,9 +18,9 @@ std::vector<std::string> string_to_vector(std::string str, std::string arg){
     return (str_vector);
 }
 
-std::vector<std::vector<std::string>> Server::cmdParser(std::string buf){
+std::vector<std::vector<std::string> > Server::cmdParser(std::string buf){
     std::vector<std::string>                raw_cmd;
-    std::vector<std::vector<std::string>>   cmd_vector;
+    std::vector<std::vector<std::string> >   cmd_vector;
 
     raw_cmd = string_to_vector(buf, "\r\n");
     int raw_cmd_size = raw_cmd.size();
