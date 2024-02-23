@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/23 15:35:21 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/23 23:17:07 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ class Server {
 		void					_start_server_select();	
 
 		int						i;
-		char					_buf_client[256];
+		char					_buf_client[513];
 		void					_accept_connect_client();
 		void					_recv_send_data(int i);
 

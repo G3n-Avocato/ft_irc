@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/23 15:45:38 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/23 23:14:16 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ void Server::_printUsers(std::vector<User*> users) {
 }
 
 void	Server::_recv_send_data(int i) {
-	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
+	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client - 1, 0);
+	this->_buf_client[nbytes] = '\0';   ///////// GRACE A CETTE MERDE TOUT EST REGLEE POUR LA DATA EN TROP 
 
 	if (nbytes <= 0) {
 		if (nbytes == 0)
@@ -157,17 +158,9 @@ void	Server::_recv_send_data(int i) {
 		FD_CLR(i, &this->_main);
 	}
 	else {
-
-
 		std::cout << "----------NEW INPUT----------" << std::endl << std::endl;
 		std::cout << "INPUT = " << _buf_client << std::endl << std::endl;
 		this->_cmd = this->_cmdParser(this->_buf_client);
-	//test enlever	
-	/*	for (size_t i = 0; i < this->_cmd.size(); i++) {
-			for (size_t j = 0; j < this->_cmd[i].size(); j++)
-				std::cout << this->_cmd[i][j] << " ";
-			std::cout << std::endl;
-		}*/
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
 	 		std::vector<User*>::iterator it = this->_l_user.begin(); 
 			while (it != this->_l_user.end()) {
@@ -182,7 +175,7 @@ void	Server::_recv_send_data(int i) {
 }
 
 void	Server::_user_hub_test(User *user) {
-	
+	(void)user;	
 	/*
 	if (user->getInit() != 3)
 	{
