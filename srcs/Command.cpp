@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/21 23:54:03 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/23 15:38:46 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 
 Command::Command() {
 
-	// this->_l_cmds["PASS"] = &Command::_cmd_PASS;
-	//this->_l_cmds["NICK"] = &Command::_cmd_NICK;
+	this->_l_cmds["NICK"] = &Command::_cmd_NICK;
 	// this->_l_cmds["USER"] = &Command::_cmd_USER;
 	 this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
 	// this->_l_cmds["PART"] = &Command::_cmd_PART;
@@ -73,35 +72,7 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 
 }
 */
-void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	regex_t	regex;
-	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", 0);
-
-	(void)l_user;
-	if (cmd.size() < 2)	{
-		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getUsername()), client);
-		return ;
-	}
-	else if (cmd[1].size() > 9 || regexec(&regex, cmd[1].c_str(), 0, NULL, 0) != 0) {
-		regfree(&regex);
-		std::cout << "Nickname error: " << cmd[1].c_str() << std::endl;
-		this->_send_data_to_client(ERR_ERRONEUSNICKNAME(client->getUsername(), cmd[1]), client);
-		return ;
-	}
-	else
-	{
-		regfree(&regex);
-		for (std::map<std::string, Channel*>::iterator it = l_chan->begin(); it != l_chan->end(); it++) {
-			if (it->first == cmd[1]) {
-				this->_send_data_to_client(ERR_NICKNAMEINUSE(client->getUsername(), cmd[1]), client);
-				return;
-			}
-		}
-	}
-	client->setNickname(cmd[1]);
-	//^([A-}])([A-}0-9\-]{0,8})$
-}
 
 
 void	Command::_send_data_to_client(std::string mess, User* user) {

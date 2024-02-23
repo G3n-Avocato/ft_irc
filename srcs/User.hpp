@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/17 16:18:07 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/20 15:28:15 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ class User {
 
 		void	setNickname(std::string nick);
 		void	setUsername(std::string usern);
+		void	setInit(int init);
 		void	setSocket(int socket);
 
 		struct sockaddr_storage	getSockaddr() const;
 		struct sockaddr_storage& getRefSockaddr();
 		int						getSocket() const;
+		int						getInit() const;
 		std::string				getNickname() const;
 		std::string				getUsername() const;
 
@@ -42,6 +44,7 @@ class User {
 
 		struct sockaddr_storage 	_sockaddr;
 		int							_socket;
+		int							_init;
 		
 		//list channel ?
 };
