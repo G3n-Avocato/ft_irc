@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/24 12:53:33 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/24 15:41:46 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ class Server {
 		//end
 		
 		std::vector<std::vector<std::string> >	_cmd;
-		Command									_bible; //bibliotheque des commandes de notre server
 		
+		Command									_bible; //bibliotheque des commandes de notre server
 		std::vector<User*>						_l_user; //list user sur server
 		std::map<std::string, Channel*>			_l_channel; //list channel
 
 		void									_send_data_to_client(std::string mess, int i);
 
 		void									_printUsers(std::vector<User*> users);
-		// Arty Parsing
-		std::vector<std::vector<std::string> >	_cmdParser(char *client_buff);
+		
+		//std::vector<std::vector<std::string> >	_cmdParser(char *client_buff);
 };

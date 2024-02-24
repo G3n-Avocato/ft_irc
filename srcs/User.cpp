@@ -6,15 +6,14 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:37:14 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/20 17:59:40 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/24 18:50:28 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "User.hpp"
 
-User::User() : _init(0)
-{
-	
+User::User() : _init(0) {
+	this->_end = 1;
 }
 
 User::~User()
@@ -22,53 +21,47 @@ User::~User()
 
 }
 
-void User::setSocket(int socket)
-{
-	_socket = socket;
+void User::setSocket(int socket) {
+	this->_socket = socket;
 }
 
-void	User::setNickname(std::string nick)
-{	
-	_nickname = nick;
-	
+void	User::setNickname(std::string nick) {	
+	this->_nickname = nick;	
 }
 
-void User::setUsername(std::string usern)
-{
-	_username = usern;
+void User::setUsername(std::string usern) {
+	this->_username = usern;
 }
 
-void User::setInit(int init)
-{
-	_init = init;	
+void User::setInit(int init) {
+	this->_init = init;	
 }
 
 struct sockaddr_storage User::getSockaddr() const
 {
-	return _sockaddr;
+	return (this->_sockaddr);
 }
 
-struct sockaddr_storage& User::getRefSockaddr()
-{
-	return _sockaddr;
+struct sockaddr_storage& User::getRefSockaddr() {
+	return (this->_sockaddr);
 }
 
-int	User::getSocket() const
-{
-	return 	(_socket);
+int	User::getSocket() const {
+	return 	(this->_socket);
 }
 
-std::string	User::getNickname() const
-{
-	return _nickname;
+std::string	User::getNickname() const {
+	return (this->_nickname);
 }
 
-std::string User::getUsername() const
-{
-	return _username;
+std::string User::getUsername() const {
+	return (this->_username);
 }
 
-int	User::getInit() const
-{
-	return _init;
+int	User::getInit() const {
+	return (this->_init);
+}
+
+bool	User::getcmdend() const {
+	return (this->_end);
 }

@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/24 12:56:30 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:01:35 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,16 @@ void Server::_printUsers(std::vector<User*> users) {
 void	Server::_recv_send_data(int i) {
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client - 1, 0);
 	this->_buf_client[nbytes] = '\0';   ///////// GRACE A CETTE MERDE TOUT EST REGLEE POUR LA DATA EN TROP 
-
+	
+	std::cout << "----------NEW INPUT----------" << std::endl << std::endl;
+	
+	std::cout << "INPUT = " << nbytes << " = " << _buf_client << std::endl << std::endl;
+	
+	std::vector<User*>::iterator it = this->_l_user.begin(); 
+	while (i != (*it)->getSocket())
+		it++;
+	(*it)->cmdParser(this->_buf_client);
+	
 	if (nbytes <= 0) {
 		if (nbytes == 0)
 			printf("server: socket %d hung up\n", i);
@@ -159,10 +168,8 @@ void	Server::_recv_send_data(int i) {
 		close(i);
 		FD_CLR(i, &this->_main);
 	}
-	else {
-		std::cout << "----------NEW INPUT----------" << std::endl << std::endl;
-		std::cout << "INPUT = " << _buf_client << std::endl << std::endl;
-		this->_cmd = this->_cmdParser(this->_buf_client);
+	else { //if ((*it)->getcmdend()) {
+		//this->_cmd = this->_cmdParser(this->_buf_client);
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
 	 		std::vector<User*>::iterator it = this->_l_user.begin(); 
 			while (it != this->_l_user.end()) {
