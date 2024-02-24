@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/23 23:14:16 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:56:30 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ void Server::_printUsers(std::vector<User*> users) {
     for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); ++it) {
         std::cout << "User Socket: " << (*it)->getSocket() << std::endl;
         std::cout << "User Nickname: " << (*it)->getNickname() << std::endl;
+        std::cout << "User Username: " << (*it)->getUsername() << std::endl;
+        std::cout << "User init int: " << (*it)->getInit() << std::endl;
     }
 }
 
@@ -168,80 +170,13 @@ void	Server::_recv_send_data(int i) {
 					break ;
 				it++;
 			}
+
+			for (size_t j = 0; j < this->_cmd.size(); j++) { //permet de faire la commande PASS
+				if (_cmd[j][0] == "PASS")
+					this->_bible.cmd_PASS(_cmd[j], _password, (*it));
+			}
 			this->_bible.choose_cmds(this->_cmd, (*it), &_l_channel, &_l_user);
 			this->_cmd.clear();
 		}
 	}
 }
-
-void	Server::_user_hub_test(User *user) {
-	(void)user;	
-	/*
-	if (user->getInit() != 3)
-	{
-		std::cout << "------USER " << user->getSocket() << " INIT NOT FINISH------" << std::endl;
-		for (unsigned long k = 0; k < _cmd.size(); k++)
-		{
-			std::cout << "cmd[" << k << "]: " << std::endl;
-			for (unsigned long j = 0; j < _cmd[k].size(); j++)
-			{	
-				std::cout << this->_cmd[k][j] << std::endl;
-			}
-			
-			
-			//not finish yet
-			//skip CAP LS
-			if (_cmd[k][0] == "CAP")
-				;
-			else
-			{
-				switch (user->getInit()) {
-					case 0:
-						std::cout << "_cmd[k][0] == |" << _cmd[k][0] << "|" << std::endl;
-						if (_cmd[k][0] == "PASS" || _cmd[k][0] == "PASS\n")						// HEXCHAT = PASS 1234 NC = PASS 1234\n
-						{
-							if (this->_bible.cmd_PASS(_cmd[k], std::string(_password)) == 0)
-								user->setInit(1);
-							break;
-						}
-						else
-							std::cout << "NEED PASS" << std::endl;
-						break;
-					case 1:
-						if (_cmd[k][0] == "NICK")
-						{
-							std::cout << "NICk CMD HERE" << std::endl;
-							user->setInit(2);
-							break;
-						}
-						else
-							std::cout << "NEED NICK" << std::endl;
-						break;
-					case 2:
-						if (_cmd[k][0] == "USER")
-						{
-							std::cout << "USER CMD HERE" << std::endl;
-							user->setInit(3);
-							break;
-						}
-						else
-							std::cout << "NEED USER" << std::endl;
-						break;
-				}	
-			}
-			
-		}
-	
-	}
-	else
-	{
-		std::cout << "----------NEW CMD----------" << std::endl;
-		this->_bible.choose_cmds(this->_cmd, user, &_l_channel, &_l_user);
-		std::cout << "----------PRINT USER----------" << std::endl;
-		this->printUsers(_l_user);
-	}
-	*/
-
-}
-
-

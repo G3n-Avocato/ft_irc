@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/23 23:17:07 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:53:33 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ class Server {
 		
 		std::vector<User*>						_l_user; //list user sur server
 		std::map<std::string, Channel*>			_l_channel; //list channel
-
-		void		_user_hub_test(User *user); //trier entre les users qui ont fini leur init et les autres
 
 		void									_send_data_to_client(std::string mess, int i);
 
