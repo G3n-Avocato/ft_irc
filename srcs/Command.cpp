@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/23 15:38:46 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:47:03 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 Command::Command() {
 
 	this->_l_cmds["NICK"] = &Command::_cmd_NICK;
-	// this->_l_cmds["USER"] = &Command::_cmd_USER;
-	 this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
+	this->_l_cmds["USER"] = &Command::_cmd_USER;
+	this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
 	// this->_l_cmds["PART"] = &Command::_cmd_PART;
 	// this->_l_cmds["PRIVMSG"] = &Command::_cmd_PRIVMSG;
 	// this->_l_cmds["QUIT"] = &Command::_cmd_QUIT;
@@ -45,7 +45,7 @@ void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* clie
 
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) 
 	{
-//		std::cout << "test1 = " << (*line)[0] << std::endl;
+		// std::cout << "test1 = " << (*line)[0] << std::endl;
 		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]);
 		if (it != this->_l_cmds.end())
 			(this->*(it->second))(*line, client, l_chan, l_user);

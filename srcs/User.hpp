@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/20 15:28:15 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:50:02 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ class User {
 
 		struct sockaddr_storage 	_sockaddr;
 		int							_socket;
-		int							_init;
+		int							_init; 		//indique a qu'elle endroit de l'enregistrement de l'user on est: 0 = aucune commande faite, 1 = PASS check, 2 = PASS + NICK, 3 = INIT FINI
 		
-		//list channel ?
 };

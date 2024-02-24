@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:02:54 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/23 15:17:06 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:47:48 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 
 void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
+	(void)l_chan;
+	if (client->getInit() == 0)
+	{
+		std::cout << "NEED PASSWORD BEFORE" << std::endl;
+	}
+
 	regex_t	regex;
 	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", REG_EXTENDED);
-
-	(void)l_chan;
-
-	std::cout << "----------NEW NICKNAME----------" << std::endl;	
 
 	if (cmd.size() < 2)	{
 		regfree(&regex);
@@ -47,6 +49,7 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std
 	}
 	regfree(&regex);
 	
-	std::cout << "----------NICKNAME SET----------" << std::endl;
 	client->setNickname(cmd[1]);
+	if (client->getInit() == 1)
+		client->setInit(2);
 }

@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/23 15:45:38 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/24 12:50:32 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,11 +142,14 @@ void Server::_printUsers(std::vector<User*> users) {
     for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); ++it) {
         std::cout << "User Socket: " << (*it)->getSocket() << std::endl;
         std::cout << "User Nickname: " << (*it)->getNickname() << std::endl;
+        std::cout << "User Username: " << (*it)->getUsername() << std::endl;
+        std::cout << "User init int: " << (*it)->getInit() << std::endl;
     }
 }
 
 void	Server::_recv_send_data(int i) {
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client, 0);
+	_buf_client[nbytes] = '\0';
 
 	if (nbytes <= 0) {
 		if (nbytes == 0)
@@ -175,13 +178,18 @@ void	Server::_recv_send_data(int i) {
 					break ;
 				it++;
 			}
+
+			for (size_t j = 0; j < this->_cmd.size(); j++) { //permet de faire la commande PASS
+				if (_cmd[j][0] == "PASS")
+					this->_bible.cmd_PASS(_cmd[j], _password, (*it));
+			}
 			this->_bible.choose_cmds(this->_cmd, (*it), &_l_channel, &_l_user);
 			this->_cmd.clear();
 		}
 	}
 }
 
-void	Server::_user_hub_test(User *user) {
+// void	Server::_user_hub_test(User *user) {
 	
 	/*
 	if (user->getInit() != 3)
@@ -249,6 +257,5 @@ void	Server::_user_hub_test(User *user) {
 	}
 	*/
 
-}
-
+// }
 
