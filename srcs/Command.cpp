@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/24 12:51:44 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:15:18 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,9 @@ void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* clie
 	
 		}
 	}*/
-	
-
 
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) 
 	{
-		// std::cout << "test1 = " << (*line)[0] << std::endl;
 		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>::iterator it = this->_l_cmds.find((*line)[0]);
 		if (it != this->_l_cmds.end())
 			(this->*(it->second))(*line, client, l_chan, l_user);
@@ -54,10 +51,7 @@ void	Command::choose_cmds(std::vector<std::vector<std::string> > cmd, User* clie
 /*
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	(void)l_user; ///error: unused parameter !
 //# devant / n'importe quel charactere sauf annule la suite garde devant espace nul del 
-	for (size_t i = 0; i != cmd.size(); i++)
-		std::cout << cmd[i] << std::endl;
 
 	if (cmd.size() < 2)
 	 	this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
@@ -67,13 +61,8 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std
 	//else if (it != l_chan->end()) {
 		//if ((*it).second->getFlagLimit())
 
-	//
-
-
 }
 */
-
-
 
 void	Command::_send_data_to_client(std::string mess, User* user) {
 	int socket = user->getSocket();

@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:37:14 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/24 18:50:28 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/25 16:41:03 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ User::User() : _init(0) {
 	this->_end = 1;
 }
 
-User::~User()
-{
-
+User::~User() {
 }
 
 void User::setSocket(int socket) {
@@ -64,4 +62,21 @@ int	User::getInit() const {
 
 bool	User::getcmdend() const {
 	return (this->_end);
+}
+
+std::vector<std::vector<std::string> >	User::getvectorcmd() const {
+	return (this->_cmd);
+}
+
+void	User::clearvectorcmd() {
+	this->_cmd.clear();
+	this->_end = 1;
+}
+
+
+void	User::printcmdtest()  {
+	for (size_t i = 0; i != this->_cmd.size(); i++) {
+		for (size_t j = 0; j != this->_cmd[i].size(); j++)
+			std::cout << i << " " << j << " " << this->_cmd[i][j] << std::endl;
+	}
 }
