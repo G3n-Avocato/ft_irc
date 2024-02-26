@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/24 10:11:41 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:40:24 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 
 class User;
 class Channel;
+class Server;
 
 class Command {
 	public:
@@ -29,24 +30,24 @@ class Command {
 		Command();
 		~Command();
 
-		void	choose_cmds(std::vector<std::vector<std::string> > cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
+		void	choose_cmds(User* client, Server*);
 		void	cmd_PASS(std::vector<std::string> cmd, std::string pass, User* client);
 
  	private:
 		
-		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, std::map<std::string, Channel*>*, std::vector<User*>*)>	_l_cmds;
+		std::map<const std::string, void (Command::*)(std::vector<std::string>, User*, Server*)>	_l_cmds;
 
-		void	_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		void	_cmd_USER(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		void	_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_PART(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_PRIVMSG(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_QUIT(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_WHO(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_KICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_INVITE(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_TOPIC(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
-		// void	_cmd_MODE(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user);
+		void	_cmd_NICK(std::vector<std::string>, User* client, Server*);
+		void	_cmd_USER(std::vector<std::string>, User* client, Server*);
+		void	_cmd_JOIN(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_PART(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_PRIVMSG(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_QUIT(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_WHO(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_KICK(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_INVITE(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
+		// void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
 
 		void	_send_data_to_client(std::string mess, User *user);
 };

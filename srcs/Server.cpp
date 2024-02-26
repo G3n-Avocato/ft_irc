@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/25 16:42:30 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:43:24 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,8 +184,7 @@ void	Server::_recv_send_data(int i) {
 				if (_cmd[j][0] == "PASS")
 					this->_bible.cmd_PASS(_cmd[j], _password, (*it));
 			}*/
-
-			//this->_bible.choose_cmds((*it), &_l_channel, &_l_user);
+			this->_bible.choose_cmds((*it), this);
 			(*it)->clearvectorcmd();
 		}
 	}

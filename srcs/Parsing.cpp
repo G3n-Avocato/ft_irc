@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 23:03:06 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 00:30:10 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:18:43 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,9 @@ void User::setcmdParser(char *client_buff){
     for (std::vector<std::string>::iterator it = raw_cmd.begin(); it != raw_cmd.end(); it++) {
 		if (this->_end)
         	this->_cmd.push_back(_string_to_vector(*it, " ", 2));
-		else {
-			int size = this->_cmd.size();
-			std::string tmp = this->_cmd[size].back();
-			std::string new = tmp 	
-
-		}
+//		else {
+//			int size = this->_cmd.size();
+//			std::string tmp = this->_cmd[size].back();
+//		}
 	}
 }

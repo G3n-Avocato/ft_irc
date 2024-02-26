@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:02:54 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/24 12:47:48 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:41:37 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "User.hpp"
 #include "Error.hpp"
 
+/*
 void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
 	(void)l_chan;
@@ -52,4 +53,4 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std
 	client->setNickname(cmd[1]);
 	if (client->getInit() == 1)
 		client->setInit(2);
-}
+}*/

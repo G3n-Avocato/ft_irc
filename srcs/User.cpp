@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:37:14 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/25 16:41:03 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:42:11 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	User::clearvectorcmd() {
 	this->_cmd.clear();
 	this->_end = 1;
 }
-
 
 void	User::printcmdtest()  {
 	for (size_t i = 0; i != this->_cmd.size(); i++) {

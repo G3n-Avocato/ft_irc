@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/22 18:56:46 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:39:49 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,10 @@ std::map<std::string, std::string>	parsing_cmd_join(std::string chan, std::strin
 	return (parse);
 }
 
-void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
+void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt) {
 	std::map<std::string, std::string>	parse;
 	std::string							mdp;
-	(void)l_chan;
-	(void)l_user;
-
+	(void)opt;
 	///////////////////////////////////////test1
 	for (size_t i = 0; i != cmd.size(); i++)
 		std::cout << "parsing1: " << cmd[i] << std::endl;
