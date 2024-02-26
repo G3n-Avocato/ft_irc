@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 19:25:14 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 21:58:53 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ Channel::Channel(std::string name, User* client) {
 	//ajouter le parsing des names de join 
 	this->_name = name;
 	std::string	firstop = client->getUsername();
-	
 	this->_chanop.push_back(firstop);
 	this->_users.push_back(client);
+	
 	this->_invite = 0;
 	this->_password = 0;
 	this->_limit = 0;
+
+	this->_limit_user = -1;
 }
 
 Channel::~Channel() {
@@ -49,8 +51,8 @@ void	Channel::setNewUser(User *client) {
 	this->_users.push_back(client);
 }
 
-void	Channel::setFlagInvite() {
-	this->_invite = 1;
+void	Channel::setFlagInvite(int b) {
+	this->_invite = b;
 }
 
 void	Channel::setPassword(std::string newpass) {
@@ -68,3 +70,18 @@ bool	Channel::getFlagInvite() const  {
 	return (this->_invite);
 }
 
+bool	Channel::getFlagPass() const {
+	return (this->_password);
+}
+
+bool	Channel::getFlagLimit() const {
+	return (this->_limit);
+}
+
+std::vector<User*>	Channel::getListUsers() const {
+	return (this->_users);
+}
+
+int		Channel::getLimitUsers() const {
+	return (this->_limit_user);
+}

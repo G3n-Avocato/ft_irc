@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 16:43:24 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:13:22 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,6 @@ void Server::_printUsers(std::vector<User*> users) {
 
 void	Server::_recv_send_data(int i) {
 
-
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client - 1, 0);
 	this->_buf_client[nbytes] = '\0';
 	
@@ -161,7 +160,6 @@ void	Server::_recv_send_data(int i) {
 		it++;
 	(*it)->setcmdParser(this->_buf_client);
 	
-	(*it)->printcmdtest();
 	if (nbytes <= 0) {
 		if (nbytes == 0)
 			printf("server: socket %d hung up\n", i);
@@ -178,8 +176,6 @@ void	Server::_recv_send_data(int i) {
 					break ;
 				it++;
 			}
-			std::cout << "entrer dans cmd-send" << std::endl;
-			(*it)->printcmdtest();
 /*			for (size_t j = 0; j < this->_cmd.size(); j++) { //permet de faire la commande PASS
 				if (_cmd[j][0] == "PASS")
 					this->_bible.cmd_PASS(_cmd[j], _password, (*it));

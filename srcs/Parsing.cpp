@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 23:03:06 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 17:48:51 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:09:48 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ std::vector<std::string> User::_string_to_vector(std::string str, std::string ar
     while (str.length() > 0) {
         pos = str.find(arg.c_str());
 		if (pos == std::string::npos) {
-			std::cout << "test no rn " << i << std::endl;
 			if (i == 1)
 				this->_end = 0;
             pos = str.length();
@@ -54,7 +53,6 @@ void User::setcmdParser(char *client_buff){
 
 	if (!this->_end) {
 		buf = this->_recast_buf_end(this->_cmd.back(), buf);
-		std::cout << std::endl << "--- buf assemble ------ " << std::endl << buf << std::endl;
 		this->_cmd.erase(this->_cmd.end() - 1);
 	}
     raw_cmd = _string_to_vector(buf, "\r\n", 1);

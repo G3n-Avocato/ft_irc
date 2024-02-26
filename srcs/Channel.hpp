@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 19:00:30 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:01:56 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,17 @@ class Channel {
 		void				setSubject(std::string str);
 		void				setNewChanop(User* client);
 		void				setNewUser(User* client);
-		void				setFlagInvite();
+		void				setFlagInvite(int b);
 		void				setPassword(std::string newpass); //pass + bool
 		void				setLimitUser(int nb); // nb + bool
 
 		bool				getFlagInvite() const;
 		bool				getFlagPass() const;
 		bool				getFlagLimit() const;
+		
 		std::vector<User*>	getListUsers() const;
+		int					getLimitUsers() const;
+		std::string			getSubject() const;
 
 	private:
 
