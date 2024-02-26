@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/25 16:41:31 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 18:27:46 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,18 @@ class User {
 		
 		User(const User&);
 		User&	operator=(const User&);
-		
-		std::vector<std::string>				_string_to_vector(std::string, std::string, int);
 
 		std::string								_nickname;
 		std::string 							_username;
-		std::vector<std::vector<std::string> >	_cmd;
-		bool									_end;
 		struct sockaddr_storage 				_sockaddr;
 		int										_socket;
 		int										_init; //indique a qu'elle endroit de l'enregistrement de l'user on est: 0 = aucune commande faite, 1 = PASS check, 2 = PASS + NICK, 3 = INIT FINI
+
+
+		std::vector<std::string>				_string_to_vector(std::string, std::string, int);
+		std::string								_recast_buf_end(std::vector<std::string>, std::string);
 		
+		std::vector<std::vector<std::string> >	_cmd;
+		bool									_end;
+		int										_nb_chan;
 };
