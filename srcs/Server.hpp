@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 23:20:08 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 01:11:16 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,13 @@ class Server {
 		void							setListChannel(Channel*);
 		void							setListUser(User*);
 		void							deleteChannel(std::string name);
+		void							deleteUser(int socket);
 
 		std::map<std::string, Channel*> getListChannel() const;
 		std::vector<User*>				getListUser() const;
+		std::vector<User*>&				getLuserRef();
+		std::string						getPass() const;
+
 
 	private:
 

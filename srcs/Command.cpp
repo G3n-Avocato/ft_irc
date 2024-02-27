@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 00:46:49 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 01:12:47 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 
 Command::Command() {
 
-	//this->_l_cmds["NICK"] = &Command::_cmd_NICK;
-	//this->_l_cmds["USER"] = &Command::_cmd_USER;
+	this->_l_cmds["PASS"] = &Command::_cmd_PASS;
+	this->_l_cmds["NICK"] = &Command::_cmd_NICK;
+	this->_l_cmds["USER"] = &Command::_cmd_USER;
 	this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
 	// this->_l_cmds["PART"] = &Command::_cmd_PART;
 	// this->_l_cmds["PRIVMSG"] = &Command::_cmd_PRIVMSG;
-	// this->_l_cmds["QUIT"] = &Command::_cmd_QUIT;
+	this->_l_cmds["QUIT"] = &Command::_cmd_QUIT;
 	// this->_l_cmds["WHO"] = &Command::_cmd_WHO;
 	// this->_l_cmds["KICK"] = &Command::_cmd_KICK;
 	// this->_l_cmds["INVITE"] = &Command::_cmd_INVITE;

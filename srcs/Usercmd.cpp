@@ -6,18 +6,17 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 14:49:30 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/26 16:42:28 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:00:10 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
 #include "User.hpp"
+#include "Server.hpp"
 #include "Error.hpp"
-/*
-void	Command::_cmd_USER(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
+
+void	Command::_cmd_USER(std::vector<std::string> cmd, User* client, Server *opt) {
 	
-	(void)l_chan;
-	(void)l_user;
+	(void)opt;
 	if (client->getInit() < 2) {
 		return ;
 	}
@@ -34,4 +33,4 @@ void	Command::_cmd_USER(std::vector<std::string> cmd, User* client, std::map<std
 	else
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);	
 	
-}*/
+}

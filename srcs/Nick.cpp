@@ -6,18 +6,17 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:02:54 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/26 16:41:37 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 22:58:43 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
 #include "User.hpp"
+#include "Server.hpp"
 #include "Error.hpp"
 
-/*
-void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
 
-	(void)l_chan;
+void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt) {
+
 	if (client->getInit() == 0)
 	{
 		std::cout << "NEED PASSWORD BEFORE" << std::endl;
@@ -25,7 +24,8 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std
 
 	regex_t	regex;
 	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", REG_EXTENDED);
-
+	std::vector<User*>& lusers = opt->getLuserRef();
+	
 	if (cmd.size() < 2)	{
 		regfree(&regex);
 		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getUsername()), client);
@@ -39,10 +39,10 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std
 	else
 	{
 		regfree(&regex);
-		std::vector<User*>::iterator it = l_user->begin();
-		for (User *tmp = *it; tmp->getNickname() != cmd[1] && it != l_user->end(); it++ ) {
+		std::vector<User*>::iterator it = lusers.begin();
+		for (User *tmp = *it; tmp->getNickname() != cmd[1] && it != lusers.end(); it++ ) {
 		}
-		if (it != l_user->end())
+		if (it != lusers.end())
 		{
 			this->_send_data_to_client(ERR_NICKNAMEINUSE(client->getUsername(), cmd[1]), client);
 			return;
@@ -53,4 +53,4 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, std::map<std
 	client->setNickname(cmd[1]);
 	if (client->getInit() == 1)
 		client->setInit(2);
-}*/
+}
