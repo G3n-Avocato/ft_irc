@@ -6,14 +6,14 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 22:13:22 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:21:24 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
-#include "Error.hpp"
-#include <iostream>
+#include "Channel.hpp"
 
+#include <iostream>
 
 Server::Server(const char *port, const char *password) : _port(port) , _password(password) {
 // parsing port et password
@@ -84,7 +84,6 @@ void	Server::_config_wait_fd_co() {
 
 }
 
-//verif password pas faite 
 void	Server::_start_server_select() {
 
 	while (1) {
@@ -184,4 +183,27 @@ void	Server::_recv_send_data(int i) {
 			(*it)->clearvectorcmd();
 		}
 	}
+}
+
+std::vector<User*>	Server::getListUser() const {
+	return (this->_l_user);
+}
+
+std::map<std::string, Channel*>	Server::getListChannel() const {
+	return (this->_l_channel);
+}
+
+void	Server::setListChannel(Channel *channel) {
+	std::string	name = channel->getName();
+	this->_l_channel[name] = channel;
+}
+
+void	Server::setListUser(User* client) {
+	this->_l_user.push_back(client);
+}
+
+void	Server::deleteChannel(const std::string name) {
+	std::map<std::string, Channel*>::iterator it = this->_l_channel.find(name);
+	if (it != this->_l_channel.end())
+		this->_l_channel.erase(it);
 }

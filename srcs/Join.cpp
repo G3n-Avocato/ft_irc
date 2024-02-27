@@ -6,12 +6,11 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 16:39:49 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:46:39 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
-#include "User.hpp"
+#include "Server.hpp"
 
 std::vector<std::string> string_to_vector_(std::string str, std::string arg) {
     std::vector<std::string>    str_vector;
@@ -78,17 +77,12 @@ std::map<std::string, std::string>	parsing_cmd_join(std::string chan, std::strin
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt) {
 	std::map<std::string, std::string>	parse;
 	std::string							mdp;
-	(void)opt;
-	///////////////////////////////////////test1
-	for (size_t i = 0; i != cmd.size(); i++)
-		std::cout << "parsing1: " << cmd[i] << std::endl;
-	/////////////////////////////////////////////////////
+	
 	if (cmd.size() < 2)
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
-	else if (cmd.size() != 2)	
+	else if (cmd.size() != 2) //cas ou pas de mdp segfault	
 		mdp = cmd[2];
 	parse = parsing_cmd_join(cmd[1], mdp);
-
 
 	/////////////////////////////////////////test2
 	std::cout << parse.size() << std::endl;
@@ -98,4 +92,13 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			std::cout << "mdp parsing 2: " << it->second << std::endl;
 	}
 	/////////////////////////////////////////////////
+	
+	std::map<std::string, Channel*>	listchan = opt->getListChannel();
+	std::map<std::string, std::string>::iterator itp = parse.begin();
+
+	std::map<std::string, Channel*>::iterator itc = listchan.find(itp->first);
+	if (itc == listchan.end())
+		; //crea channel;
+	else if (itc != listchan.end())
+		;
 }

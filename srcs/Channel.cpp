@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 21:58:53 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:02:22 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,8 @@ std::vector<User*>	Channel::getListUsers() const {
 
 int		Channel::getLimitUsers() const {
 	return (this->_limit_user);
+}
+
+std::string	Channel::getName() const {
+	return (this->_name);
 }

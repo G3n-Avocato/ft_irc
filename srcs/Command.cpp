@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 16:40:35 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 00:46:49 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ Command::~Command() {
 }
 
 void	Command::choose_cmds(User* client, Server* opt) {
-/*
-	for(size_t i = 0; i != cmd.size(); i++) {
-		for (size_t j = 0; j != cmd[i].size(); j++) {
-			std::cout << "cmd-" << i << "-" << j << " " << cmd[i][j] << std::endl;
-	
-		}
-	}*/
 	std::vector<std::vector<std::string> >	cmd = client->getvectorcmd();
 	for (std::vector<std::vector<std::string> >::iterator line = cmd.begin(); line != cmd.end(); line++) 
 	{
@@ -48,21 +41,6 @@ void	Command::choose_cmds(User* client, Server* opt) {
 			(this->*(it->second))(*line, client, opt);
 	}
 }
-/*
-void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>* l_chan, std::vector<User*>* l_user) {
-
-//# devant / n'importe quel charactere sauf annule la suite garde devant espace nul del 
-
-	if (cmd.size() < 2)
-	 	this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
-	std::map<std::string, Channel*>::iterator it = l_chan->find(cmd[1]);
-	if (it == l_chan->end())
-		; //creer le chan
-	//else if (it != l_chan->end()) {
-		//if ((*it).second->getFlagLimit())
-
-}
-*/
 
 void	Command::_send_data_to_client(std::string mess, User* user) {
 	int socket = user->getSocket();

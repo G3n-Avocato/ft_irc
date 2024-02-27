@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 22:01:56 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:01:54 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Channel {
 		std::vector<User*>	getListUsers() const;
 		int					getLimitUsers() const;
 		std::string			getSubject() const;
+		std::string			getName() const;
 
 	private:
 

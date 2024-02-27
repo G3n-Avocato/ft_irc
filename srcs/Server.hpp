@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/25 16:13:18 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:20:08 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@
 #include <cstdio>
 #include <cstdlib>
 #include <unistd.h>
+#include <map>
 
 #include "User.hpp"
-#include "Channel.hpp"
-#include "Command.hpp"
 #include "Error.hpp"
+#include "Command.hpp"
+
+class Channel;
 
 class Server {
 	
@@ -34,6 +36,13 @@ class Server {
 		
 		Server(const char *port, const char* password);
 		~Server();
+
+		void							setListChannel(Channel*);
+		void							setListUser(User*);
+		void							deleteChannel(std::string name);
+
+		std::map<std::string, Channel*> getListChannel() const;
+		std::vector<User*>				getListUser() const;
 
 	private:
 
