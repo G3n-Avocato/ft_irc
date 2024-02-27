@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 22:13:22 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 01:07:28 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void*	Server::_get_in_addr(struct sockaddr *sa) {
 
 void Server::_printUsers(std::vector<User*> users) {
     std::cout << "Printing all users:" << std::endl;
-    for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); ++it) {
+    for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); it++) {
         std::cout << "User Socket: " << (*it)->getSocket() << std::endl;
         std::cout << "User Nickname: " << (*it)->getNickname() << std::endl;
         std::cout << "User Username: " << (*it)->getUsername() << std::endl;
@@ -162,7 +162,12 @@ void	Server::_recv_send_data(int i) {
 	
 	if (nbytes <= 0) {
 		if (nbytes == 0)
+		{
 			printf("server: socket %d hung up\n", i);
+			std::cout << "USER " << i << " LEAVE IRC" << std::endl;
+			deleteUser(i);
+			_printUsers(_l_user);
+		}
 		else
 	 		perror("recv");
 		close(i);
@@ -181,7 +186,36 @@ void	Server::_recv_send_data(int i) {
 					this->_bible.cmd_PASS(_cmd[j], _password, (*it));
 			}*/
 			this->_bible.choose_cmds((*it), this);
-			(*it)->clearvectorcmd();
+			for (std::vector<User*>::iterator ite = this->_l_user.begin(); ite != this->_l_user.end(); ite++)
+			{
+				if ((*ite)->getSocket() == i)
+					(*it)->clearvectorcmd();
+			}
+			_printUsers(_l_user);
 		}
 	}
+}
+
+std::string	Server::getPass() const {
+	return (std::string(_password));
+}
+
+std::vector<User*>&	Server::getLuserRef() {
+	return this->_l_user;
+}
+
+void	Server::deleteUser(int socket) {
+	
+	for (std::vector<User*>::iterator it = _l_user.begin(); it != _l_user.end(); ++it)
+	{
+		if ((*it)->getSocket() == socket)
+		{
+			delete *it;
+			this->_l_user.erase(it);
+			FD_CLR(socket, &this->_setRead);
+			this->_fdmax -= 1;
+			break;
+		}
+	}
+
 }

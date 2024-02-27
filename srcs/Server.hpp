@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/25 16:13:18 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/26 23:27:26 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ class Server {
 		
 		Server(const char *port, const char* password);
 		~Server();
+
+		std::vector<User*>&	getLuserRef();
+		std::string			getPass() const;
+		void				deleteUser(int socket);
 
 	private:
 
