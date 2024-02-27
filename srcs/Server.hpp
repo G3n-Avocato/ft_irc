@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 01:11:16 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:39:58 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ class Server {
 	
 	public:
 		
-		Server(const char *port, const char* password);
+		Server(const char *port, const std::string password);
 		~Server();
 
 		void							setListChannel(Channel*);
@@ -55,7 +55,7 @@ class Server {
 
 		//dev server socket
 		const char				*_port;
-		const char				*_password;
+		const std::string		_password;
 
 		struct addrinfo			_hints;
 		struct addrinfo			*_servinfo;

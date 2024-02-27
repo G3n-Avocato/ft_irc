@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 23:01:54 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:13:40 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ class Channel {
 		void				setNewChanop(User* client);
 		void				setNewUser(User* client);
 		void				setFlagInvite(int b);
-		void				setPassword(std::string newpass); //pass + bool
-		void				setLimitUser(int nb); // nb + bool
+		void				setPassword(std::string newpass);
+		void				setLimitUser(int nb);
 
 		bool				getFlagInvite() const;
 		bool				getFlagPass() const;
@@ -40,6 +40,9 @@ class Channel {
 		std::string			getSubject() const;
 		std::string			getName() const;
 
+		void				deleteUser(std::string); //afaire
+		void				deleteChanop(std::string); //afaire
+
 	private:
 
 		Channel();
@@ -48,7 +51,7 @@ class Channel {
 		
 		std::string					_name;
 		std::string					_subject;
-		std::vector<std::string>	_chanop;
+		std::vector<User*>			_chanop;
 		std::vector<User*>			_users;
 		std::string					_pass;
 		int							_limit_user;
@@ -57,5 +60,5 @@ class Channel {
 		bool						_password;
 		bool						_limit;
 
-		std::vector<User*>			_users_invite; // potentiel list des users qui ont recu une invitation mais pas encore accepte
+		std::vector<User*>			_users_invite; //list users with invit but not accepte yet
 };

@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 01:11:26 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/27 17:51:25 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include <iostream>
 
-Server::Server(const char *port, const char *password) : _port(port) , _password(password) {
+Server::Server(const char *port, const std::string password) : _port(port) , _password(password) {
 // parsing port et password
 	(void)this->_password;
 	
@@ -154,10 +154,10 @@ void	Server::_recv_send_data(int i) {
 	std::cout << "----------NEW INPUT----------" << std::endl << std::endl;
 	std::cout << "INPUT = " << nbytes << " = " << _buf_client << std::endl << std::endl;
 	
-	std::vector<User*>::iterator it = this->_l_user.begin(); 
-	while (i != (*it)->getSocket())
-		it++;
-	(*it)->setcmdParser(this->_buf_client);
+	std::vector<User*>::iterator itu = this->_l_user.begin(); 
+	while (i != (*itu)->getSocket())
+		itu++;
+	(*itu)->setcmdParser(this->_buf_client);
 	
 	if (nbytes <= 0) {
 		if (nbytes == 0)
@@ -172,7 +172,7 @@ void	Server::_recv_send_data(int i) {
 		close(i);
 		FD_CLR(i, &this->_main);
 	}
-	else if ((*it)->getcmdend()) {
+	else if ((*itu)->getcmdend()) {
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
 			std::vector<User*>::iterator it = this->_l_user.begin(); 
 			while (it != this->_l_user.end()) {
@@ -190,7 +190,7 @@ void	Server::_recv_send_data(int i) {
 				if ((*ite)->getSocket() == i)
 					(*it)->clearvectorcmd();
 			}
-			_printUsers(_l_user);
+			//_printUsers(_l_user);
 		}
 	}
 }
@@ -219,11 +219,11 @@ void	Server::deleteChannel(const std::string name) {
 }
 
 std::string	Server::getPass() const {
-	return (std::string(_password));
+	return (this->_password);
 }
 
 std::vector<User*>&	Server::getLuserRef() {
-	return this->_l_user;
+	return (this->_l_user);
 }
 
 void	Server::deleteUser(int socket) {

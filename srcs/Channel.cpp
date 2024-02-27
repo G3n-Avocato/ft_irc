@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 23:02:22 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:10:28 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ Channel::Channel(std::string name, User* client) {
 	if (name.size() > 200) // ou 50 la RFC ce contredit 
 		return ; //erreur
 	//ajouter le parsing des names de join 
+	
 	this->_name = name;
-	std::string	firstop = client->getUsername();
-	this->_chanop.push_back(firstop);
+	
+	this->_chanop.push_back(client);
 	this->_users.push_back(client);
 	
 	this->_invite = 0;
@@ -43,8 +44,7 @@ void	Channel::setSubject(std::string str) {
 }
 
 void	Channel::setNewChanop(User *client) {
-	std::string new_op = client->getUsername();
-	this->_chanop.push_back(new_op);
+	this->_chanop.push_back(client);
 }
 
 void	Channel::setNewUser(User *client) {

@@ -6,11 +6,12 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 00:46:39 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:07:49 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "Channel.hpp"
 
 std::vector<std::string> string_to_vector_(std::string str, std::string arg) {
     std::vector<std::string>    str_vector;
@@ -85,7 +86,6 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 	parse = parsing_cmd_join(cmd[1], mdp);
 
 	/////////////////////////////////////////test2
-	std::cout << parse.size() << std::endl;
 	for (std::map<std::string, std::string>::iterator it = parse.begin(); it != parse.end(); it++) {
 		std::cout << "parsing2: " << it->first << " size= " << it->first.size() << std::endl;
 		if (!it->second.empty())
@@ -93,12 +93,16 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 	}
 	/////////////////////////////////////////////////
 	
-	std::map<std::string, Channel*>	listchan = opt->getListChannel();
-	std::map<std::string, std::string>::iterator itp = parse.begin();
+	std::map<std::string, Channel*>	listchan = opt->getListChannel(); // channel list
+	std::map<std::string, std::string>::iterator itp = parse.begin(); // it sur cmd parse
 
-	std::map<std::string, Channel*>::iterator itc = listchan.find(itp->first);
-	if (itc == listchan.end())
-		; //crea channel;
-	else if (itc != listchan.end())
+	std::map<std::string, Channel*>::iterator itchan = listchan.find(itp->first); //cherche channel existant
+	if (itchan == listchan.end()) {
+		Channel	tmp(itp->first, client);
+		opt->setListChannel(&tmp);
+		
+
+	}
+	else if (itchan != listchan.end())
 		;
 }
