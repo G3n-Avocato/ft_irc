@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 18:27:46 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:57:23 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ class User {
 		void									setInit(int init);
 		void									setSocket(int socket);
 		void									setcmdParser(char* client_buff);
+		void									setnbChan(int);
 
 		struct sockaddr_storage					getSockaddr() const;
 		struct sockaddr_storage&				getRefSockaddr();
@@ -39,6 +40,7 @@ class User {
 		std::string								getUsername() const;
 		bool									getcmdend() const;
 		std::vector<std::vector<std::string> >	getvectorcmd() const;
+		int										getnbChan() const;
 
 		void									clearvectorcmd();
 

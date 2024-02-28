@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:37:14 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/26 18:28:23 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 19:57:15 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,12 @@ void	User::printcmdtest()  {
 		for (size_t j = 0; j != this->_cmd[i].size(); j++)
 			std::cout << i << " " << j << " " << this->_cmd[i][j] << std::endl;
 	}
+}
+
+void	User::setnbChan(int i) {
+	this->_nb_chan += i;
+}
+
+int		User::getnbChan() const {
+	return (this->_nb_chan);
 }

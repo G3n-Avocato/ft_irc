@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 18:13:40 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:29:27 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ class Channel {
 		Channel(std::string name, User* client);
 		~Channel();
 
-		void				setName(std::string name);
+		bool				setName(std::string name);
 		void				setSubject(std::string str);
 		void				setNewChanop(User* client);
 		void				setNewUser(User* client);
 		void				setFlagInvite(int b);
-		void				setPassword(std::string newpass);
+		bool				setPassword(std::string newpass, int b);
 		void				setLimitUser(int nb);
 
 		bool				getFlagInvite() const;
@@ -39,6 +39,8 @@ class Channel {
 		int					getLimitUsers() const;
 		std::string			getSubject() const;
 		std::string			getName() const;
+		std::vector<User*>	getListInvitUser() const;
+		std::string			getPassword() const;
 
 		void				deleteUser(std::string); //afaire
 		void				deleteChanop(std::string); //afaire
@@ -60,5 +62,8 @@ class Channel {
 		bool						_password;
 		bool						_limit;
 
-		std::vector<User*>			_users_invite; //list users with invit but not accepte yet
+		std::vector<User*>			_list_invit; //list users with invit but not accepte yet
+		
+		bool						_parsing_name(std::string) const;
+		bool						_parsing_mdp(std::string) const;
 };

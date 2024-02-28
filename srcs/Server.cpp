@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 17:51:25 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:42:45 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	Server::_start_server_select() {
 			perror("select");
 			exit (4);
 		}
-
 		for (i = 0; i <= this->_fdmax; i++) {
 			if (FD_ISSET(i, &this->_setRead)) {
 				if (i == this->_fd_l)
@@ -127,7 +126,6 @@ void	Server::_accept_connect_client() {
 		printf("serverinfo: new connection from %s on ""socket %d\n", inet_ntop(newclient->getSockaddr().ss_family, this->_get_in_addr((struct sockaddr*)(&newclient->getRefSockaddr())), remoteIP, INET6_ADDRSTRLEN), newclient->getSocket());
 	}
 	_l_user.push_back(newclient);
-	
 }
 
 void*	Server::_get_in_addr(struct sockaddr *sa) {
@@ -158,7 +156,7 @@ void	Server::_recv_send_data(int i) {
 	while (i != (*itu)->getSocket())
 		itu++;
 	(*itu)->setcmdParser(this->_buf_client);
-	
+	(*itu)->printcmdtest();
 	if (nbytes <= 0) {
 		if (nbytes == 0)
 		{
@@ -173,6 +171,7 @@ void	Server::_recv_send_data(int i) {
 		FD_CLR(i, &this->_main);
 	}
 	else if ((*itu)->getcmdend()) {
+		std::cout << "nc are you there ----------\n";
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
 			std::vector<User*>::iterator it = this->_l_user.begin(); 
 			while (it != this->_l_user.end()) {
@@ -180,10 +179,6 @@ void	Server::_recv_send_data(int i) {
 					break ;
 				it++;
 			}
-/*			for (size_t j = 0; j < this->_cmd.size(); j++) { //permet de faire la commande PASS
-				if (_cmd[j][0] == "PASS")
-					this->_bible.cmd_PASS(_cmd[j], _password, (*it));
-			}*/
 			this->_bible.choose_cmds((*it), this);
 			for (std::vector<User*>::iterator ite = this->_l_user.begin(); ite != this->_l_user.end(); ite++)
 			{

@@ -6,11 +6,11 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 01:12:37 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:32:42 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// #pragma once
+#pragma once
 
 #include <iostream>
 #include <map>
@@ -50,5 +50,7 @@ class Command {
 		// void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
 
-		void	_send_data_to_client(std::string mess, User *user);
+		std::map<std::string, std::string>	_parsing_cmd_join(std::string, std::string, User*);
+
+		void								_send_data_to_client(std::string mess, User *user);
 };

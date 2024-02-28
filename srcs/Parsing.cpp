@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 23:03:06 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/26 22:09:48 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 02:45:09 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ std::vector<std::string> User::_string_to_vector(std::string str, std::string ar
     return (str_vector);
 }
 
+//refound vector-> to string before to vector 
 std::string	User::_recast_buf_end(std::vector<std::string> last, std::string buf) {
 	std::string	tmp;
 	
@@ -55,8 +56,12 @@ void User::setcmdParser(char *client_buff){
 		buf = this->_recast_buf_end(this->_cmd.back(), buf);
 		this->_cmd.erase(this->_cmd.end() - 1);
 	}
-    raw_cmd = _string_to_vector(buf, "\r\n", 1);
+	//PARSING ERREUR avec ncat ajoute les cmds a la suite bizarre 
+	if (buf.find("\r\n"))
+    	raw_cmd = this->_string_to_vector(buf, "\r\n", 1);
+	else
+		raw_cmd = this->_string_to_vector(buf, "\n", 1);
     for (std::vector<std::string>::iterator it = raw_cmd.begin(); it != raw_cmd.end(); it++) {
-        this->_cmd.push_back(_string_to_vector(*it, " ", 2));
+        this->_cmd.push_back(this->_string_to_vector(*it, " ", 2));
 	}
 }
