@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 02:42:45 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:40:41 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 
 Server::Server(const char *port, const std::string password) : _port(port) , _password(password) {
 // parsing port et password
-	(void)this->_password;
 	
 	this->_get_server_info();
 	this->_bind_socket_to_port();
@@ -97,7 +96,7 @@ void	Server::_start_server_select() {
 				if (i == this->_fd_l)
 					this->_accept_connect_client();
 				else 
-					this->_recv_send_data(i);
+					this->_recv_send_data();
 			}
 		}
 	}
@@ -144,19 +143,15 @@ void Server::_printUsers(std::vector<User*> users) {
     }
 }
 
-void	Server::_recv_send_data(int i) {
-
+void	Server::_recv_send_data() {
 	int nbytes = recv(i, this->_buf_client, sizeof this->_buf_client - 1, 0);
 	this->_buf_client[nbytes] = '\0';
 	
 	std::cout << "----------NEW INPUT----------" << std::endl << std::endl;
 	std::cout << "INPUT = " << nbytes << " = " << _buf_client << std::endl << std::endl;
 	
-	std::vector<User*>::iterator itu = this->_l_user.begin(); 
-	while (i != (*itu)->getSocket())
-		itu++;
+	std::vector<User*>::iterator itu = this->_find_client_socket_to_i();
 	(*itu)->setcmdParser(this->_buf_client);
-	(*itu)->printcmdtest();
 	if (nbytes <= 0) {
 		if (nbytes == 0)
 		{
@@ -171,23 +166,28 @@ void	Server::_recv_send_data(int i) {
 		FD_CLR(i, &this->_main);
 	}
 	else if ((*itu)->getcmdend()) {
-		std::cout << "nc are you there ----------\n";
 		if (FD_ISSET(i, &this->_main) && i != this->_fd_l) {
-			std::vector<User*>::iterator it = this->_l_user.begin(); 
-			while (it != this->_l_user.end()) {
-				if ((*it)->getSocket() == i)
-					break ;
-				it++;
-			}
-			this->_bible.choose_cmds((*it), this);
+			itu = this->_find_client_socket_to_i();
+			this->_bible.choose_cmds((*itu), this);
 			for (std::vector<User*>::iterator ite = this->_l_user.begin(); ite != this->_l_user.end(); ite++)
 			{
 				if ((*ite)->getSocket() == i)
-					(*it)->clearvectorcmd();
+					(*itu)->clearvectorcmd();
 			}
 			//_printUsers(_l_user);
 		}
 	}
+}
+
+std::vector<User*>::iterator	Server::_find_client_socket_to_i() {
+	std::vector<User*>::iterator it = this->_l_user.begin();
+
+	while (it != this->_l_user.end()) {
+		if ((*it)->getSocket() == i)
+			break ;
+		it++;
+	}
+	return (it);
 }
 
 std::vector<User*>	Server::getListUser() const {

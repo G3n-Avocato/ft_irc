@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 14:37:14 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/27 19:57:15 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 14:28:45 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	User::clearvectorcmd() {
 }
 
 void	User::printcmdtest()  {
+	std::cout << "booleen cmd = " << this->_end << std::endl;
 	for (size_t i = 0; i != this->_cmd.size(); i++) {
 		for (size_t j = 0; j != this->_cmd[i].size(); j++)
 			std::cout << i << " " << j << " " << this->_cmd[i][j] << std::endl;

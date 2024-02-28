@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 17:39:58 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 15:25:13 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,31 +53,31 @@ class Server {
 		Server(const Server&);
 		Server&	operator=(const Server&);
 
-		//dev server socket
-		const char				*_port;
-		const std::string		_password;
+		//server socket
+		const char						*_port;
+		const std::string				_password;
 
-		struct addrinfo			_hints;
-		struct addrinfo			*_servinfo;
-		void					_get_server_info();
+		struct addrinfo					_hints;
+		struct addrinfo					*_servinfo;
+		void							_get_server_info();
 
-		int 					_fd_l;
-		struct addrinfo 		*_cp_serv;
-		void					_bind_socket_to_port();
+		int 							_fd_l;
+		struct addrinfo 				*_cp_serv;
+		void							_bind_socket_to_port();
 
-		fd_set					_main;
-		fd_set					_setRead;
-		int						_fdmax;
-		void					_config_wait_fd_co();
+		fd_set							_main;
+		fd_set							_setRead;
+		int								_fdmax;
+		void							_config_wait_fd_co();
 
-		void					_start_server_select();	
+		void							_start_server_select();
 
-		int						i;
-		char					_buf_client[513];
-		void					_accept_connect_client();
-		void					_recv_send_data(int i);
-
-		void*					_get_in_addr(struct sockaddr *sa);
+		int								i;
+		char							_buf_client[513];
+		void							_accept_connect_client();
+		void*							_get_in_addr(struct sockaddr *sa);
+		void							_recv_send_data();
+		std::vector<User*>::iterator	_find_client_socket_to_i();
 		//end
 		
 		Command									_bible; //bibliotheque des commandes de notre server
