@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:36:15 by arforgea          #+#    #+#             */
-/*   Updated: 2024/02/28 16:44:07 by arforgea         ###   ########.fr       */
+/*   Updated: 2024/02/28 20:36:28 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@
 #define BOLDWHITE   "\033[1m\033[37m"       /* Bold White */
 //
 
+std::string	rebuild_data(std::vector<std::string> last, int start) {
+	std::string	tmp;
+	
+	for (std::vector<std::string>::iterator it = last.begin() + start; it != last.end(); it++) {
+		tmp += *it;
+		if (it + 1 != last.end())
+			tmp += " ";
+	}
+	return (tmp);
+}
+
 std::vector<std::string> string_to_vector(std::string str, std::string arg){
     std::vector<std::string>    str_vector;
 	std::string                 token;
@@ -54,10 +65,20 @@ void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server
     std::map<std::string, Channel*> channeLst   = server->getListChannel();
 
     std::cout << YELLOW << "Debug:" << RESET << " rawCmd size=" << BLUE << rawCmd.size() << RESET << std::endl; //DEBUG!
-    if(rawCmd.size() == 3 && rawCmd[0].find("MSGPRIV")){
-        std::string                         data    = rawCmd[2]; 
+    if(rawCmd.size() >= 3 && rawCmd[0].find("MSGPRIV")){
+        std::string                         data    = rebuild_data(rawCmd, 2); 
         std::vector<std::string>            sendLst = string_to_vector(rawCmd[1], ",");
         std::vector<std::string>::iterator  it_send = sendLst.begin();
+        std::cout << YELLOW << "Debug:" << RESET << " rebuild Data=" << BLUE << data << RESET << std::endl; //DEBUG!
+        for(unsigned long i = 0; sendLst.size() > 0 && i < sendLst.size(); i++){
+            std::string tmp = sendLst[i];
+            for(unsigned long j = i + 1; j < sendLst.size(); j++){
+                if(!tmp.compare(sendLst[j])){
+                    _send_data_to_client(ERR_TOOMANYTARGETS(sendLst[j]), client);
+                    return ;
+                }
+            }
+        }
         while(it_send != sendLst.end()){
             std::string current_user = *it_send;
             if(!current_user.find("#")){
@@ -85,11 +106,14 @@ void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server
             it_send++;
         }
     }
+    else if(rawCmd.size() == 2){
+        _send_data_to_client(ERR_NOTEXTTOSEND(client->getNickname()), client);
+    }
 }
 
         //    ERR_NORECIPIENT
-        //    ERR_NOTEXTTOSEND
+        //    ERR_NOTEXTTOSEND      OK!
         //    ERR_CANNOTSENDTOCHAN
-        //    ERR_TOOMANYTARGETS
+        //    ERR_TOOMANYTARGETS    OK!
         //    ERR_NOSUCHNICK        OK!
         //    RPL_AWAY

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Error.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 22:59:50 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 19:11:52 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 #define ERR_NOSUCHCHANNEL(client, canal) (": 403 " + client + " " + canal + " :No such channel\r\n")
 #define ERR_CANNOTSENDTOCHAN(client, canal) (": 404 " + client + " " + canal + " :Cannot send to channel\r\n")
 #define ERR_TOOMANYCHANNELS(client, canal) (": 405 " + client + " " + canal + " :You have joined too many channels\r\n")
+#define ERR_TOOMANYTARGETS(nick) (": 407 " + nick + " :Duplicate recipients. No message delivered\r\n")
 
 #define ERR_NORECIPIENT(client, cmd) (": 411 " + client + " :No recipient given " + cmd + "\r\n")
-#define ERR_NOTEXTTOSEND(client) (": 412 " + client " :No text to send\r\n")
+#define ERR_NOTEXTTOSEND(client) (": 412 " + client + " :No text to send\r\n")
 #define ERR_NONICKNAMEGIVEN(client) (": 431 " + client + " :No nickname given\r\n")
 #define ERR_ERRONEUSNICKNAME(client, nick) (": 432 " + client + " " + nick + " :Erroneus nickname\r\n")
 #define ERR_NICKNAMEINUSE(client, nick) (": 433 " + client + " " + nick + " :Nickname is already in use\r\n")
