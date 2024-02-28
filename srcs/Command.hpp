@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 02:32:42 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:43:58 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ class Command {
 		void	_cmd_USER(std::vector<std::string>, User* client, Server*);
 		void	_cmd_JOIN(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_PART(std::vector<std::string>, User* client, Server*);
-		// void	_cmd_PRIVMSG(std::vector<std::string>, User* client, Server*);
+		void	_cmd_PRIVMSG(std::vector<std::string>, User* client, Server*);
 		void	_cmd_QUIT(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_WHO(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_KICK(std::vector<std::string>, User* client, Server*);

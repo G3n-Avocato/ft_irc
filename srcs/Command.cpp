@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 01:12:47 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/28 16:44:04 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Command::Command() {
 	this->_l_cmds["USER"] = &Command::_cmd_USER;
 	this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
 	// this->_l_cmds["PART"] = &Command::_cmd_PART;
-	// this->_l_cmds["PRIVMSG"] = &Command::_cmd_PRIVMSG;
+	this->_l_cmds["PRIVMSG"] = &Command::_cmd_PRIVMSG;
 	this->_l_cmds["QUIT"] = &Command::_cmd_QUIT;
 	// this->_l_cmds["WHO"] = &Command::_cmd_WHO;
 	// this->_l_cmds["KICK"] = &Command::_cmd_KICK;
