@@ -6,14 +6,13 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 02:21:33 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 04:19:42 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Error.hpp"
 #include "Server.hpp"
 #include "Channel.hpp"
-#include <cstdio>
 
 std::vector<std::string> string_to_vector_(std::string str, std::string arg) {
     std::vector<std::string>    str_vector;
@@ -105,11 +104,15 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			if (itchan->second->getFlagLimit()) {
 				size_t max_u_chan = itchan->second->getLimitUsers();
 				std::vector<User*>	tmp = itchan->second->getListUsers();
-				if (max_u_chan < tmp.size() + 1)
+				if (max_u_chan < tmp.size() + 1) {
 					this->_send_data_to_client(ERR_CHANNELISFULL(client->getNickname(), itp->first), client);
+					continue ;
+				}
 			}
-			if (client->getnbChan() + 1 > 10)
+			if (client->getnbChan() + 1 > 10) {
 				this->_send_data_to_client(ERR_TOOMANYCHANNELS(client->getNickname(), itp->first), client);
+				continue ;
+			}
 			//channel mode invite 
 			if (itchan->second->getFlagInvite()) {
 				std::string name = client->getNickname();
@@ -119,14 +122,20 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 					if (name.compare((*it)->getNickname()) == 0)
 						break ;
 				}
-				if (it == list_invit.end())
+				if (it == list_invit.end()) {
 					this->_send_data_to_client(ERR_INVITEONLYCHAN(client->getNickname(), itp->first), client);
+					continue ;
+				}
+				else if (it != list_invit.end())
+					; ///check if client a accepter l'invit
 			}
 			//channel mode pass
 			if (itchan->second->getFlagPass()) {
 				const std::string		chanmdp = itchan->second->getPassword();
-				if (itp->second.empty() || chanmdp.compare(itp->second) != 0)
+				if (itp->second.empty() || chanmdp.compare(itp->second) != 0) {
 					this->_send_data_to_client(ERR_BADCHANNELKEY(client->getNickname(), itp->first), client);
+					continue ;
+				}
 			}
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);

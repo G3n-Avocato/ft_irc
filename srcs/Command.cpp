@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 16:44:04 by arforgea         ###   ########.fr       */
+/*   Updated: 2024/02/28 22:51:32 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ Command::Command() {
 	this->_l_cmds["NICK"] = &Command::_cmd_NICK;
 	this->_l_cmds["USER"] = &Command::_cmd_USER;
 	this->_l_cmds["JOIN"] = &Command::_cmd_JOIN;
-	// this->_l_cmds["PART"] = &Command::_cmd_PART;
+	this->_l_cmds["PART"] = &Command::_cmd_PART;
 	this->_l_cmds["PRIVMSG"] = &Command::_cmd_PRIVMSG;
 	this->_l_cmds["QUIT"] = &Command::_cmd_QUIT;
 	// this->_l_cmds["WHO"] = &Command::_cmd_WHO;
 	// this->_l_cmds["KICK"] = &Command::_cmd_KICK;
 	// this->_l_cmds["INVITE"] = &Command::_cmd_INVITE;
 	// this->_l_cmds["TOPIC"] = &Command::_cmd_TOPIC;
-	// this->_l_cmds["MODE"] = &Command::_cmd_MODE;
+	this->_l_cmds["MODE"] = &Command::_cmd_MODE;
 }
 
 Command::~Command() {

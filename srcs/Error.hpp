@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 19:11:52 by arforgea         ###   ########.fr       */
+/*   Updated: 2024/02/28 21:30:06 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 
 #define RPL_WELCOME(client) (": 001 " + client + " :Welcome to Internet Relay Network " + client + "\r\n")
 #define RPL_JOIN(client, canal) (":" + client + " JOIN " + canal + "\r\n")
+#define RPL_PART(client, canal) (":" + client + " PART " + canal + "\r\n")
 
 #define USER_MSG(client, target, msg) (":" + client + " PRIVMSG " + target + " :" + msg + "\r\n")
 #define CHAN_MSG(client, channel, msg) (":" + client + " PRIVMSG " + channel + " :" + msg + "\r\n")

@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 02:30:54 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 04:13:35 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,34 +42,53 @@ void	Channel::setSubject(std::string str) {
 	this->_subject = str;
 }
 
-void	Channel::setNewChanop(User *client) {
-	this->_chanop.push_back(client);
+void	Channel::setNewChanop(User *client) { 
+	std::vector<User*>::iterator itu = this->_chanop.begin();
+	while (itu != this->_chanop.end()) {
+		if (client->getNickname().compare((*itu)->getNickname()) == 0)
+			break ;
+		itu++;
+	}
+	if (itu == this->_chanop.end())
+		this->_chanop.push_back(client);
 }
 
 void	Channel::setNewUser(User *client) {
-	this->_users.push_back(client);
+	std::vector<User*>::iterator itu = this->_users.begin();
+	while (itu != this->_users.end()) {
+		if (client->getNickname().compare((*itu)->getNickname()) == 0)
+			break ;
+		itu++;
+	}
+	if (itu == this->_chanop.end())
+		this->_users.push_back(client);
 }
 
-void	Channel::setFlagInvite(int b) {
-	if (b == 1)
+void	Channel::setFlagInvite(bool b) {
+	if (b)
 		this->_invite = true;
 	else
 		this->_invite = false;
 }
 
-bool	Channel::setPassword(std::string newpass, int b) {
-	if (b == 1) {
-		if (this->_parsing_mdp(newpass)) {
-			this->_password = true;
-			this->_pass = newpass;
-			return (true);
+int	Channel::setPassword(std::string newpass, bool b) {
+	if (b && this->_password)
+		return (467);
+	else if (!this->_parsing_mdp(newpass))
+		return (461);
+	else if (b && !this->_password) {
+		this->_password = true;
+		this->_pass = newpass;
+	}
+	else if (!b && this->_password) {
+		if (this->_pass.compare(newpass) == 0) {
+			this->_password = false;
+			this->_pass.clear();
 		}
 		else
-			return (false);
+			return (467);
 	}
-	else
-		this->_password = false;
-	return (true);
+	return (0);
 }
 
 void	Channel::setLimitUser(int nb) {
@@ -81,6 +100,13 @@ void	Channel::setLimitUser(int nb) {
 		this->_limit = false;
 		this->_limit_user = -1;
 	}
+}
+
+void	Channel::setFlagTopic(bool b) {
+	if (b)
+		this->_topic = true;
+	else
+		this->_topic = false;
 }
 
 bool	Channel::getFlagInvite() const  {
@@ -95,8 +121,16 @@ bool	Channel::getFlagLimit() const {
 	return (this->_limit);
 }
 
+bool	Channel::getFlagTopic() const {
+	return (this->_topic);
+}
+
 std::vector<User*>	Channel::getListUsers() const {
 	return (this->_users);
+}
+
+std::vector<User*>	Channel::getListChanop() const {
+	return (this->_chanop);
 }
 
 int		Channel::getLimitUsers() const {
@@ -132,5 +166,34 @@ bool	Channel::_parsing_mdp(std::string mdp) const {
 		if (mdp[i] == '\0' || mdp[i] == '\r' || mdp[i] == '\n' || mdp[i] == '\f' || mdp[i] == '\t' || mdp[i] == '\v' || mdp[i] == ' ')
 			return (false);
 	}
+	return (true);
+}
+
+void	Channel::deleteUser(std::string name) {
+	std::vector<User*>::iterator it_users = this->_users.begin();
+
+	while (it_users != this->_users.end()) {
+		if (name.compare((*it_users)->getNickname()) == 0)
+			break ;
+		it_users++;
+	}
+	if (it_users != this->_users.end())
+		this->_users.erase(it_users);
+}
+
+bool	Channel::deleteChanop(std::string name) {
+	std::vector<User*>::iterator it_chanop = this->_chanop.begin();
+	
+	if (!this->_parsing_name(name))
+		return (false);
+	while (it_chanop != this->_chanop.end()) {
+		if (name.compare((*it_chanop)->getNickname()) == 0)
+			break ;
+		it_chanop++;
+	}
+	if (it_chanop != this->_chanop.end())
+		this->_chanop.erase(it_chanop);
+	else
+		return (false);
 	return (true);
 }

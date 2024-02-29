@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 02:29:27 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 04:19:37 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,28 @@ class Channel {
 		void				setSubject(std::string str);
 		void				setNewChanop(User* client);
 		void				setNewUser(User* client);
-		void				setFlagInvite(int b);
-		bool				setPassword(std::string newpass, int b);
+		void				setFlagInvite(bool);
+		int					setPassword(std::string newpass, bool);
 		void				setLimitUser(int nb);
+		void				setFlagTopic(bool);
 
 		bool				getFlagInvite() const;
 		bool				getFlagPass() const;
 		bool				getFlagLimit() const;
+		bool				getFlagTopic() const;
 		
 		std::vector<User*>	getListUsers() const;
+		std::vector<User*>	getListChanop() const;
 		int					getLimitUsers() const;
 		std::string			getSubject() const;
 		std::string			getName() const;
 		std::vector<User*>	getListInvitUser() const;
 		std::string			getPassword() const;
 
-		void				deleteUser(std::string); //afaire
-		void				deleteChanop(std::string); //afaire
+		void				deleteUser(std::string);
+		bool				deleteChanop(std::string);
+
+
 
 	private:
 
@@ -61,6 +66,7 @@ class Channel {
 		bool						_invite;
 		bool						_password;
 		bool						_limit;
+		bool						_topic; //if true only op can change subject channel
 
 		std::vector<User*>			_list_invit; //list users with invit but not accepte yet
 		

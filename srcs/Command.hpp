@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 16:43:58 by arforgea         ###   ########.fr       */
+/*   Updated: 2024/02/29 03:55:01 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,23 @@ class Command {
 		void	_cmd_NICK(std::vector<std::string>, User* client, Server*);
 		void	_cmd_USER(std::vector<std::string>, User* client, Server*);
 		void	_cmd_JOIN(std::vector<std::string>, User* client, Server*);
-		// void	_cmd_PART(std::vector<std::string>, User* client, Server*);
+		void	_cmd_PART(std::vector<std::string>, User* client, Server*);
 		void	_cmd_PRIVMSG(std::vector<std::string>, User* client, Server*);
 		void	_cmd_QUIT(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_WHO(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_KICK(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_INVITE(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
-		// void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
+		void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
 
+		//join.cpp - part.cpp
 		std::map<std::string, std::string>	_parsing_cmd_join(std::string, std::string, User*);
+
+		//mode.cpp
+		bool								_check_userlist_nick(std::vector<User*>, std::string);
+		bool								_flag_mode_check_exist(std::string, User*);
+		std::vector<User*>::iterator		_new_chanop(std::vector<User*>, std::string, User*);
+		void								_flag_mode_exec(std::vector<std::string>, User*, Server*);
 
 		void								_send_data_to_client(std::string mess, User *user);
 };
