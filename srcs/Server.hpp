@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:21:00 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 15:25:13 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:35:24 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "User.hpp"
 #include "Error.hpp"
 #include "Command.hpp"
+#include "utils.hpp"
 
 class Channel;
 

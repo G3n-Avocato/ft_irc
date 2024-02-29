@@ -6,11 +6,10 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:32:19 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 21:31:29 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 16:35:03 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Error.hpp"
 #include "Server.hpp"
 #include "Channel.hpp"
 

@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 03:55:01 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:56:45 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,10 @@ class Command {
 
 		//join.cpp - part.cpp
 		std::map<std::string, std::string>	_parsing_cmd_join(std::string, std::string, User*);
+		bool								_check_channel_users_limits(std::map<std::string, Channel*>::iterator, User*, std::string);
+		bool								_check_channel_invite(std::map<std::string, Channel*>::iterator, User*, std::string);
+		void								_sendMsgtoUserlist(std::vector<User*>, std::string, std::string);
+		void								_sendJoinMsg(User*, Channel*);
 
 		//mode.cpp
 		bool								_check_userlist_nick(std::vector<User*>, std::string);

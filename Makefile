@@ -6,7 +6,7 @@
 #    By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/22 22:27:18 by lamasson          #+#    #+#              #
-#    Updated: 2024/02/29 04:18:53 by lamasson         ###   ########.fr        #
+#    Updated: 2024/02/29 17:14:28 by lamasson         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC				= srcs/main.cpp \
 				  srcs/Channel.cpp \
 				  srcs/Privmsg.cpp \
 				  srcs/Part.cpp \
-				  srcs/Mode.cpp
+				  srcs/Mode.cpp \
+				  srcs/utils.cpp
 					
 
 OBJ				= ${SRC:%.cpp=%.o}

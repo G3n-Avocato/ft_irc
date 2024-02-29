@@ -6,12 +6,14 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 04:13:35 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 19:32:12 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
 #include "User.hpp"
+#include "utils.hpp"
+#include <string>
 
 Channel::Channel(std::string name, User* client) {
 	this->_name = name;
@@ -22,6 +24,7 @@ Channel::Channel(std::string name, User* client) {
 	this->_invite = false;
 	this->_password = false;
 	this->_limit = false;
+	this->_topic = false;
 
 	this->_limit_user = -1;
 }
@@ -137,6 +140,10 @@ int		Channel::getLimitUsers() const {
 	return (this->_limit_user);
 }
 
+std::string	Channel::getSubject() const {
+	return (this->_subject);
+}
+
 std::string	Channel::getName() const {
 	return (this->_name);
 }
@@ -153,7 +160,7 @@ bool	Channel::_parsing_name(std::string name) const {
 	if (name.length() > 200)
 		return (false);
 	for (size_t i = 0; i != name.length(); i++) {
-		if (name[0] != '#' || name[i] == '\0' || name[i] == '\a' || name[i] == '\n' || name[i] == '\r' || name[i] == ' ')
+		if (name[0] != '#' || !syntax_name_channel(name[i]))
 			return (false);
 	}
 	return (true);
@@ -163,7 +170,7 @@ bool	Channel::_parsing_mdp(std::string mdp) const {
 	if (mdp.length() < 23)
 		return (false);
 	for (size_t i = 0; i != mdp.length(); i++) {
-		if (mdp[i] == '\0' || mdp[i] == '\r' || mdp[i] == '\n' || mdp[i] == '\f' || mdp[i] == '\t' || mdp[i] == '\v' || mdp[i] == ' ')
+		if (!syntax_mdp_channel(mdp[i]))
 			return (false);
 	}
 	return (true);

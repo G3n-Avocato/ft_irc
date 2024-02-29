@@ -6,39 +6,22 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 04:19:42 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/29 21:56:05 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Error.hpp"
 #include "Server.hpp"
 #include "Channel.hpp"
-
-std::vector<std::string> string_to_vector_(std::string str, std::string arg) {
-    std::vector<std::string>    str_vector;
-	std::string                 token;
-	size_t                      pos = 0;
-
-    while (str.length() > 0) {
-        if((pos = str.find(arg.c_str())) == std::string::npos){
-            pos = str.length();
-        }
-   	    token = str.substr(0, pos);
-        str_vector.push_back(token);
-		str.erase(0, pos + arg.length());
-    }
-    return (str_vector);
-}
+#include "utils.hpp"
 
 std::string	parsing_cmd_mdp(std::string mdp) {
 	size_t i = 0;
 	std::string		mdp_ok;
 
-
 	while (i < mdp.length()) {
-		if (mdp[i] == '\0' || mdp[i] == '\r' || mdp[i] == '\n' || mdp[i] == '\f' || mdp[i] == '\t' || mdp[i] == '\v' || mdp[i] == ' ') {
-			break ;
-		}
+			if (!syntax_mdp_channel(mdp[i]))
+				break ;
 		i++;
 	}
 	if (i > 0 && mdp.length() < 23)
@@ -47,35 +30,69 @@ std::string	parsing_cmd_mdp(std::string mdp) {
 }
 
 std::map<std::string, std::string>	Command::_parsing_cmd_join(std::string chan, std::string mdp, User* client) {
-	std::vector<std::string>			j_chans = string_to_vector_(chan, ",");
-	std::vector<std::string>			j_mdp;
+	std::vector<std::string>			lnames = string_to_vector_(chan, ",");
+	std::vector<std::string>			pass;
 	size_t								i = 0;
 	size_t 								j = 0;
 	std::map<std::string, std::string>	parse;
-	std::string							chan_ok;
+	std::string							canal;
 
 	if (!mdp.empty())
-		j_mdp = string_to_vector_(mdp, ",");
-	while (i < j_chans.size()) {
-		while (!j_chans[i].empty() && j != j_chans[i].length()) {
-			if (j_chans[i][0] != '#' || j_chans[i][j] == '\0' || j_chans[i][j] == '\a' || j_chans[i][j] == '\n' || j_chans[i][j] == '\r' || j_chans[i][j] == ' ') {
+		pass = string_to_vector_(mdp, ",");
+	while (i < lnames.size()) {
+		while (!lnames[i].empty() && j != lnames[i].length()) {
+			if (lnames[i][0] != '#' || !syntax_name_channel(lnames[i][j]))
 				break ;
-			}
 			j++;
 		}
-		if (j > 0 && j == j_chans[i].length() && j_chans[i].length() < 200) {
-			chan_ok = j_chans[i].substr(0, j);
+		if (j > 0 && j == lnames[i].length() && lnames[i].length() < 200) {
+			canal = lnames[i].substr(0, j);
 			j = 0;
-			if (!j_mdp.empty() && i < j_mdp.size())
-				parse[chan_ok] = parsing_cmd_mdp(j_mdp[i]);
+			if (!pass.empty() && i < pass.size())
+				parse[canal] = parsing_cmd_mdp(pass[i]);
 			else
-				parse[chan_ok];
+				parse[canal];
 		}
 		else
-			this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), j_chans[i]), client);
+			this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), lnames[i]), client);
 		i++;
 	}
 	return (parse);
+}
+
+bool	Command::_check_channel_users_limits(std::map<std::string, Channel*>::iterator itchan, User* client, std::string name) {
+	
+	if (itchan->second->getFlagLimit()) {
+		size_t max_u_chan = itchan->second->getLimitUsers();
+		std::vector<User*>	tmp = itchan->second->getListUsers();
+		if (max_u_chan < tmp.size() + 1) {
+			this->_send_data_to_client(ERR_CHANNELISFULL(client->getNickname(), name), client);
+			return (false);
+		}
+	}
+	if (client->getnbChan() + 1 > 10) {
+		this->_send_data_to_client(ERR_TOOMANYCHANNELS(client->getNickname(), name), client);
+		return (false);
+	}
+	return (true);
+}
+
+bool	Command::_check_channel_invite(std::map<std::string, Channel*>::iterator itchan, User* client, std::string name) {	
+	if (itchan->second->getFlagInvite()) {
+		std::vector<User*>	list_invit = itchan->second->getListInvitUser();
+		std::vector<User*>::iterator it = list_invit.begin();
+		while (it != list_invit.end()) { //client invite in channel
+			if (name.compare((*it)->getNickname()) == 0)
+				break ;
+		}
+		if (it == list_invit.end()) {
+			this->_send_data_to_client(ERR_INVITEONLYCHAN(client->getNickname(), name), client);
+			return (false);
+		}
+		else if (it != list_invit.end())
+			; ///check if client a accepter l'invit
+		}
+	return (true);
 }
 
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt) {
@@ -86,50 +103,35 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 		return ;
 	}
-	else if (cmd.size() != 2) //cas ou pas de mdp segfault	
+	else if (cmd.size() != 2) //if no mdp secu for parsing_join
 		mdp = cmd[2];
 	parse = this->_parsing_cmd_join(cmd[1], mdp, client);
 
 	for (std::map<std::string, std::string>::iterator itp = parse.begin(); itp != parse.end(); itp++) {
-		std::map<std::string, Channel*>	listchan = opt->getListChannel(); // chan list
-		std::map<std::string, Channel*>::iterator itchan = listchan.find(itp->first); //find if chan
-		if (itchan == listchan.end()) { //chan no exist // remplir listchan serv // +1 a nbchan->user
+		std::map<std::string, Channel*>	listchan = opt->getListChannel();
+		std::map<std::string, Channel*>::iterator itchan = listchan.find(itp->first);
+		
+		//if CHANNEL DOESN'T EXIST
+		if (itchan == listchan.end()) {
 			Channel*	tmp = new Channel(itp->first, client);
 			opt->setListChannel(tmp);
 			client->setnbChan(1);
-			this->_send_data_to_client(RPL_JOIN(client->getNickname(), itp->first), client);
+			listchan = opt->getListChannel();
+			itchan = listchan.find(itp->first);
+			this->_sendJoinMsg(client, itchan->second);	
 		}
-		else if (itchan != listchan.end()) { //channel exist
-			//check nb user chan et nb chan user
-			if (itchan->second->getFlagLimit()) {
-				size_t max_u_chan = itchan->second->getLimitUsers();
-				std::vector<User*>	tmp = itchan->second->getListUsers();
-				if (max_u_chan < tmp.size() + 1) {
-					this->_send_data_to_client(ERR_CHANNELISFULL(client->getNickname(), itp->first), client);
-					continue ;
-				}
-			}
-			if (client->getnbChan() + 1 > 10) {
-				this->_send_data_to_client(ERR_TOOMANYCHANNELS(client->getNickname(), itp->first), client);
+		//if CHANNEL EXIST 
+		else if (itchan != listchan.end()) {
+			
+			//CHECK CHANNEL LIMIT USER -- CHECK USER LIMIT CHANNEL
+			if (!this->_check_channel_users_limits(itchan, client, itp->first))
+				continue ;	
+
+			//if CHANNEL INVITE TRUE (EN COURS ....)
+			if (!this->_check_channel_invite(itchan, client, itp->first))
 				continue ;
-			}
-			//channel mode invite 
-			if (itchan->second->getFlagInvite()) {
-				std::string name = client->getNickname();
-				std::vector<User*>	list_invit = itchan->second->getListInvitUser();
-				std::vector<User*>::iterator it = list_invit.begin();
-				while (it != list_invit.end()) { //client invite in channel
-					if (name.compare((*it)->getNickname()) == 0)
-						break ;
-				}
-				if (it == list_invit.end()) {
-					this->_send_data_to_client(ERR_INVITEONLYCHAN(client->getNickname(), itp->first), client);
-					continue ;
-				}
-				else if (it != list_invit.end())
-					; ///check if client a accepter l'invit
-			}
-			//channel mode pass
+
+			//if CHANNEL PASSWORD TRUE
 			if (itchan->second->getFlagPass()) {
 				const std::string		chanmdp = itchan->second->getPassword();
 				if (itp->second.empty() || chanmdp.compare(itp->second) != 0) {
@@ -139,7 +141,21 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			}
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);
-			this->_send_data_to_client(RPL_JOIN(client->getNickname(), itp->first), client);
+			this->_sendJoinMsg(client, itchan->second);	
 		}
 	}
+}
+
+void	Command::_sendMsgtoUserlist(std::vector<User*> users_chan, std::string newuser, std::string canal) {
+	for (std::vector<User*>::iterator it = users_chan.begin(); it != users_chan.end(); it++) {
+		this->_send_data_to_client(RPL_JOIN(newuser, canal), *it);
+	}
+}
+
+void	Command::_sendJoinMsg(User* client, Channel* canal) {
+	this->_sendMsgtoUserlist(canal->getListUsers(), client->getNickname(), canal->getName());
+	if (canal->getFlagTopic())
+		this->_send_data_to_client(RPL_TOPIC(client->getNickname(), canal->getName(), canal->getSubject()), client);
+	else
+		this->_send_data_to_client(RPL_NOTOPIC(client->getNickname(), canal->getName()), client);
 }
