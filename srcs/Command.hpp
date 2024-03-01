@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/01 17:30:59 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 20:05:04 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ class Command {
 		//mode.cpp
 		bool								_flag_mode_check_exist(std::string, User*);
 		void								_flag_mode_exec(std::vector<std::string>, User*, Server*);
-		void								_mode_is(Channel*, User*, std::string);
+		void								_mode_is(Channel*, User*, std::string, int);
 
 		void								_send_data_to_client(std::string mess, User *user);
 };
