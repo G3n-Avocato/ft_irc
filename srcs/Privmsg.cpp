@@ -10,27 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "Command.hpp"
 #include "Server.hpp"
+#include "Channel.hpp"
 
 //
 #define RESET   "\033[0m"
-#define BLACK   "\033[30m"                  /* Black */
 #define RED     "\033[31m"                  /* Red */
-#define GREEN   "\033[32m"                  /* Green */
 #define YELLOW  "\033[33m"                  /* Yellow */
 #define BLUE    "\033[34m"                  /* Blue */
-#define MAGENTA "\033[35m"                  /* Magenta */
-#define CYAN    "\033[36m"                  /* Cyan */
-#define WHITE   "\033[37m"                  /* White */
-#define BOLDBLACK   "\033[1m\033[30m"       /* Bold Black */
-#define BOLDRED     "\033[1m\033[31m"       /* Bold Red */
-#define BOLDGREEN   "\033[1m\033[32m"       /* Bold Green */
-#define BOLDYELLOW  "\033[1m\033[33m"       /* Bold Yellow */
-#define BOLDBLUE    "\033[1m\033[34m"       /* Bold Blue */
-#define BOLDMAGENTA "\033[1m\033[35m"       /* Bold Magenta */
-#define BOLDCYAN    "\033[1m\033[36m"       /* Bold Cyan */
-#define BOLDWHITE   "\033[1m\033[37m"       /* Bold White */
 //
 
 std::string	rebuild_data(std::vector<std::string> last, int start) {
@@ -41,6 +28,7 @@ std::string	rebuild_data(std::vector<std::string> last, int start) {
 		if (it + 1 != last.end())
 			tmp += " ";
 	}
+    tmp.erase(0, 1);
 	return (tmp);
 }
 
@@ -62,7 +50,7 @@ std::vector<std::string> string_to_vector(std::string str, std::string arg){
 
 void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server* server){
     std::vector<User*>              userLst     = server->getListUser(); 
-    std::map<std::string, Channel*> channeLst   = server->getListChannel();
+    std::map<std::string, Channel*> channelLst   = server->getListChannel();
 
     std::cout << YELLOW << "Debug:" << RESET << " rawCmd size=" << BLUE << rawCmd.size() << RESET << std::endl; //DEBUG!
     if(rawCmd.size() >= 3 && rawCmd[0].find("MSGPRIV")){
@@ -82,8 +70,21 @@ void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server
         while(it_send != sendLst.end()){
             std::string current_user = *it_send;
             if(!current_user.find("#")){
-                //send_to_channel(current_user, data);
-                std::cout << RED << "Warning: " << RESET << "Function 'send_to_channel' not supported !" << std::endl; //DEBUG!
+		        std::map<std::string, Channel*>::iterator channel_it = channelLst.find(current_user);
+                if(channel_it != channelLst.end()){
+                    std::cout << YELLOW << "Debug:" << RESET << " Channel= " << BLUE << channel_it->second->getName() << RESET << std::endl; //DEBUG!
+                    std::vector<User*>	ChannelUserLst = channel_it->second->getListUsers();
+                    std::vector<User*>::iterator it_user = ChannelUserLst.begin();
+                    while (it_user != ChannelUserLst.end()){
+                        if(client->getNickname().compare((*it_user)->getNickname()))
+                            _send_data_to_client(CHAN_MSG(client->getNickname(), channel_it->second->getName(), data), (*it_user));
+                        it_user++;
+                    }
+                }
+                else{
+                    std::cout << YELLOW << "Debug:" << RESET << " Channel not fond" << RESET << std::endl; //DEBUG!
+                     _send_data_to_client(ERR_CANNOTSENDTOCHAN(client->getNickname(), current_user), client);
+                }
             }
             else{
                 std::vector<User*>::iterator it_user = userLst.begin();
@@ -92,10 +93,10 @@ void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server
                         break ;
                     it_user++;
                 }
-                if (it_user == userLst.end())
-                    std::cout << YELLOW << "Debug: " << RESET << "User '" << current_user << "' not fond."<< std::endl; //DEBUG!
-                else
-                    std::cout << YELLOW << "Debug: " << RESET << "User= " << (*it_user)->getNickname() << RESET << std::endl; //DEBUG!
+                if (it_user == userLst.end())                                                                                   //DEBUG!
+                    std::cout << YELLOW << "Debug: " << RESET << "User '" << current_user << "' not fond."<< std::endl;         //DEBUG!
+                else                                                                                                            //DEBUG!
+                    std::cout << YELLOW << "Debug: " << RESET << "User= " << (*it_user)->getNickname() << RESET << std::endl;   //DEBUG!
                 if(it_user != userLst.end()){
                     _send_data_to_client(USER_MSG(client->getNickname(), current_user, data), (*it_user));
                 }
@@ -111,9 +112,9 @@ void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server
     }
 }
 
-        //    ERR_NORECIPIENT
+        //    ERR_NORECIPIENT       j'arrive pas à trouver d'infos sur ce qu'est cette erreur !!!!!! (j'ai pas trop cherché en vrai)
         //    ERR_NOTEXTTOSEND      OK!
-        //    ERR_CANNOTSENDTOCHAN
+        //    ERR_CANNOTSENDTOCHAN  OK!
         //    ERR_TOOMANYTARGETS    OK!
         //    ERR_NOSUCHNICK        OK!
-        //    RPL_AWAY
+        //    RPL_AWAY              RPL à voir plus tard je vois pas à quoi ça sert...

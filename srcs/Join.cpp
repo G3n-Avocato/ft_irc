@@ -85,9 +85,14 @@ bool	Command::_check_channel_invite(std::map<std::string, Channel*>::iterator it
 			this->_send_data_to_client(ERR_INVITEONLYCHAN(client->getNickname(), name), client);
 			return (false);
 		}
-		else if (it != list_invit.end())
-			; ///check if client a accepter l'invit
+		else if (it != list_invit.end()){
+			/// (Arty)
+			/// j'ai enlever un ';' ici et j'ai ajouté des accolades ça voulait pas compiler je sais pas à quoi ça sert ici...
+			/// je laisse ça aux professionnels :D https://youtu.be/dQw4w9WgXcQ?si=q79wrxYAywjEgemX&t << (important à regarder !)
+			
+			///check if client a accepter l'invit
 		}
+	}
 	return (true);
 }
 
