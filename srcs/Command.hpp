@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 19:56:45 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 01:44:00 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,9 @@ class Command {
 		//mode.cpp
 		bool								_check_userlist_nick(std::vector<User*>, std::string);
 		bool								_flag_mode_check_exist(std::string, User*);
-		std::vector<User*>::iterator		_new_chanop(std::vector<User*>, std::string, User*);
+		size_t								_new_chanop(std::vector<User*>, std::string, User*);
 		void								_flag_mode_exec(std::vector<std::string>, User*, Server*);
+		void								_mode_is(Channel*, User*, std::string);
 
 		void								_send_data_to_client(std::string mess, User *user);
 };

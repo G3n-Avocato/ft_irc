@@ -6,7 +6,7 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 16:19:35 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 01:42:30 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 
 
 
-#define RPL_CHANNELMODEIS(client, canal, mode, para) (": 324 " + client + " " + canal + " " + mode + " " + para "\r\n")
+#define RPL_CHANNELMODEIS(client, canal, mode, para) (": 324 " + client + " " + canal + " " + mode + " " + para + "\r\n")
 #define RPL_NOTOPIC(client, canal) (": 331 " + client + " " + canal + " :No topic is set\r\n")
 #define RPL_TOPIC(client, canal, sujet) (": 332 " + client + " " + canal + ":" + sujet + "\r\n")
 #define RPL_INVITING(client, canal, pseudo) (": 341 " + client + " " + canal + " " + pseudo + "\r\n")

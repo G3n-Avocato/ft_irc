@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 19:32:12 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 01:12:52 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	Channel::setNewUser(User *client) {
 			break ;
 		itu++;
 	}
-	if (itu == this->_chanop.end())
+	if (itu == this->_users.end())
 		this->_users.push_back(client);
 }
 
@@ -75,10 +75,12 @@ void	Channel::setFlagInvite(bool b) {
 }
 
 int	Channel::setPassword(std::string newpass, bool b) {
-	if (b && this->_password)
+	if (b && this->_password) {
 		return (467);
-	else if (!this->_parsing_mdp(newpass))
+	}
+	else if (!this->_parsing_mdp(newpass)) {
 		return (461);
+	}
 	else if (b && !this->_password) {
 		this->_password = true;
 		this->_pass = newpass;
@@ -167,7 +169,7 @@ bool	Channel::_parsing_name(std::string name) const {
 }
 
 bool	Channel::_parsing_mdp(std::string mdp) const {
-	if (mdp.length() < 23)
+	if (mdp.length() > 23)
 		return (false);
 	for (size_t i = 0; i != mdp.length(); i++) {
 		if (!syntax_mdp_channel(mdp[i]))

@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 21:56:05 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 02:27:30 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,6 @@ bool	Command::_check_channel_users_limits(std::map<std::string, Channel*>::itera
 			return (false);
 		}
 	}
-	if (client->getnbChan() + 1 > 10) {
-		this->_send_data_to_client(ERR_TOOMANYCHANNELS(client->getNickname(), name), client);
-		return (false);
-	}
 	return (true);
 }
 
@@ -110,7 +106,10 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 	for (std::map<std::string, std::string>::iterator itp = parse.begin(); itp != parse.end(); itp++) {
 		std::map<std::string, Channel*>	listchan = opt->getListChannel();
 		std::map<std::string, Channel*>::iterator itchan = listchan.find(itp->first);
-		
+		if (client->getnbChan() + 1 > 10) {
+			this->_send_data_to_client(ERR_TOOMANYCHANNELS(client->getNickname(), itp->first), client);
+			continue ;
+		}
 		//if CHANNEL DOESN'T EXIST
 		if (itchan == listchan.end()) {
 			Channel*	tmp = new Channel(itp->first, client);
