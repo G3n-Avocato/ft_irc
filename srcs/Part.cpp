@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:32:19 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 16:35:03 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 19:49:15 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt)
 				itu++;
 			}
 			if (itu == chan_user.end())
-				this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), itp->first), client);
+				this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), itp->first, "You're"), client);
 			else {
 				itchan->second->deleteUser(client->getNickname());
 				itchan->second->deleteChanop(client->getNickname());
