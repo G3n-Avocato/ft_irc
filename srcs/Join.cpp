@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/01 02:27:30 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:31:48 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,14 +150,17 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 	}
 }
 
-void	Command::_sendMsgtoUserlist(std::vector<User*> users_chan, std::string newuser, std::string canal) {
-	for (std::vector<User*>::iterator it = users_chan.begin(); it != users_chan.end(); it++) {
-		this->_send_data_to_client(RPL_JOIN(newuser, canal), *it);
+void	Command::_sendMsgtoUserlist(std::vector<User*> list, std::string msg) {
+	for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
+		this->_send_data_to_client(msg, *it);
 	}
 }
 
 void	Command::_sendJoinMsg(User* client, Channel* canal) {
-	this->_sendMsgtoUserlist(canal->getListUsers(), client->getNickname(), canal->getName());
+	std::string	rpl_msg = RPL_JOIN(client->getNickname(), canal->getName());
+	this->_sendMsgtoUserlist(canal->getListUsers(), rpl_msg);
+	
+
 	if (canal->getFlagTopic())
 		this->_send_data_to_client(RPL_TOPIC(client->getNickname(), canal->getName(), canal->getSubject()), client);
 	else

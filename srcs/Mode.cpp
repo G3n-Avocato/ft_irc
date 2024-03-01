@@ -6,25 +6,14 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:37:24 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/01 01:52:13 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 18:09:51 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "Channel.hpp"
 #include "Error.hpp"
-
-bool	Command::_check_userlist_nick(std::vector<User*> list, std::string name) {
-	std::vector<User*>::iterator ituser = list.begin();
-	while (ituser != list.end()) {
-		if (name.compare((*ituser)->getNickname()) == 0)
-			break ;
-		ituser++;
-	}
-	if (ituser == list.end())
-		return (false);
-	return  (true);
-}
+#include "utils.hpp"
 
 bool	Command::_flag_mode_check_exist(std::string flag, User* client) {
 	std::string	opt("opsitnmlbvk");
@@ -39,19 +28,6 @@ bool	Command::_flag_mode_check_exist(std::string flag, User* client) {
 	else
 		return (true);
 	return (false);
-}
-
-size_t	Command::_new_chanop(std::vector<User*> listuser, std::string name, User* client) {
-	size_t itu = 0;
-	while (itu < listuser.size()) {
-		if (name.compare((*listuser[itu]).getNickname()) == 0)
-			break ;
-		itu++;
-	}
-	if (itu < listuser.size())
-		return (itu);
-	this->_send_data_to_client(ERR_NOSUCHNICK(client->getNickname(), name), client);
-	return (itu);
 }
 
 void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server* opt) {
@@ -69,9 +45,11 @@ void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server
 	switch (i) {
 		case 0:
 			itchan->second->setFlagInvite(flag);
+			this->_mode_is(itchan->second, client, "");
 			break ;
 		case 1:
 			itchan->second->setFlagTopic(flag);
+			this->_mode_is(itchan->second, client, "");
 			break ;
 		case 2:
 			if (cmd.size() < 4)
@@ -89,17 +67,20 @@ void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server
 				this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 			else {
 				if (flag) {
-					std::vector<User*>				listuser = opt->getListUser();
-					size_t							itu = this->_new_chanop(listuser, cmd[3], client);
+					std::vector<User*>				listuser = itchan->second->getListUsers();
+					size_t							itu = vector_search_user(listuser, cmd[3]);
 					if (itu < listuser.size()) {
 						itchan->second->setNewChanop(listuser[itu]);
 						this->_mode_is(itchan->second, client, cmd[3]);
-						this->_mode_is(itchan->second, listuser[itu], cmd[3]);
 					}
+					else
+						this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], cmd[3]), client);
 				}
 				else {
 					if (!itchan->second->deleteChanop(cmd[3]))
 						this->_send_data_to_client(ERR_NOSUCHNICK(client->getNickname(), cmd[3]), client);
+					else
+						this->_mode_is(itchan->second, client, cmd[3]);
 				}
 			}
 			break ;
@@ -121,20 +102,26 @@ void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server
 }
 
 void	Command::_mode_is(Channel* canal, User* client, std::string para) {
-	std::string	mode = "+";
-	if (canal->getFlagInvite())
-		mode += "i";
-	if (canal->getFlagTopic())
-		mode += "t";
-	if (canal->getFlagPass())
-		mode += "k";
-	if (canal->getFlagLimit())
-		mode += "l";
-	if (!para.empty()) {
-		mode.clear();
-		mode = "+o";
+	std::string	mode;
+	if (para.empty()) {
+		mode = "+";
+		if (canal->getFlagInvite())
+			mode += "i";
+		if (canal->getFlagTopic())
+			mode += "t";
+		if (canal->getFlagPass())
+			mode += "k";
+		if (canal->getFlagLimit())
+			mode += "l";
 	}
-	this->_send_data_to_client(RPL_CHANNELMODEIS(client->getNickname(), canal->getName(), mode, para), client);
+	else if (!para.empty()) {
+		if (vector_check_user(canal->getListChanop(), para))
+			mode = "+o";
+		else
+			mode = "-o";
+	}
+	std::string msg = RPL_CHANNELMODEIS(client->getNickname(), canal->getName(), mode, para);
+	this->_sendMsgtoUserlist(canal->getListUsers(), msg);
 	mode.clear();
 }
 
@@ -151,9 +138,9 @@ void	Command::_cmd_MODE(std::vector<std::string> cmd, User* client, Server* opt)
 	else if (cmd.size() == 2)
 		this->_mode_is(itchan->second, client, "");
 	else {
-		if (!this->_check_userlist_nick(itchan->second->getListUsers(), client->getNickname()))
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
-		else if (!this->_check_userlist_nick(itchan->second->getListChanop(), client->getNickname()))
+		if (!vector_check_user(itchan->second->getListUsers(), client->getNickname()))
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], "You're"), client);
+		else if (!vector_check_user(itchan->second->getListChanop(), client->getNickname()))
 			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
 		else if (!this->_flag_mode_check_exist(cmd[2], client))
 			;

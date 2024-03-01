@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/01 01:12:52 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 17:17:38 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,6 @@ void	Channel::deleteUser(std::string name) {
 bool	Channel::deleteChanop(std::string name) {
 	std::vector<User*>::iterator it_chanop = this->_chanop.begin();
 	
-	if (!this->_parsing_name(name))
-		return (false);
 	while (it_chanop != this->_chanop.end()) {
 		if (name.compare((*it_chanop)->getNickname()) == 0)
 			break ;

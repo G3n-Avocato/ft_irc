@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:20:42 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/29 19:11:14 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/01 16:59:03 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,30 @@ std::vector<std::string> string_to_vector_(std::string str, std::string arg) {
     return (str_vector);
 }
 
+size_t	vector_search_user(std::vector<User*> list, std::string name) {
+	size_t 	i = 0;
+	while (i < list.size()) {
+		if (name.compare((*list[i]).getNickname()) == 0)
+			break ;
+		i++;
+	}
+	return (i);
+}
 
-//ca marche pas du tout
-bool	user_is_op(std::vector<User*> op, std::string name) {
-	for (std::vector<User*>::iterator it = op.begin(); it != op.end(); it++) {
+bool	vector_check_user(std::vector<User*> list, std::string name) {
+	for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
 		if (name.compare((*it)->getNickname()) == 0)
 			return (true);
 	}
 	return (false);
 }
 
+//fonction inutile pour le moment creer une string de la list des users avec un vector
 std::string			list_user_to_string(std::vector<User*> users, std::vector<User*> op) {
 	std::string		listuser;
 
 	for (std::vector<User*>::iterator it = users.begin(); it != users.end(); it++) {
-		if (user_is_op(op, (*it)->getNickname()))
+		if (vector_check_user(op, (*it)->getNickname()))
 			listuser += "@";
 		listuser += (*it)->getNickname();
 		if (it + 1 != users.end())
