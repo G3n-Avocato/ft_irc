@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:04:29 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/02 17:34:21 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/02 18:17:46 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,32 @@
 #include "Channel.hpp"
 #include "User.hpp"
 #include "Error.hpp"
+
+int Command::CheckUser(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel)
+{
+			std::vector<User*> listuser = channel->second->getListUsers(); //list user in the channel
+		std::vector<User*>::iterator ite;
+		for ( ite = listuser.begin(); ite != listuser.end(); ite++) {	//find if the user is in the channel
+			if (client->getNickname() == (*ite)->getNickname())
+				break ;
+		}
+		if (ite == listuser.end()) {
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], "You're"), client);
+			return (1);
+		}
+
+		std::vector<User*> listuserop = channel->second->getListChanop(); //list user op in the channel
+		std::vector<User*>::iterator iteop;
+		for ( iteop = listuserop.begin(); iteop != listuserop.end(); iteop++) { //check if the user is op
+			if (client->getNickname() == (*iteop)->getNickname())
+				break ;
+		}
+		if (iteop == listuserop.end())  {
+			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
+			return (1);
+		}
+		return (0);
+}
 
 void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt) 
 {
@@ -30,28 +56,9 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 		return ;
 	}
 	else
-	{ 
-		std::vector<User*> listuser = it->second->getListUsers(); //list user in the channel
-		std::vector<User*>::iterator ite;
-		for ( ite = listuser.begin(); ite != listuser.end(); ite++) {	//find if the user is in the channel
-			if (client->getNickname() == (*ite)->getNickname())
-				break ;
-		}
-		if (ite == listuser.end()) {
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], "You're"), client);
+	{
+		if (CheckUser(cmd, client, it) == 1)
 			return ;
-		}
-
-		std::vector<User*> listuserop = it->second->getListChanop(); //list user op in the channel
-		std::vector<User*>::iterator iteop;
-		for ( iteop = listuserop.begin(); iteop != listuserop.end(); iteop++) { //check if the user is op
-			if (client->getNickname() == (*iteop)->getNickname())
-				break ;
-		}
-		if (iteop == listuserop.end())  {
-			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
-			return ;
-		}
 	}
 	if (cmd.size() == 2) // check si c'est la commande /topic <nom du channel>
 	{
