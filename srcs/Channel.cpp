@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 18:10:28 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:13:52 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	Channel::setName(std::string name) {
 }
 
 void	Channel::setSubject(std::string str) {
-	//parsing sujet
 	this->_subject = str;
 }
 
@@ -82,10 +81,18 @@ std::vector<User*>	Channel::getListUsers() const {
 	return (this->_users);
 }
 
+std::vector<User*>	Channel::getListUsersOp() const {
+	return (this->_chanop);
+}
+
 int		Channel::getLimitUsers() const {
 	return (this->_limit_user);
 }
 
 std::string	Channel::getName() const {
 	return (this->_name);
+}
+
+std::string Channel::getSubject() const {
+	return (this->_subject);
 }

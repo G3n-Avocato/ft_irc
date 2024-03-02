@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 01:12:37 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/27 20:18:42 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class Command {
 		// void	_cmd_WHO(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_KICK(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_INVITE(std::vector<std::string>, User* client, Server*);
-		// void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
+		void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
 
 		void	_send_data_to_client(std::string mess, User *user);

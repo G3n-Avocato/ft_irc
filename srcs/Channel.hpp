@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 18:13:40 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/02/27 23:28:56 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ class Channel {
 		bool				getFlagLimit() const;
 		
 		std::vector<User*>	getListUsers() const;
+		std::vector<User*>	getListUsersOp() const;
 		int					getLimitUsers() const;
 		std::string			getSubject() const;
 		std::string			getName() const;

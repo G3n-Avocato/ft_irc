@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 17:51:25 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:15:32 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,17 +180,13 @@ void	Server::_recv_send_data(int i) {
 					break ;
 				it++;
 			}
-/*			for (size_t j = 0; j < this->_cmd.size(); j++) { //permet de faire la commande PASS
-				if (_cmd[j][0] == "PASS")
-					this->_bible.cmd_PASS(_cmd[j], _password, (*it));
-			}*/
 			this->_bible.choose_cmds((*it), this);
 			for (std::vector<User*>::iterator ite = this->_l_user.begin(); ite != this->_l_user.end(); ite++)
 			{
 				if ((*ite)->getSocket() == i)
 					(*it)->clearvectorcmd();
 			}
-			//_printUsers(_l_user);
+			_printUsers(_l_user);
 		}
 	}
 }
@@ -222,10 +218,6 @@ std::string	Server::getPass() const {
 	return (this->_password);
 }
 
-std::vector<User*>&	Server::getLuserRef() {
-	return (this->_l_user);
-}
-
 void	Server::deleteUser(int socket) {
 	
 	for (std::vector<User*>::iterator it = _l_user.begin(); it != _l_user.end(); ++it)
@@ -235,6 +227,7 @@ void	Server::deleteUser(int socket) {
 			delete *it;
 			this->_l_user.erase(it);
 			FD_CLR(socket, &this->_setRead);
+			FD_CLR(socket, &this->_main);
 			this->_fdmax -= 1;
 			break;
 		}

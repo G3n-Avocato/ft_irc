@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 01:12:47 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/27 20:21:49 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ Command::Command() {
 	// this->_l_cmds["WHO"] = &Command::_cmd_WHO;
 	// this->_l_cmds["KICK"] = &Command::_cmd_KICK;
 	// this->_l_cmds["INVITE"] = &Command::_cmd_INVITE;
-	// this->_l_cmds["TOPIC"] = &Command::_cmd_TOPIC;
+	this->_l_cmds["TOPIC"] = &Command::_cmd_TOPIC;
 	// this->_l_cmds["MODE"] = &Command::_cmd_MODE;
 }
 

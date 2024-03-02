@@ -6,7 +6,7 @@
 #    By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/22 22:27:18 by lamasson          #+#    #+#              #
-#    Updated: 2024/02/27 01:14:32 by ecorvisi         ###   ########.fr        #
+#    Updated: 2024/02/27 20:21:42 by ecorvisi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC				= srcs/main.cpp \
 				  srcs/Nick.cpp \
 				  srcs/Usercmd.cpp \
 				  srcs/Quit.cpp \
-				  srcs/Channel.cpp
+				  srcs/Channel.cpp \
+				  srcs/Topic.cpp
 					
 
 OBJ				= ${SRC:%.cpp=%.o}
