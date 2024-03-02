@@ -6,13 +6,14 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:04:29 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/02 17:15:12 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:34:21 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "Channel.hpp"
 #include "User.hpp"
+#include "Error.hpp"
 
 void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt) 
 {
@@ -37,11 +38,11 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 				break ;
 		}
 		if (ite == listuser.end()) {
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], "You're"), client);
 			return ;
 		}
 
-		std::vector<User*> listuserop = it->second->getListUsersOp(); //list user op in the channel
+		std::vector<User*> listuserop = it->second->getListChanop(); //list user op in the channel
 		std::vector<User*>::iterator iteop;
 		for ( iteop = listuserop.begin(); iteop != listuserop.end(); iteop++) { //check if the user is op
 			if (client->getNickname() == (*iteop)->getNickname())
