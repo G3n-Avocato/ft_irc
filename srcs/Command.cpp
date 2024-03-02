@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 17:06:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 22:51:32 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:19:04 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ Command::Command() {
 	// this->_l_cmds["WHO"] = &Command::_cmd_WHO;
 	// this->_l_cmds["KICK"] = &Command::_cmd_KICK;
 	// this->_l_cmds["INVITE"] = &Command::_cmd_INVITE;
-	// this->_l_cmds["TOPIC"] = &Command::_cmd_TOPIC;
+	this->_l_cmds["TOPIC"] = &Command::_cmd_TOPIC;
 	this->_l_cmds["MODE"] = &Command::_cmd_MODE;
 }
 

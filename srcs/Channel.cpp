@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/01 17:17:38 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:22:27 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ bool	Channel::setName(std::string name) {
 }
 
 void	Channel::setSubject(std::string str) {
-	//parsing sujet
 	this->_subject = str;
 }
 

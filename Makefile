@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+         #
+#    By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/22 22:27:18 by lamasson          #+#    #+#              #
-#    Updated: 2024/02/29 17:14:28 by lamasson         ###   ########.fr        #
+#    Updated: 2024/03/02 17:17:29 by ecorvisi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,8 @@ SRC				= srcs/main.cpp \
 				  srcs/Privmsg.cpp \
 				  srcs/Part.cpp \
 				  srcs/Mode.cpp \
-				  srcs/utils.cpp
+				  srcs/utils.cpp \
+				  srcs/Topic.cpp
 					
 
 OBJ				= ${SRC:%.cpp=%.o}

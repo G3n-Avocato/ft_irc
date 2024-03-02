@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/28 15:40:41 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:18:16 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	Server::_recv_send_data() {
 				if ((*ite)->getSocket() == i)
 					(*itu)->clearvectorcmd();
 			}
-			//_printUsers(_l_user);
+			_printUsers(_l_user);
 		}
 	}
 }
@@ -217,10 +217,6 @@ std::string	Server::getPass() const {
 	return (this->_password);
 }
 
-std::vector<User*>&	Server::getLuserRef() {
-	return (this->_l_user);
-}
-
 void	Server::deleteUser(int socket) {
 	
 	for (std::vector<User*>::iterator it = _l_user.begin(); it != _l_user.end(); ++it)
@@ -230,6 +226,7 @@ void	Server::deleteUser(int socket) {
 			delete *it;
 			this->_l_user.erase(it);
 			FD_CLR(socket, &this->_setRead);
+			FD_CLR(socket, &this->_main);
 			this->_fdmax -= 1;
 			break;
 		}

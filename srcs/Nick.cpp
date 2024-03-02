@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:02:54 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/26 22:58:43 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/02/27 21:39:28 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 
 	regex_t	regex;
 	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", REG_EXTENDED);
-	std::vector<User*>& lusers = opt->getLuserRef();
+	std::vector<User*> lusers = opt->getListUser();
 	
 	if (cmd.size() < 2)	{
 		regfree(&regex);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Command.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/01 20:05:04 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/02 17:18:43 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ class Command {
 		// void	_cmd_WHO(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_KICK(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_INVITE(std::vector<std::string>, User* client, Server*);
-		// void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
+		void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
 		void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
 
 		//join.cpp - part.cpp
