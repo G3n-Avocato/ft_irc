@@ -6,14 +6,13 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/02 17:22:27 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/03 03:15:24 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
 #include "User.hpp"
 #include "utils.hpp"
-#include <string>
 
 Channel::Channel(std::string name, User* client) {
 	this->_name = name;

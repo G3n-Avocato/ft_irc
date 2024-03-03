@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/02 17:22:09 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/03 03:14:49 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,6 @@ class Channel {
 
 		void				deleteUser(std::string);
 		bool				deleteChanop(std::string);
-
-
 
 	private:
 

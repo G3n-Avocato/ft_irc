@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/02 17:34:10 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/03 03:15:34 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@
 //#define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " " + canal + " :" + listuser + "\r\n")
 //#define RPL_ENDOFNAMES(client, canal) (": 366 " + client + " " + canal + " :End of /NAMES list\r\n")
 
-
 #define RPL_WELCOME(client) (": 001 " + client + " :Welcome to Internet Relay Network " + client + "\r\n")
 #define RPL_JOIN(client, canal) (":" + client + " JOIN " + canal + "\r\n")
-#define RPL_PART(client, canal) (":" + client + " PART " + canal + "\r\n")
+#define RPL_PART(client, canal, msg) (":" + client + " PART " + canal + " :" + msg + "\r\n")
 
 #define USER_MSG(client, target, msg) (":" + client + " PRIVMSG " + target + " :" + msg + "\r\n")
 #define CHAN_MSG(client, channel, msg) (":" + client + " PRIVMSG " + channel + " :" + msg + "\r\n")

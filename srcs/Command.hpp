@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/02 18:16:07 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/03 03:14:03 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,10 @@ class Command {
 		//mode.cpp
 		bool								_flag_mode_check_exist(std::string, User*);
 		void								_flag_mode_exec(std::vector<std::string>, User*, Server*);
-		void								_mode_is(Channel*, User*, std::string, int);
+		void								_mode_is(std::vector<std::string>, User*, Channel*, std::string);
 
 		//topic.cpp
 		int 								CheckUser(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel);
-
 
 		void								_send_data_to_client(std::string mess, User *user);
 };

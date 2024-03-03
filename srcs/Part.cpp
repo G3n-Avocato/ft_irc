@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 18:32:19 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/02 17:34:03 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/03 02:32:03 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt) {
 	std::map<std::string, std::string>	parse;
-	std::string							nomdp;
+	std::string							tmp;
 	if (cmd.size() < 2) {
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 		return ;
 	}
-	parse = this->_parsing_cmd_join(cmd[1], nomdp, client);
+	parse = this->_parsing_cmd_join(cmd[1], tmp, client);
 	
 	std::map<std::string, Channel*> listchan = opt->getListChannel();
 	for (std::map<std::string, std::string>::iterator itp = parse.begin(); itp != parse.end(); itp++) {
@@ -39,10 +39,14 @@ void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt)
 			if (itu == chan_user.end())
 				this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), itp->first, "You're"), client);
 			else {
+				std::vector<User*>	before = itchan->second->getListUsers();
 				itchan->second->deleteUser(client->getNickname());
 				itchan->second->deleteChanop(client->getNickname());
 				client->setnbChan(-1);
-				this->_send_data_to_client(RPL_PART(client->getNickname(), itp->first), client);
+				if (cmd.size() == 3)
+					tmp = cmd[2];
+				std::string	msg = RPL_PART(client->getNickname(), itp->first, tmp);
+				this->_sendMsgtoUserlist(before, msg);
 			}	
 		}
 	}

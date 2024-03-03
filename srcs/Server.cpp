@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/02 17:18:16 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/03 00:26:15 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void Server::_printUsers(std::vector<User*> users) {
     for (std::vector<User*>::const_iterator it = users.begin(); it != users.end(); it++) {
         std::cout << "User Socket: " << (*it)->getSocket() << std::endl;
         std::cout << "User Nickname: " << (*it)->getNickname() << std::endl;
-        std::cout << "User Username: " << (*it)->getUsername() << std::endl;
+        std::cout << "User Username: " << (*it)->getUsername() << std::endl; //bizarre
         std::cout << "User init int: " << (*it)->getInit() << std::endl;
     }
 }
