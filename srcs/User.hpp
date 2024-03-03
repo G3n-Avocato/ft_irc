@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/02/27 19:57:23 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:51:32 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,5 @@ class User {
 		std::vector<std::vector<std::string> >	_cmd;
 		bool									_end;
 		int										_nb_chan;
+		std::vector<std::string>				_channel_invit;
 };

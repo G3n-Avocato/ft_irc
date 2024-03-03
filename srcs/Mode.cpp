@@ -6,14 +6,12 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:37:24 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 02:54:05 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/03 16:14:01 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "Channel.hpp"
-#include "Error.hpp"
-#include "utils.hpp"
 
 bool	Command::_flag_mode_check_exist(std::string flag, User* client) {
 	std::string	opt("opsitnmlbvk");

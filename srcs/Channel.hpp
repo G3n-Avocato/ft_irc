@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 15:49:10 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 03:14:49 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/03 18:55:05 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ class Channel {
 		int					setPassword(std::string newpass, bool);
 		void				setLimitUser(int nb);
 		void				setFlagTopic(bool);
+		void				setListInvit(User*);
 
 		bool				getFlagInvite() const;
 		bool				getFlagPass() const;
@@ -47,6 +48,7 @@ class Channel {
 
 		void				deleteUser(std::string);
 		bool				deleteChanop(std::string);
+		void				deleteUserInvitList(std::string);
 
 	private:
 
@@ -64,7 +66,7 @@ class Channel {
 		bool						_invite;
 		bool						_password;
 		bool						_limit;
-		bool						_topic; //if true only op can change subject channel
+		bool						_topic;
 
 		std::vector<User*>			_list_invit; //list users with invit but not accepte yet
 		

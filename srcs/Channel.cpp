@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 03:15:24 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/03 19:23:20 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,12 @@ void	Channel::setSubject(std::string str) {
 }
 
 void	Channel::setNewChanop(User *client) { 
-	std::vector<User*>::iterator itu = this->_chanop.begin();
-	while (itu != this->_chanop.end()) {
-		if (client->getNickname().compare((*itu)->getNickname()) == 0)
-			break ;
-		itu++;
-	}
-	if (itu == this->_chanop.end())
+	if (!vector_check_user(this->_chanop, client->getNickname()))
 		this->_chanop.push_back(client);
 }
 
 void	Channel::setNewUser(User *client) {
-	std::vector<User*>::iterator itu = this->_users.begin();
-	while (itu != this->_users.end()) {
-		if (client->getNickname().compare((*itu)->getNickname()) == 0)
-			break ;
-		itu++;
-	}
-	if (itu == this->_users.end())
+	if (!vector_check_user(this->_users, client->getNickname()))
 		this->_users.push_back(client);
 }
 
@@ -103,6 +91,10 @@ void	Channel::setLimitUser(int nb) {
 		this->_limit = false;
 		this->_limit_user = -1;
 	}
+}
+void	Channel::setListInvit(User* client) {
+	if (!vector_check_user(this->_list_invit, client->getNickname()))
+		this->_list_invit.push_back(client);
 }
 
 void	Channel::setFlagTopic(bool b) {
@@ -201,4 +193,12 @@ bool	Channel::deleteChanop(std::string name) {
 	else
 		return (false);
 	return (true);
+}
+
+void	Channel::deleteUserInvitList(std::string name) {
+	size_t	i = vector_search_user(this->_list_invit, name);
+	if (i < this->_list_invit.size()) {
+		std::vector<User*>::iterator	pos = this->_list_invit.begin() + i;
+		this->_list_invit.erase(pos);
+	}
 }
