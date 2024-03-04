@@ -6,14 +6,12 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/03 16:10:49 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 19:35:00 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/04 02:25:37 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Error.hpp"
 #include "Server.hpp"
 #include "Channel.hpp"
-#include "utils.hpp"
 
 void	Command::_cmd_INVITE(std::vector<std::string> cmd, User* client, Server* opt) {
 	std::map<std::string, Channel*>				chan = opt->getListChannel();
@@ -25,14 +23,10 @@ void	Command::_cmd_INVITE(std::vector<std::string> cmd, User* client, Server* op
 		return ;
 	}
 	itchan = chan.find(cmd[2]);
-	if (!vector_check_user(user_serv, cmd[1])) {
+	if (!vector_check_user(user_serv, cmd[1]))
 		this->_send_data_to_client(ERR_NOSUCHNICK(client->getNickname(), cmd[1]), client);
-		return ;
-	}
-	else if (itchan == chan.end()) {
+	else if (itchan == chan.end())
 		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[2]), client);
-		return ;
-	}
 	else if (itchan != chan.end()) {
 		if (!vector_check_user(itchan->second->getListUsers(), client->getNickname()))
 			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[2], "You're"), client);
@@ -42,13 +36,10 @@ void	Command::_cmd_INVITE(std::vector<std::string> cmd, User* client, Server* op
 			this->_send_data_to_client(ERR_USERONCHANNEL(client->getNickname(), cmd[1], cmd[2]), client);
 		else {
 			size_t	i = vector_search_user(user_serv, cmd[1]);
-			itchan->second->setListInvit(user_serv, )
-
+			itchan->second->setListInvit(user_serv[i]);
+			user_serv[i]->setInviteChan(cmd[2]);
+			this->_send_data_to_client(RPL_INVITING(client->getNickname(), cmd[1], cmd[2]), client);
+			this->_send_data_to_client(RPL_INVITE(client->getNickname(), cmd[1], cmd[2]), user_serv[i]);
 		}
-
 	}
-
-
-
-
 }

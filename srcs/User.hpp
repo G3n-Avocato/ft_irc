@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 21:36:58 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 18:51:32 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/04 02:06:49 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,14 @@ class User {
 		User();
 		~User();
 
-		void									printcmdtest();
-
 		void									setNickname(std::string nick);
 		void									setUsername(std::string usern);
 		void									setInit(int init);
 		void									setSocket(int socket);
-		void									setcmdParser(char* client_buff);
 		void									setnbChan(int);
-
+		void									setInviteChan(std::string);
+		void									setcmdParser(char* client_buff); // parsing.cpp
+		
 		struct sockaddr_storage					getSockaddr() const;
 		struct sockaddr_storage&				getRefSockaddr();
 		int										getSocket() const;
@@ -41,8 +40,10 @@ class User {
 		bool									getcmdend() const;
 		std::vector<std::vector<std::string> >	getvectorcmd() const;
 		int										getnbChan() const;
+		std::vector<std::string>				getlistChanInvite() const;
 
 		void									clearvectorcmd();
+		void									deleteinvitchan(std::string);
 
 	private:
 		

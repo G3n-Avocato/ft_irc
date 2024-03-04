@@ -6,12 +6,13 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 16:12:39 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/04 02:34:02 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "Channel.hpp"
+#include "utils.hpp"
 
 std::string	parsing_cmd_mdp(std::string mdp) {
 	size_t i = 0;
@@ -73,22 +74,26 @@ bool	Command::_check_channel_users_limits(std::map<std::string, Channel*>::itera
 
 bool	Command::_check_channel_invite(std::map<std::string, Channel*>::iterator itchan, User* client, std::string name) {	
 	if (itchan->second->getFlagInvite()) {
-		std::vector<User*>	list_invit = itchan->second->getListInvitUser();
-		std::vector<User*>::iterator it = list_invit.begin();
-		while (it != list_invit.end()) { //client invite in channel
-			if (name.compare((*it)->getNickname()) == 0)
-				break ;
-		}
-		if (it == list_invit.end()) {
+		if (!vector_check_user(itchan->second->getListInvitUser(), client->getNickname())) {
 			this->_send_data_to_client(ERR_INVITEONLYCHAN(client->getNickname(), name), client);
 			return (false);
 		}
-		else if (it != list_invit.end()){
-			/// (Arty)
-			/// j'ai enlever un ';' ici et j'ai ajouté des accolades ça voulait pas compiler je sais pas à quoi ça sert ici...
-			/// je laisse ça aux professionnels :D https://youtu.be/dQw4w9WgXcQ?si=q79wrxYAywjEgemX&t << (important à regarder !)
-			
-			///check if client a accepter l'invit
+		else {
+			std::vector<std::string>	invit = client->getlistChanInvite();
+			std::vector<std::string>::iterator itl = invit.begin();
+			while (itl != invit.end()) {
+				if (name.compare(*itl) == 0)
+					break ;
+				itl++;
+			}
+			if (itl == invit.end()) {
+				this->_send_data_to_client(ERR_INVITEONLYCHAN(client->getNickname(), name), client);
+				return (false);
+			}
+			else {
+				itchan->second->deleteUserInvitList(client->getNickname());
+				client->deleteinvitchan(name);
+			}
 		}
 	}
 	return (true);

@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 03:15:34 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/04 02:21:16 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,17 @@
 #define ERR_UMODEUNKNOWNFLAG(client) (": 501 " + client + " :Unknown MODE flag\r\n")
 #define ERR_USERSDONTMATCH(client) (": 502 " + client + " :Can't change mode for other users\r\n")
 
-
-
 #define RPL_CHANNELMODEIS(client, canal, mode, para) (": 324 " + client + " " + canal + " " + mode + " " + para + "\r\n")
 #define RPL_NOTOPIC(client, canal) (": 331 " + client + " " + canal + " :No topic is set\r\n")
 #define RPL_TOPIC(client, canal, sujet) (": 332 " + client + " " + canal + ":" + sujet + "\r\n")
-#define RPL_INVITING(client, canal, pseudo) (": 341 " + client + " " + canal + " " + pseudo + "\r\n")
-
+#define RPL_INVITING(client, pseudo, canal) (": 341 " + client + " " + pseudo + " " + canal + "\r\n")
 //#define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " " + canal + " :" + listuser + "\r\n")
 //#define RPL_ENDOFNAMES(client, canal) (": 366 " + client + " " + canal + " :End of /NAMES list\r\n")
 
 #define RPL_WELCOME(client) (": 001 " + client + " :Welcome to Internet Relay Network " + client + "\r\n")
 #define RPL_JOIN(client, canal) (":" + client + " JOIN " + canal + "\r\n")
 #define RPL_PART(client, canal, msg) (":" + client + " PART " + canal + " :" + msg + "\r\n")
+#define RPL_INVITE(client, pseudo, canal) (":" + client + " INVITE " + pseudo + " :" + canal + "\r\n")
 
 #define USER_MSG(client, target, msg) (":" + client + " PRIVMSG " + target + " :" + msg + "\r\n")
 #define CHAN_MSG(client, channel, msg) (":" + client + " PRIVMSG " + channel + " :" + msg + "\r\n")
