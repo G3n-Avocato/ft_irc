@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:51:03 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/07 21:05:11 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/07 21:24:24 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ class Command {
 		void	_cmd_PRIVMSG(std::vector<std::string>, User* client, Server*);
 		void	_cmd_QUIT(std::vector<std::string>, User* client, Server*);
 		// void	_cmd_WHO(std::vector<std::string>, User* client, Server*);
-		// void	_cmd_KICK(std::vector<std::string>, User* client, Server*);
+		void	_cmd_KICK(std::vector<std::string>, User* client, Server*);
 		void	_cmd_INVITE(std::vector<std::string>, User* client, Server*);
 		void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
 		void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
@@ -63,7 +63,8 @@ class Command {
 		void								_mode_is(std::vector<std::string>, User*, Channel*, std::string);
 
 		//topic.cpp
-		int 								CheckUser(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel);
+		int 								_check_user(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel);
+
 
 		void								_send_data_to_client(std::string mess, User *user);
 };

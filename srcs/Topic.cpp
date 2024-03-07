@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 20:04:29 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/02 18:17:46 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/07 19:58:12 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include "User.hpp"
 #include "Error.hpp"
 
-int Command::CheckUser(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel)
+int Command::_check_user(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel)
 {
-			std::vector<User*> listuser = channel->second->getListUsers(); //list user in the channel
+		std::vector<User*> listuser = channel->second->getListUsers(); //list user in the channel
 		std::vector<User*>::iterator ite;
 		for ( ite = listuser.begin(); ite != listuser.end(); ite++) {	//find if the user is in the channel
 			if (client->getNickname() == (*ite)->getNickname())
@@ -52,12 +52,12 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 	std::map<std::string, Channel*>::iterator it = listchan.find(cmd[1]);	//check if channel exist
 	if (it == listchan.end())
 	{
-		std::cout << "CHAN DOESN'T EXIST" << std::endl;
+		std::cout << "CHAN DOESN'T EXIST" << std::endl; //---------------------------------------
 		return ;
 	}
 	else
 	{
-		if (CheckUser(cmd, client, it) == 1)
+		if (this->_check_user(cmd, client, it) == 1)
 			return ;
 	}
 	if (cmd.size() == 2) // check si c'est la commande /topic <nom du channel>
@@ -80,7 +80,8 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 			subj += cmd[i];
 			subj += " ";
 		}
-		subj.erase(subj.begin()); //delete the ':' character
+		if (subj[0] == ':')
+			subj.erase(subj.begin()); //delete the ':' character
 		subj.erase(subj.end() - 1); //delete the " " at the end
 		it->second->setSubject(subj);
 	}

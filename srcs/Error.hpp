@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/07 20:57:47 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/07 21:24:40 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@
 #define RPL_JOIN(client, canal) (":" + client + " JOIN " + canal + "\r\n")
 #define RPL_PART(client, canal, msg) (":" + client + " PART " + canal + " :" + msg + "\r\n")
 #define RPL_INVITE(client, pseudo, canal) (":" + client + " INVITE " + pseudo + " :" + canal + "\r\n")
+#define RPL_KICK(client, pseudo, canal, msg) (":" + client + " KICK " + canal + " " + pseudo + " :" + msg + "\r\n")
+#define RPL_QUIT(client, msg) (":" + client + " QUIT :Quit: " + msg + "\r\n")
 
 #define USER_MSG(client, target, msg) (":" + client + " PRIVMSG " + target + " :" + msg + "\r\n")
 #define CHAN_MSG(client, channel, msg) (":" + client + " PRIVMSG " + channel + " :" + msg + "\r\n")
