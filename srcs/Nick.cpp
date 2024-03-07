@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 15:02:54 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/02/27 21:39:28 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/05 10:05:04 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 	
 	if (cmd.size() < 2)	{
 		regfree(&regex);
-		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getUsername()), client);
+		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getNickname()), client);
 		return ;
 	}
 	else if (cmd[1].size() > 9 || regexec(&regex, cmd[1].c_str(), 0, NULL, 0) == REG_NOMATCH) {
 		regfree(&regex);
-		this->_send_data_to_client(ERR_ERRONEUSNICKNAME(client->getUsername(), cmd[1]), client);
+		this->_send_data_to_client(ERR_ERRONEUSNICKNAME(client->getNickname(), cmd[1]), client);
 		return ;
 	}
 	else
@@ -44,7 +44,7 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 		}
 		if (it != lusers.end())
 		{
-			this->_send_data_to_client(ERR_NICKNAMEINUSE(client->getUsername(), cmd[1]), client);
+			this->_send_data_to_client(ERR_NICKNAMEINUSE(client->getNickname(), cmd[1]), client);
 			return;
 		}
 	}
