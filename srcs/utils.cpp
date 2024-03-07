@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:20:42 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/01 16:59:03 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/07 20:45:33 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,14 @@ bool	vector_check_user(std::vector<User*> list, std::string name) {
 	return (false);
 }
 
-//fonction inutile pour le moment creer une string de la list des users avec un vector
 std::string			list_user_to_string(std::vector<User*> users, std::vector<User*> op) {
 	std::string		listuser;
 
 	for (std::vector<User*>::iterator it = users.begin(); it != users.end(); it++) {
 		if (vector_check_user(op, (*it)->getNickname()))
 			listuser += "@";
+		else
+			listuser += "+";
 		listuser += (*it)->getNickname();
 		if (it + 1 != users.end())
 			listuser += " ";

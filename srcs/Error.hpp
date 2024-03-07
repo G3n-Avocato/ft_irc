@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/04 02:21:16 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/07 20:57:47 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@
 #define RPL_NOTOPIC(client, canal) (": 331 " + client + " " + canal + " :No topic is set\r\n")
 #define RPL_TOPIC(client, canal, sujet) (": 332 " + client + " " + canal + ":" + sujet + "\r\n")
 #define RPL_INVITING(client, pseudo, canal) (": 341 " + client + " " + pseudo + " " + canal + "\r\n")
-//#define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " " + canal + " :" + listuser + "\r\n")
+#define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " = " + canal + " : " + listuser + "\r\n")
+
 //#define RPL_ENDOFNAMES(client, canal) (": 366 " + client + " " + canal + " :End of /NAMES list\r\n")
 
 #define RPL_WELCOME(client) (": 001 " + client + " :Welcome to Internet Relay Network " + client + "\r\n")

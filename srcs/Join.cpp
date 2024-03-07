@@ -6,10 +6,11 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/04 02:34:02 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/07 21:09:13 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Error.hpp"
 #include "Server.hpp"
 #include "Channel.hpp"
 #include "utils.hpp"
@@ -148,6 +149,8 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			}
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);
+			std::string	rpl_msg = RPL_JOIN(client->getNickname(), itp->first);
+			this->_sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
 			this->_sendJoinMsg(client, itchan->second);	
 		}
 	}
@@ -160,11 +163,11 @@ void	Command::_sendMsgtoUserlist(std::vector<User*> list, std::string msg) {
 }
 
 void	Command::_sendJoinMsg(User* client, Channel* canal) {
-	std::string	rpl_msg = RPL_JOIN(client->getNickname(), canal->getName());
+	std::string	usein = list_user_to_string(canal->getListUsers(), canal->getListChanop());
+	std::string	rpl_msg = RPL_NAMREPLY(client->getNickname(), canal->getName(), usein);
 	this->_sendMsgtoUserlist(canal->getListUsers(), rpl_msg);
-	
 
-	if (canal->getFlagTopic())
+	if (!canal->getSubject().empty())
 		this->_send_data_to_client(RPL_TOPIC(client->getNickname(), canal->getName(), canal->getSubject()), client);
 	else
 		this->_send_data_to_client(RPL_NOTOPIC(client->getNickname(), canal->getName()), client);
