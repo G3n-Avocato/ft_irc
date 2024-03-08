@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 16:28:39 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/07 21:24:40 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/08 00:27:41 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 
 #define RPL_CHANNELMODEIS(client, canal, mode, para) (": 324 " + client + " " + canal + " " + mode + " " + para + "\r\n")
 #define RPL_NOTOPIC(client, canal) (": 331 " + client + " " + canal + " :No topic is set\r\n")
-#define RPL_TOPIC(client, canal, sujet) (": 332 " + client + " " + canal + ":" + sujet + "\r\n")
+#define RPL_TOPIC(client, canal, sujet) (": 332 " + client + " " + canal + " :" + sujet + "\r\n")
 #define RPL_INVITING(client, pseudo, canal) (": 341 " + client + " " + pseudo + " " + canal + "\r\n")
 #define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " = " + canal + " : " + listuser + "\r\n")
 

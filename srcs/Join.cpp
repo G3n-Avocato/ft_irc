@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/07 21:09:13 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/08 00:11:12 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ bool	Command::_check_channel_invite(std::map<std::string, Channel*>::iterator it
 void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt) {
 	std::map<std::string, std::string>	parse;
 	std::string							mdp;
-	
+	std::string							rpl_msg;
+
 	if (cmd.size() < 2) {
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 		return ;
@@ -126,6 +127,8 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			client->setnbChan(1);
 			listchan = opt->getListChannel();
 			itchan = listchan.find(itp->first);
+			rpl_msg = RPL_JOIN(client->getNickname(), itp->first);
+			this->_sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
 			this->_sendJoinMsg(client, itchan->second);	
 		}
 		//if CHANNEL EXIST 
@@ -149,7 +152,7 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			}
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);
-			std::string	rpl_msg = RPL_JOIN(client->getNickname(), itp->first);
+			rpl_msg = RPL_JOIN(client->getNickname(), itp->first);
 			this->_sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
 			this->_sendJoinMsg(client, itchan->second);	
 		}
