@@ -12,6 +12,7 @@
 
 #include "Server.hpp"
 #include "Channel.hpp"
+#include "utils.hpp"
 
 #include <iostream>
 
@@ -156,9 +157,13 @@ void	Server::_recv_send_data() {
 		if (nbytes == 0)
 		{
 			printf("server: socket %d hung up\n", i);
-			std::cout << "USER " << i << " LEAVE IRC" << std::endl;
+			for (std::vector<User*>::iterator it = _l_user.begin(); it != _l_user.end(); ++it)
+			{
+				if ((*it)->getSocket() == i)
+					delete_user_all_chan((*it)->getNickname(), this);
+			}
 			deleteUser(i);
-			_printUsers(_l_user);
+
 		}
 		else
 	 		perror("recv");

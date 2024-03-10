@@ -28,15 +28,18 @@ int Command::_check_user(std::vector<std::string> cmd, User* client, std::map<st
 			return (1);
 		}
 
-		std::vector<User*> listuserop = channel->second->getListChanop(); //list user op in the channel
-		std::vector<User*>::iterator iteop;
-		for ( iteop = listuserop.begin(); iteop != listuserop.end(); iteop++) { //check if the user is op
-			if (client->getNickname() == (*iteop)->getNickname())
-				break ;
-		}
-		if (iteop == listuserop.end())  {
-			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
-			return (1);
+		if (channel->second->getFlagTopic() == true)
+		{
+			std::vector<User*> listuserop = channel->second->getListChanop(); //list user op in the channel
+			std::vector<User*>::iterator iteop;
+			for ( iteop = listuserop.begin(); iteop != listuserop.end(); iteop++) { //check if the user is op
+				if (client->getNickname() == (*iteop)->getNickname())
+					break ;
+			}
+			if (iteop == listuserop.end())  {
+				this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
+				return (1);
+			}
 		}
 		return (0);
 }

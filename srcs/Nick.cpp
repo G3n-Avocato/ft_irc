@@ -39,8 +39,10 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 	else
 	{
 		regfree(&regex);
-		std::vector<User*>::iterator it = lusers.begin();
-		for (User *tmp = *it; tmp->getNickname() != cmd[1] && it != lusers.end(); it++ ) {
+		std::vector<User*>::iterator it;
+		for (it = lusers.begin(); it != lusers.end(); ++it) {
+			if ((*it)->getNickname() == cmd[1])
+				break ;
 		}
 		if (it != lusers.end())
 		{

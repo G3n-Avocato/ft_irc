@@ -15,13 +15,14 @@
 
 std::string	rebuild_data(std::vector<std::string> last, int start) {
 	std::string	tmp;
-	
+
 	for (std::vector<std::string>::iterator it = last.begin() + start; it != last.end(); it++) {
 		tmp += *it;
 		if (it + 1 != last.end())
 			tmp += " ";
 	}
-    tmp.erase(0, 1);
+	if (tmp[0] == ':')
+		tmp.erase(tmp.begin());
 	return (tmp);
 }
 
@@ -48,7 +49,7 @@ void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server
         std::string                         data    = rebuild_data(rawCmd, 2); 
         std::vector<std::string>            sendLst = string_to_vector(rawCmd[1], ",");
         std::vector<std::string>::iterator  it_send = sendLst.begin();
-        if(it_send != sendLst.end()){
+        if(it_send == sendLst.end()){
             _send_data_to_client(ERR_NORECIPIENT(client->getNickname(), "/msg"), client);
             return;
         }

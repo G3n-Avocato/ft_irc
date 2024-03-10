@@ -169,7 +169,7 @@ void	Command::_sendJoinMsg(User* client, Channel* canal) {
 	std::string	usein = list_user_to_string(canal->getListUsers(), canal->getListChanop());
 	std::string	rpl_msg = RPL_NAMREPLY(client->getNickname(), canal->getName(), usein);
 	this->_sendMsgtoUserlist(canal->getListUsers(), rpl_msg);
-
+	usein.empty();
 	if (!canal->getSubject().empty())
 		this->_send_data_to_client(RPL_TOPIC(client->getNickname(), canal->getName(), canal->getSubject()), client);
 	else

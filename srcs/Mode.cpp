@@ -30,7 +30,7 @@ bool	Command::_flag_mode_check_exist(std::string flag, User* client) {
 
 void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server* opt) {
 	std::map<std::string, Channel*>				listchan = opt->getListChannel();
-	std::map<std::string, Channel*>::iterator	itchan = listchan.begin();
+	std::map<std::string, Channel*>::iterator	itchan = listchan.find(cmd[1]);
 
 	const char *mode[] = {"i", "t", "k", "o", "l"};
 	bool		flag = 0;

@@ -40,7 +40,6 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 	
 	for (std::map<std::string, Channel*>::iterator it = listchan.begin(); it != listchan.end(); it++)
 	{
-		std::cout << "CHANNEL NAME " << it->second->getName() << std::endl;
 
 		std::vector<User*> listuser = it->second->getListUsers();
 		std::vector<User*>::iterator ituser;
@@ -54,11 +53,7 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 			for (ituser = listuser.begin(); ituser != listuser.end(); ituser++)
 			{
 				if (client->getNickname() != (*ituser)->getNickname())
-				{
 					this->_send_data_to_client(RPL_QUIT(client->getNickname(), msg), (*ituser));
-					std::cout << "name = " << (*ituser)->getNickname() << std::endl;
-					std::cout << "RPLLLLL" << std::endl;
-				}
 			}
 			it->second->deleteUser(client->getNickname());
 		}
@@ -68,7 +63,6 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 	//rechercher dans tous les chans si le USER est present
 	// le delete des list USER + RPL_QUIT
 
-	std::cout << "DISCONNECT USER" << std::endl;
 	opt->deleteUser(socket);
 }
  
