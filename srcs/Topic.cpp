@@ -55,7 +55,7 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 	std::map<std::string, Channel*>::iterator it = listchan.find(cmd[1]);	//check if channel exist
 	if (it == listchan.end())
 	{
-		std::cout << "CHAN DOESN'T EXIST" << std::endl; //---------------------------------------
+		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[1]), client);
 		return ;
 	}
 	else

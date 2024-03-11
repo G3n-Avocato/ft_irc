@@ -168,6 +168,7 @@ void	Server::_recv_send_data() {
 		else
 	 		perror("recv");
 		close(i);
+		FD_CLR(i, &this->_setRead);
 		FD_CLR(i, &this->_main);
 	}
 	else if ((*itu)->getcmdend()) {

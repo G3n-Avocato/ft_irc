@@ -47,14 +47,11 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 
 		if (ite == listuser.end())
 		{
-			std::cout << "-----USER KICK NOT IN CHAN-----" << std::endl; //---------------------------------------
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], cmd[2]), client);
 			return ;
 		}
 		else if (client->getNickname() == cmd[2])
-		{
-			std::cout << "-----AUTO KICK NOT ALLOWED-----" << std::endl; //---------------------------------------
 			return ;
-		}
 		
 		//le delete du chan
 
