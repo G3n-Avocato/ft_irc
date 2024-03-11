@@ -38,7 +38,7 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 
 	std::map<std::string, Channel*> listchan = opt->getListChannel();  //list channel
 	
-	for (std::map<std::string, Channel*>::iterator it = listchan.begin(); it != listchan.end(); it++)
+	for (std::map<std::string, Channel*>::iterator it = listchan.begin(); it != listchan.end(); it++) // check in every chan if the user is in
 	{
 
 		std::vector<User*> listuser = it->second->getListUsers();
@@ -50,19 +50,14 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 		}
 		if (ituser != listuser.end())
 		{
-			for (ituser = listuser.begin(); ituser != listuser.end(); ituser++)
+			for (ituser = listuser.begin(); ituser != listuser.end(); ituser++) // send a msg to every user in the chan
 			{
 				if (client->getNickname() != (*ituser)->getNickname())
 					this->_send_data_to_client(RPL_QUIT(client->getNickname(), msg), (*ituser));
 			}
-			it->second->deleteUser(client->getNickname());
+			it->second->deleteUser(client->getNickname()); // delete the user of the chan
 		}
 	}
-	
-
-	//rechercher dans tous les chans si le USER est present
-	// le delete des list USER + RPL_QUIT
-
 	opt->deleteUser(socket);
 }
  

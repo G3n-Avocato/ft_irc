@@ -19,24 +19,25 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 
 	if (client->getInit() == 0)
 	{
-		std::cout << "NEED PASSWORD BEFORE" << std::endl;
+		this->_send_data_to_client(RPL_PASSNEED(), client);
+		return ;
 	}
 
 	regex_t	regex;
 	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", REG_EXTENDED);
 	std::vector<User*> lusers = opt->getListUser();
 	
-	if (cmd.size() < 2)	{
+	if (cmd.size() < 2)	{      // if no nick given
 		regfree(&regex);
 		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getNickname()), client);
 		return ;
 	}
-	else if (cmd[1].size() > 9 || regexec(&regex, cmd[1].c_str(), 0, NULL, 0) == REG_NOMATCH) {
+	else if (cmd[1].size() > 9 || regexec(&regex, cmd[1].c_str(), 0, NULL, 0) == REG_NOMATCH) { // check if nickname is allowed
 		regfree(&regex);
 		this->_send_data_to_client(ERR_ERRONEUSNICKNAME(client->getNickname(), cmd[1]), client);
 		return ;
 	}
-	else
+	else // check if nobody have this nickname
 	{
 		regfree(&regex);
 		std::vector<User*>::iterator it;

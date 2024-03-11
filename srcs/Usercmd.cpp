@@ -17,7 +17,12 @@
 void	Command::_cmd_USER(std::vector<std::string> cmd, User* client, Server *opt) {
 	
 	(void)opt;
-	if (client->getInit() < 2) {
+	if (client->getInit() == 0) {
+		this->_send_data_to_client(RPL_PASSNEED(), client);
+		return ;
+	}
+	else if (client->getInit() == 1) {
+		this->_send_data_to_client(RPL_NICKNEED(), client);
 		return ;
 	}
 	else if (client->getInit() > 2)
