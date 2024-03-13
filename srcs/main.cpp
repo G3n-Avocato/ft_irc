@@ -11,6 +11,13 @@
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include <signal.h>
+
+void	signal__(int signal)
+{
+	(void)signal;
+	throw std::logic_error("\nServer Closed !\n");
+}
 
 int	main(int argc, char **argv) {
 
@@ -37,11 +44,12 @@ int	main(int argc, char **argv) {
 	}
 	regfree(&regex2);
 
-	// try {
-	Server	start(argv[1], argv[2]);
-	// }
-	// catch (std::exception &) {
-		// std::cout << e.what();
-	// }
+	try {
+		signal(SIGINT, signal__);
+		Server	start(argv[1], argv[2]);
+	}
+	catch (std::exception &e) {
+		std::cout << e.what();
+	}
 	return (0);
 }
