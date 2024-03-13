@@ -13,7 +13,7 @@
 #include "Server.hpp"
 #include <signal.h>
 
-void	signal__(int signal)
+void	signal_sigint(int signal)
 {
 	(void)signal;
 	throw std::logic_error("\nServer Closed !\n");
@@ -45,7 +45,7 @@ int	main(int argc, char **argv) {
 	regfree(&regex2);
 
 	try {
-		signal(SIGINT, signal__);
+		signal(SIGINT, signal_sigint);
 		Server	start(argv[1], argv[2]);
 	}
 	catch (std::exception &e) {
