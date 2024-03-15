@@ -45,8 +45,9 @@ int	main(int argc, char **argv) {
 	regfree(&regex2);
 
 	try {
-		signal(SIGINT, signal_sigint);
 		Server	start(argv[1], argv[2]);
+		signal(SIGINT, signal_sigint);
+		start.start_server_select();
 	}
 	catch (std::exception &e) {
 		std::cout << e.what();

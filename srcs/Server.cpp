@@ -22,11 +22,26 @@ Server::Server(const char *port, const std::string password) : _port(port) , _pa
 	this->_get_server_info();
 	this->_bind_socket_to_port();
 	this->_config_wait_fd_co();
-	this->_start_server_select();
 
 }
 
 Server::~Server() {
+	freeaddrinfo(this->_servinfo);
+
+	std::vector<User *>::iterator it;
+	std::vector<User *>listuser = this->getListUser();
+
+	for (it = listuser.begin(); it != listuser.end(); it++) {
+		delete *it;
+	}
+
+	std::map<std::string, Channel*>::iterator itc;
+	std::map<std::string, Channel*>	listchannel = this->getListChannel();
+
+	for (itc = listchannel.begin(); itc != listchannel.end(); itc++) {
+		delete itc->second;
+	}
+
 }
 
 void	Server::_get_server_info() {
@@ -84,7 +99,7 @@ void	Server::_config_wait_fd_co() {
 
 }
 
-void	Server::_start_server_select() {
+void	Server::start_server_select() {
 
 	while (1) {
 		this->_setRead = this->_main;

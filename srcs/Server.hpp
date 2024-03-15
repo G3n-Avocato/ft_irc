@@ -47,6 +47,7 @@ class Server {
 		std::vector<User*>				getListUser() const;
 		std::string						getPass() const;
 
+		void							start_server_select();
 
 	private:
 
@@ -70,7 +71,6 @@ class Server {
 		int								_fdmax;
 		void							_config_wait_fd_co();
 
-		void							_start_server_select();
 
 		int								i;
 		char							_buf_client[513];
