@@ -23,7 +23,6 @@
 #define ERR_NONICKNAMEGIVEN(client) (": 431 " + client + " :No nickname given\r\n")
 #define ERR_ERRONEUSNICKNAME(client, nick) (": 432 " + client + " " + nick + " :Erroneus nickname\r\n")
 #define ERR_NICKNAMEINUSE(client, nick) (": 433 " + client + " " + nick + " :Nickname is already in use\r\n")
-#define ERR_NICKCOLLISION(client, nick) (": 436 " + client + " " + nick + " :Nickname collision KILL\r\n")
 #define ERR_NOTONCHANNEL(client, canal, target) (": 442 " + client + " " + canal + " :" + target + " not on that channel\r\n")
 #define ERR_USERONCHANNEL(client, pseudo, canal) (": 443 " + client + " " + pseudo + " " + canal + " :is already on channel\r\n")
 #define ERR_NOTREGISTERED(client) (": 451 " + client + " :You have not registered\r\n")
@@ -45,8 +44,6 @@
 #define RPL_TOPIC(client, canal, sujet) (": 332 " + client + " " + canal + " :" + sujet + "\r\n")
 #define RPL_INVITING(client, pseudo, canal) (": 341 " + client + " " + pseudo + " " + canal + "\r\n")
 #define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " = " + canal + " : " + listuser + "\r\n")
-
-//#define RPL_ENDOFNAMES(client, canal) (": 366 " + client + " " + canal + " :End of /NAMES list\r\n")
 
 #define RPL_WELCOME(client) (": 001 " + client + " :Welcome to Internet Relay Network " + client + "\r\n")
 #define RPL_JOIN(client, canal) (":" + client + " JOIN " + canal + "\r\n")

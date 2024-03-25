@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
-#include "Channel.hpp"
-#include "User.hpp"
-#include "Error.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Channel.hpp"
+#include "../../incs/User.hpp"
+#include "../../incs/Error.hpp"
 
 void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 {
@@ -55,9 +55,10 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 				if (client->getNickname() != (*ituser)->getNickname())
 					this->_send_data_to_client(RPL_QUIT(client->getNickname(), msg), (*ituser));
 			}
-			it->second->deleteUser(client->getNickname()); // delete the user of the chan
+			it->second->deleteUser(client->getNickname()); // delete the user of the chan ajouter pour les op 
 		}
 	}
+	//ajout securite ici pour test // hexchat quit puis co nc crash 
 	opt->deleteUser(socket);
 }
  

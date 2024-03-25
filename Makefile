@@ -20,19 +20,19 @@ SRC				= srcs/main.cpp \
 				  srcs/User.cpp \
 				  srcs/Command.cpp \
 				  srcs/Parsing.cpp \
-				  srcs/Join.cpp \
-				  srcs/Pass.cpp \
-				  srcs/Nick.cpp \
-				  srcs/Usercmd.cpp \
-				  srcs/Quit.cpp \
+				  srcs/cmds/Join.cpp \
+				  srcs/cmds/Pass.cpp \
+				  srcs/cmds/Nick.cpp \
+				  srcs/cmds/Usercmd.cpp \
+				  srcs/cmds/Quit.cpp \
 				  srcs/Channel.cpp \
-				  srcs/Privmsg.cpp \
-				  srcs/Part.cpp \
-				  srcs/Mode.cpp \
+				  srcs/cmds/Privmsg.cpp \
+				  srcs/cmds/Part.cpp \
+				  srcs/cmds/Mode.cpp \
 				  srcs/utils.cpp \
-				  srcs/Topic.cpp \
-				  srcs/Invite.cpp \
-				  srcs/Kick.cpp
+				  srcs/cmds/Topic.cpp \
+				  srcs/cmds/Invite.cpp \
+				  srcs/cmds/Kick.cpp
 					
 
 OBJ				= ${SRC:%.cpp=%.o}

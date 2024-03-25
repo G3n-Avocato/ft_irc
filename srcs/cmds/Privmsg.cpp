@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
-#include "Channel.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Channel.hpp"
 
 std::string	rebuild_data(std::vector<std::string> last, int start) {
 	std::string	tmp;

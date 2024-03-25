@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
-#include "Channel.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Channel.hpp"
 
 bool	Command::_flag_mode_check_exist(std::string flag, User* client) {
 	std::string	opt("opsitnmlbvk");

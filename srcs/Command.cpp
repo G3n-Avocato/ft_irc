@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Command.hpp"
-#include "User.hpp"
-#include "Error.hpp"
+#include "../incs/Command.hpp"
+#include "../incs/User.hpp"
+#include "../incs/Error.hpp"
 
 Command::Command() {
 

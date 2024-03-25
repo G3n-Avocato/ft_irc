@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
-#include "Channel.hpp"
-#include "User.hpp"
-#include "Error.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Channel.hpp"
+#include "../../incs/User.hpp"
+#include "../../incs/Error.hpp"
 
 int Command::_check_user(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel)
 {

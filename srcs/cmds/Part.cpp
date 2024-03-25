@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
-#include "Channel.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Channel.hpp"
 
 void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt) {
 	std::map<std::string, std::string>	parse;

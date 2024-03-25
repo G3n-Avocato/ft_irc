@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Channel.hpp"
-#include "User.hpp"
-#include "utils.hpp"
+#include "../incs/Channel.hpp"
+#include "../incs/User.hpp"
+#include "../incs/utils.hpp"
 
 Channel::Channel(std::string name, User* client) {
 	this->_name = name;

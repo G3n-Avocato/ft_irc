@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
-#include "Server.hpp"
-#include "Error.hpp"
+#include "../../incs/User.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Error.hpp"
 
 void	Command::_cmd_PASS(std::vector<std::string> cmd,  User* client, Server* opt) 
 {
@@ -23,4 +23,6 @@ void	Command::_cmd_PASS(std::vector<std::string> cmd,  User* client, Server* opt
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 	else if (cmd[1] == opt->getPass())
 		client->setInit(1);
+	else 
+		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 }

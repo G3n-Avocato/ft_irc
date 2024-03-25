@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
+#include "../incs/User.hpp"
 
 std::vector<std::string> User::_string_to_vector(std::string str, std::string arg, int i) {
     std::vector<std::string>    str_vector;
@@ -51,8 +51,15 @@ std::string	User::_recast_buf_end(std::vector<std::string> last, std::string buf
 void User::setcmdParser(char *client_buff){
 	std::string 							buf(client_buff);
     std::vector<std::string>				raw_cmd;
+	
+	std::cout << "buf client = " << buf << "." << std::endl;
 
-	if (!this->_end) {
+	if (buf.size() == 1 && buf[0] == '\n') {
+		this->_end = 0;
+		return ;
+	}
+	
+	if (!this->_end && !this->_cmd.empty()) {
 		buf = this->_recast_buf_end(this->_cmd.back(), buf);
 		this->_cmd.erase(this->_cmd.end() - 1);
 	}

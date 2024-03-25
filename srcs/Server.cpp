@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Server.hpp"
-#include "Channel.hpp"
-#include "utils.hpp"
+#include "../incs/Server.hpp"
+#include "../incs/Channel.hpp"
+#include "../incs/utils.hpp"
 
 #include <iostream>
 

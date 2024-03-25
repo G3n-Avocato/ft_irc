@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Error.hpp"
-#include "Server.hpp"
-#include "Channel.hpp"
-#include "utils.hpp"
+#include "../../incs/Error.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Channel.hpp"
+#include "../../incs/utils.hpp"
 
 std::string	parsing_cmd_mdp(std::string mdp) {
 	size_t i = 0;

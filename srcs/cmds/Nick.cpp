@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
-#include "Server.hpp"
-#include "Error.hpp"
+#include "../../incs/User.hpp"
+#include "../../incs/Server.hpp"
+#include "../../incs/Error.hpp"
 
 
 void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt) {
