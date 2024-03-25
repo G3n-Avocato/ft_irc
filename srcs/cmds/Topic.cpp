@@ -24,7 +24,7 @@ int Command::_check_user(std::vector<std::string> cmd, User* client, std::map<st
 				break ;
 		}
 		if (ite == listuser.end()) {
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], "You're"), client);
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
 			return (1);
 		}
 

@@ -37,7 +37,7 @@ void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt)
 				itu++;
 			}
 			if (itu == chan_user.end())
-				this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), itp->first, "You're"), client);
+				this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), itp->first), client);
 			else {
 				std::vector<User*>	before = itchan->second->getListUsers();
 				itchan->second->deleteUser(client->getNickname());

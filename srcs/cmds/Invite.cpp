@@ -29,7 +29,7 @@ void	Command::_cmd_INVITE(std::vector<std::string> cmd, User* client, Server* op
 		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[2]), client);
 	else if (itchan != chan.end()) {
 		if (!vector_check_user(itchan->second->getListUsers(), client->getNickname()))
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[2], "You're"), client);
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[2]), client);
 		else if (!vector_check_user(itchan->second->getListChanop(), client->getNickname()))
 			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[2]), client);
 		else if (vector_check_user(itchan->second->getListUsers(), cmd[1]))

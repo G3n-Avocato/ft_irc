@@ -23,7 +23,8 @@
 #define ERR_NONICKNAMEGIVEN(client) (": 431 " + client + " :No nickname given\r\n")
 #define ERR_ERRONEUSNICKNAME(client, nick) (": 432 " + client + " " + nick + " :Erroneus nickname\r\n")
 #define ERR_NICKNAMEINUSE(client, nick) (": 433 " + client + " " + nick + " :Nickname is already in use\r\n")
-#define ERR_NOTONCHANNEL(client, canal, target) (": 442 " + client + " " + canal + " :" + target + " not on that channel\r\n")
+#define ERR_USERNOTINCHANNEL(client, target, canal) (": 441 " + client + " " + target + " " + canal + " :They aren't on that channel\r\n")
+#define ERR_NOTONCHANNEL(client, canal) (": 442 " + client + " " + canal + " :You're not on that channel\r\n")
 #define ERR_USERONCHANNEL(client, pseudo, canal) (": 443 " + client + " " + pseudo + " " + canal + " :is already on channel\r\n")
 #define ERR_NOTREGISTERED(client) (": 451 " + client + " :You have not registered\r\n")
 

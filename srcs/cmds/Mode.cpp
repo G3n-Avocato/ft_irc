@@ -74,11 +74,11 @@ void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server
 						this->_mode_is(cmd, client, itchan->second, cmd[3]);
 					}
 					else
-						this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], cmd[3]), client);
+						this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[3], cmd[1]), client);
 				}
 				else {
 					if (!itchan->second->deleteChanop(cmd[3]))
-						this->_send_data_to_client(ERR_NOSUCHNICK(client->getNickname(), cmd[3]), client);
+						this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[3], cmd[1]), client);
 					else
 						this->_mode_is(cmd, client, itchan->second, cmd[3]);
 				}
@@ -140,7 +140,7 @@ void	Command::_cmd_MODE(std::vector<std::string> cmd, User* client, Server* opt)
 		this->_mode_is(cmd, client, itchan->second, "");
 	else {
 		if (!vector_check_user(itchan->second->getListUsers(), client->getNickname()))
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], "You're"), client);
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
 		else if (!vector_check_user(itchan->second->getListChanop(), client->getNickname()))
 			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
 		else if (!this->_flag_mode_check_exist(cmd[2], client))

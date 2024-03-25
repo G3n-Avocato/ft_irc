@@ -47,7 +47,7 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 
 		if (ite == listuser.end())
 		{
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1], cmd[2]), client);
+			this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[2], cmd[1]), client);
 			return ;
 		}
 		else if (client->getNickname() == cmd[2])
