@@ -24,5 +24,5 @@ void	Command::_cmd_PASS(std::vector<std::string> cmd,  User* client, Server* opt
 	else if (cmd[1] == opt->getPass())
 		client->setInit(1);
 	else 
-		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
+		this->_send_data_to_client(ERR_PASSWDMISMATCH(client->getNickname()), client);
 }

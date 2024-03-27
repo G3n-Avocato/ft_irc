@@ -246,11 +246,8 @@ void	Server::deleteUser(int socket) {
 		{
 			delete *it;
 			this->_l_user.erase(it);
-			FD_CLR(socket, &this->_setRead);
-			FD_CLR(socket, &this->_main);
 			this->_fdmax -= 1;
 			break;
 		}
 	}
-
 }

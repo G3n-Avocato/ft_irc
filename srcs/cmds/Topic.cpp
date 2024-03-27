@@ -86,6 +86,12 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 		if (subj[0] == ':')
 			subj.erase(subj.begin()); //delete the ':' character
 		subj.erase(subj.end() - 1); //delete the " " at the end
-		it->second->setSubject(subj);
+		it->second->setSubject(subj); 
+
+		std::vector<User*> listuser = opt->getListUser();
+		for (std::vector<User*>::iterator it = listuser.begin(); it != listuser.end(); it++) {
+			this->_send_data_to_client(RPL_TOPIC((*it)->getNickname(), cmd[1], subj), (*it));
+		}
+
 	}
 }
