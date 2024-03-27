@@ -23,6 +23,12 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 		return ;
 	}
 	
+	//	KICK #test user1,user2
+
+	for (size_t i = 0;  i != cmd.size(); i++) {
+		std::cout << "cmd[" << i << "] : " << cmd[i] << std::endl;
+	}
+
 	std::map<std::string, Channel*> listchan = opt->getListChannel();  //list channel
 	std::map<std::string, Channel*>::iterator it = listchan.find(cmd[1]);	//check if channel exist
 
@@ -36,55 +42,53 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 		return ;
 	else 
 	{
+		std::vector<std::string>user = string_to_vector_(cmd[2], ",");
+		
 	
-		//regarder si le user est dans le chan
-		std::vector<User*> listuser = it->second->getListUsers(); //list user in the channel
-		std::vector<User*>::iterator ite;
-		for ( ite = listuser.begin(); ite != listuser.end(); ite++) {	//find if the user kick is in the channel
-			if (cmd[2] == (*ite)->getNickname())
-				break ;
-		}
 
-		if (ite == listuser.end())
+		for (unsigned long l = 0; l < user.size(); l++)
 		{
-			this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[2], cmd[1]), client);
-			return ;
-		}
-		else if (client->getNickname() == cmd[2])
-			return ;
-		
-		//le delete du chan
-
-		it->second->deleteUser(cmd[2]);
-		
-		//set le nbchan du user
-
-		(*ite)->setnbChan(-1);
-		
-		//faire le msg de kick
-
-		if (cmd.size() != 3)
-		{
-			std::string msgkick;
-			for (unsigned int i = 3; i != cmd.size(); i++) // recover the msg
-			{
-				msgkick += cmd[i];
-				msgkick += " ";
-			}		
-			if (msgkick[0] == ':')
-				msgkick.erase(msgkick.begin()); //delete the ':' character
-			msgkick.erase(msgkick.end() - 1); //delete the " " at the end
-			
-			//send msg to user 
-			for ( ite = listuser.begin(); ite != listuser.end(); ite++) {
-				this->_send_data_to_client(RPL_KICK(client->getNickname(), cmd[2], cmd[1], msgkick), (*ite));
+			//regarder si le user est dans le chan
+			std::vector<User*> listuser = it->second->getListUsers(); //list user in the channel
+			std::vector<User*>::iterator ite;
+			for ( ite = listuser.begin(); ite != listuser.end(); ite++) {	//find if the user kick is in the channel
+				if (user[l] == (*ite)->getNickname())
+					break ;
 			}
-		}
-		else
-		{
-			//send msg to user 
-			for ( ite = listuser.begin(); ite != listuser.end(); ite++) {
-				this->_send_data_to_client(RPL_KICK(client->getNickname(), cmd[2], cmd[1], client->getNickname()), (*ite));
+			if (ite == listuser.end())
+				this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), user[l], cmd[1]), client);
+			else if (client->getNickname() == user[l])
+				return ;
+			else {
+				//le delete du chan
+				it->second->deleteUser(user[l]);
+				//set le nbchan du user
+				(*ite)->setnbChan(-1);
+				//faire le msg de kick
+				if (cmd.size() != 3)
+				{
+					std::string msgkick;
+					for (unsigned int i = 3; i != cmd.size(); i++) // recover the msg
+					{
+						msgkick += cmd[i];
+						msgkick += " ";
+					}		
+					if (msgkick[0] == ':')
+						msgkick.erase(msgkick.begin()); //delete the ':' character
+					msgkick.erase(msgkick.end() - 1); //delete the " " at the end
+
+					//send msg to user 
+					for ( ite = listuser.begin(); ite != listuser.end(); ite++) {
+						this->_send_data_to_client(RPL_KICK(client->getNickname(), user[l], cmd[1], msgkick), (*ite));
+					}
+				}
+				else
+				{
+					//send msg to user 
+					for ( ite = listuser.begin(); ite != listuser.end(); ite++) {
+						this->_send_data_to_client(RPL_KICK(client->getNickname(), user[l], cmd[1], client->getNickname()), (*ite));
+					}
+				}
 			}
 		}
 	}
