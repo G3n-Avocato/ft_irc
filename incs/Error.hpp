@@ -30,6 +30,7 @@
 
 #define ERR_NEEDMOREPARAMS(client, cmd) (": 461 " + client + " " + cmd + " :Not enough parameters\r\n")
 #define ERR_ALREADYREGISTRED(client) (": 462 " + client + " :You may not reregister\r\n")
+#define ERR_PASSWDMISMATCH(client) (": 464 " + client + " :Password incorrect\r\n")
 #define ERR_KEYSET(client, canal) (": 467 " + client + " " + canal + " :Channel key already set\r\n")
 #define ERR_CHANNELISFULL(client, canal) (": 471 " + client + " " + canal + " :Cannot join channel (+l)\r\n")
 #define ERR_UNKNOWNMODE(client, str) (": 472 " + client + " " + str + " :is unknown mode char to me\r\n")
