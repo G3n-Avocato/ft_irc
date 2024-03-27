@@ -13,6 +13,7 @@
 #include "../incs/User.hpp"
 
 User::User() : _init(0) {
+	this->_nickname = "";
 	this->_end = 1;
 	this->_nb_chan = 0;
 }

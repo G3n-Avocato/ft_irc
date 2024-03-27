@@ -44,12 +44,13 @@ class Command {
 		void	_cmd_PART(std::vector<std::string>, User* client, Server*);
 		void	_cmd_PRIVMSG(std::vector<std::string>, User* client, Server*);
 		void	_cmd_QUIT(std::vector<std::string>, User* client, Server*);
-		// void	_cmd_WHO(std::vector<std::string>, User* client, Server*);
 		void	_cmd_KICK(std::vector<std::string>, User* client, Server*);
 		void	_cmd_INVITE(std::vector<std::string>, User* client, Server*);
 		void	_cmd_TOPIC(std::vector<std::string>, User* client, Server*);
 		void	_cmd_MODE(std::vector<std::string>, User* client, Server*);
 
+		bool	_check_client_init_to_exec_cmds(User*, std::string);
+		
 		//join.cpp - part.cpp
 		std::map<std::string, std::string>	_parsing_cmd_join(std::string, std::string, User*);
 		bool								_check_channel_users_limits(std::map<std::string, Channel*>::iterator, User*, std::string);
@@ -64,7 +65,6 @@ class Command {
 
 		//topic.cpp
 		int 								_check_user(std::vector<std::string> cmd, User* client, std::map<std::string, Channel*>::iterator channel);
-
 
 		void								_send_data_to_client(std::string mess, User *user);
 };
