@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 17:56:29 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/05 11:18:14 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/27 00:13:19 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	Channel::setPassword(std::string newpass, bool b) {
 		this->_password = true;
 		this->_pass = newpass;
 	}
-	else if (!b && this->_password) {
+	else if (!b) {
+		if (!this->_password)
+			return (467);
 		if (this->_pass.compare(newpass) == 0) {
 			this->_password = false;
 			this->_pass.clear();

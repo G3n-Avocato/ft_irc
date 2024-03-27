@@ -24,14 +24,14 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 
 	if (cmd.size() > 1)
 	{
-		for (unsigned int i = 1; i != cmd.size(); i++) // recover the msg
+		for (size_t i = 1; i < cmd.size(); i++) // recover the msg
 		{
 			msg += cmd[i];
-			msg += " ";
+			if (i + 1 != cmd.size())
+				msg += " ";
 		}		
 		if (msg[0] == ':')
 			msg.erase(msg.begin()); //delete the ':' character
-		msg.erase(msg.end() - 1); //delete the " " at the end
 	}
 	else
 		msg = "Leaving";

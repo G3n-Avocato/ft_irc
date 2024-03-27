@@ -47,8 +47,8 @@
 #define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " = " + canal + " : " + listuser + "\r\n")
 
 #define RPL_WELCOME(client) (": 001 " + client + " :Welcome to Internet Relay Network " + client + "\r\n")
-#define RPL_JOIN(client, canal) (":" + client + " JOIN " + canal + "\r\n")
-#define RPL_PART(client, canal, msg) (":" + client + " PART " + canal + " :" + msg + "\r\n")
+#define RPL_JOIN(client, user, canal) (":" + client + "!" + user + " JOIN " + canal + "\r\n")
+#define RPL_PART(client, user, canal, msg) (":" + client + "!" + user + " PART " + canal + " " + msg + "\r\n")
 #define RPL_INVITE(client, pseudo, canal) (":" + client + " INVITE " + pseudo + " :" + canal + "\r\n")
 #define RPL_KICK(client, pseudo, canal, msg) (":" + client + " KICK " + canal + " " + pseudo + " :" + msg + "\r\n")
 #define RPL_QUIT(client, msg) (":" + client + " QUIT :Quit: " + msg + "\r\n")

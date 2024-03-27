@@ -6,12 +6,13 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/28 21:37:24 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 16:14:01 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/26 22:20:23 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../incs/Server.hpp"
 #include "../../incs/Channel.hpp"
+#include <sstream>
 
 bool	Command::_flag_mode_check_exist(std::string flag, User* client) {
 	std::string	opt("opsitnmlbvk");
@@ -42,15 +43,23 @@ void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server
 		i++;
 	switch (i) {
 		case 0:
-			itchan->second->setFlagInvite(flag);
-			this->_mode_is(cmd, client, itchan->second, "");
+			if (cmd.size() != 3)
+				this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
+			else {
+				itchan->second->setFlagInvite(flag);
+				this->_mode_is(cmd, client, itchan->second, "");
+			}
 			break ;
 		case 1:
-			itchan->second->setFlagTopic(flag);
-			this->_mode_is(cmd, client, itchan->second, "");
+			if (cmd.size() != 3)
+				this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
+			else {
+				itchan->second->setFlagTopic(flag);
+				this->_mode_is(cmd, client, itchan->second, "");
+			}
 			break ;
 		case 2:
-			if (cmd.size() < 4)
+			if (cmd.size() != 4)
 				this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 			else {
 				int err = itchan->second->setPassword(cmd[3], flag);
@@ -66,40 +75,43 @@ void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server
 			if (cmd.size() < 4)
 				this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 			else {
-				if (flag) {
-					std::vector<User*>				listuser = itchan->second->getListUsers();
-					size_t							itu = vector_search_user(listuser, cmd[3]);
-					if (itu < listuser.size()) {
-						itchan->second->setNewChanop(listuser[itu]);
-						this->_mode_is(cmd, client, itchan->second, cmd[3]);
+				for (size_t i = 3; i < cmd.size(); i++) {
+					if (flag) {
+						std::vector<User*>				listuser = itchan->second->getListUsers();
+						size_t							itu = vector_search_user(listuser, cmd[i]);
+						if (itu < listuser.size()) {
+							itchan->second->setNewChanop(listuser[itu]);
+							this->_mode_is(cmd, client, itchan->second, cmd[i]);
+						}
+						else
+							this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[i], cmd[1]), client);
 					}
-					else
-						this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[3], cmd[1]), client);
-				}
-				else {
-					if (!itchan->second->deleteChanop(cmd[3]))
-						this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[3], cmd[1]), client);
-					else
-						this->_mode_is(cmd, client, itchan->second, cmd[3]);
+					else {
+						if (!itchan->second->deleteChanop(cmd[i]))
+							this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[i], cmd[1]), client);
+						else
+							this->_mode_is(cmd, client, itchan->second, cmd[i]);
+					}
 				}
 			}
 			break ;
 		case 4:
-			if (!flag) {
+			if (!flag && cmd.size() == 3) {
 				itchan->second->setLimitUser(-1);
 				this->_mode_is(cmd, client, itchan->second, "");
+				break ;
 			}
-			else if (cmd.size() < 4)
-				this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
-			else if (flag) {
-				long int nb = strtol(cmd[3].c_str(), NULL, 10);
-				if (nb < 100) {
-					itchan->second->setLimitUser(nb);
-					this->_mode_is(cmd, client, itchan->second, cmd[3]);
+			if (flag && cmd.size() == 4) {
+				if (all_digit(cmd[3])) {
+					long int nb = strtol(cmd[3].c_str(), NULL, 10);
+					if (nb < 100) {
+						itchan->second->setLimitUser(nb);
+						this->_mode_is(cmd, client, itchan->second, cmd[3]);
+						break ;
+					}
 				}
-				else
-					this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getUsername(), cmd[0]), client);
 			}
+			this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 		default:
 			break ;
 	}
@@ -116,6 +128,13 @@ void	Command::_mode_is(std::vector<std::string> cmd, User* client, Channel* cana
 			mode += "k";
 		if (canal->getFlagLimit())
 			mode += "l";
+		if (canal->getFlagPass())
+			mode += " " + canal->getPassword();
+		if (canal->getFlagLimit()) {
+			std::stringstream	ss;
+			ss << canal->getLimitUsers();
+			mode += " " + ss.str();
+		}
 		this->_send_data_to_client(RPL_CHANNELMODEIS(client->getNickname(), canal->getName(), mode, para), client);
 	}
 	else if (cmd.size() >= 3) {

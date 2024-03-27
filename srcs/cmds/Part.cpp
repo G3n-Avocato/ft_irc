@@ -43,10 +43,16 @@ void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt)
 				itchan->second->deleteUser(client->getNickname());
 				itchan->second->deleteChanop(client->getNickname());
 				client->setnbChan(-1);
-				if (cmd.size() == 3)
-					tmp = cmd[2];
-				std::string	msg = RPL_PART(client->getNickname(), itp->first, tmp);
+				if (cmd.size() >= 3) {
+					for (size_t i = 2; i < cmd.size(); i++) {
+						tmp += cmd[i];
+						if (i + 1 != cmd.size())
+							tmp += " ";
+					}
+				std::string	msg = RPL_PART(client->getNickname(), client->getUsername(), itp->first, tmp);
 				this->_sendMsgtoUserlist(before, msg);
+				tmp.clear();
+				}
 			}	
 		}
 	}

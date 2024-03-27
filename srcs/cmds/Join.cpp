@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 11:38:11 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/08 00:11:12 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:25:00 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ std::map<std::string, std::string>	Command::_parsing_cmd_join(std::string chan, 
 			j = 0;
 			if (!pass.empty() && i < pass.size())
 				parse[canal] = parsing_cmd_mdp(pass[i]);
+			else if (!pass.empty() && i == pass.size())
+				parse[canal] = parsing_cmd_mdp(pass[pass.size() - 1]);
 			else
 				parse[canal];
 		}
@@ -127,7 +129,7 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			client->setnbChan(1);
 			listchan = opt->getListChannel();
 			itchan = listchan.find(itp->first);
-			rpl_msg = RPL_JOIN(client->getNickname(), itp->first);
+			rpl_msg = RPL_JOIN(client->getNickname(), client->getUsername(), itp->first);
 			this->_sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
 			this->_sendJoinMsg(client, itchan->second);	
 		}
@@ -152,7 +154,7 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			}
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);
-			rpl_msg = RPL_JOIN(client->getNickname(), itp->first);
+			rpl_msg = RPL_JOIN(client->getNickname(), client->getUsername(), itp->first);
 			this->_sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
 			this->_sendJoinMsg(client, itchan->second);	
 		}
@@ -166,9 +168,13 @@ void	Command::_sendMsgtoUserlist(std::vector<User*> list, std::string msg) {
 }
 
 void	Command::_sendJoinMsg(User* client, Channel* canal) {
-	std::string	usein = list_user_to_string(canal->getListUsers(), canal->getListChanop());
-	std::string	rpl_msg = RPL_NAMREPLY(client->getNickname(), canal->getName(), usein);
-	this->_sendMsgtoUserlist(canal->getListUsers(), rpl_msg);
+	std::string			usein = list_user_to_string(canal->getListUsers(), canal->getListChanop());
+	std::vector<User*>	list = canal->getListUsers();
+	for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
+		std::string	rpl_msg = RPL_NAMREPLY((*it)->getNickname(), canal->getName(), usein);
+		this->_send_data_to_client(rpl_msg, *it);
+	}
+	//this->_sendMsgtoUserlist(canal->getListUsers(), rpl_msg);
 	usein.clear();
 	if (!canal->getSubject().empty())
 		this->_send_data_to_client(RPL_TOPIC(client->getNickname(), canal->getName(), canal->getSubject()), client);

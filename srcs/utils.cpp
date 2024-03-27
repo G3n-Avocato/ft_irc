@@ -6,7 +6,7 @@
 /*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 16:20:42 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/07 20:45:33 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/26 22:15:45 by lamasson         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ bool	syntax_mdp_channel(char c) {
 bool	syntax_name_channel(char c) {
 	if ( c == '\0' || c == '\a' || c == '\n' || c == '\r' || c == ' ')
 		return (false);
+	return (true);
+}
+
+bool	all_digit(std::string str) {
+	for (size_t i = 0; i < str.size(); i++) {
+		if (!isdigit(str[i]))
+			return (false);
+	}
 	return (true);
 }
 
