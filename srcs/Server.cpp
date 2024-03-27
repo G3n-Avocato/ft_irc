@@ -17,12 +17,9 @@
 #include <iostream>
 
 Server::Server(const char *port, const std::string password) : _port(port) , _password(password) {
-// parsing port et password
-	
 	this->_get_server_info();
 	this->_bind_socket_to_port();
 	this->_config_wait_fd_co();
-
 }
 
 Server::~Server() {
@@ -41,7 +38,6 @@ Server::~Server() {
 	for (itc = listchannel.begin(); itc != listchannel.end(); itc++) {
 		delete itc->second;
 	}
-
 }
 
 void	Server::_get_server_info() {
@@ -57,7 +53,6 @@ void	Server::_get_server_info() {
 		fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
 		exit (1);
 	}
-	
 }
 
 void	Server::_bind_socket_to_port() {
@@ -118,7 +113,6 @@ void	Server::start_server_select() {
 	}
 }
 
-
 void	Server::_accept_connect_client() {
 	User		*newclient = new User();
 	socklen_t	addrlen = sizeof newclient->getSockaddr();
@@ -178,7 +172,6 @@ void	Server::_recv_send_data() {
 					delete_user_all_chan((*it)->getNickname(), this);
 			}
 			deleteUser(i);
-
 		}
 		else
 	 		perror("recv");
@@ -238,8 +231,7 @@ std::string	Server::getPass() const {
 	return (this->_password);
 }
 
-void	Server::deleteUser(int socket) {
-	
+void	Server::deleteUser(int socket) {	
 	for (std::vector<User*>::iterator it = _l_user.begin(); it != _l_user.end(); ++it)
 	{
 		if ((*it)->getSocket() == socket)
