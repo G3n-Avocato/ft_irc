@@ -22,12 +22,6 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 		return ;
 	}
-	
-	//	KICK #test user1,user2
-
-	for (size_t i = 0; i != cmd.size(); i++) {
-		std::cout << "cmd[" << i << "] : " << cmd[i] << std::endl;
-	}
 
 	std::map<std::string, Channel*> listchan = opt->getListChannel();  //list channel
 	std::map<std::string, Channel*>::iterator it = listchan.find(cmd[1]);	//check if channel exist

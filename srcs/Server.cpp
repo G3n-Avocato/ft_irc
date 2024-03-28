@@ -171,7 +171,7 @@ void	Server::_recv_send_data() {
 				if ((*it)->getSocket() == i)
 					delete_user_all_chan((*it)->getNickname(), this);
 			}
-			deleteUser(i);
+			deleteUser(i, 0);
 		}
 		else
 	 		perror("recv");
@@ -231,14 +231,19 @@ std::string	Server::getPass() const {
 	return (this->_password);
 }
 
-void	Server::deleteUser(int socket) {	
+void	Server::deleteUser(int socket, int cas) {	
 	for (std::vector<User*>::iterator it = _l_user.begin(); it != _l_user.end(); ++it)
 	{
 		if ((*it)->getSocket() == socket)
 		{
 			delete *it;
 			this->_l_user.erase(it);
-			this->_fdmax -= 1;
+			if (cas == 1) {
+				FD_CLR(socket, &this->_setRead);
+				FD_CLR(socket, &this->_main);
+			}
+			if (socket == this->_fdmax)
+				this->_fdmax -= 1;
 			break;
 		}
 	}

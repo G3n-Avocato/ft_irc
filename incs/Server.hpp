@@ -41,7 +41,7 @@ class Server {
 		void							setListChannel(Channel*);
 		void							setListUser(User*);
 		void							deleteChannel(std::string name);
-		void							deleteUser(int socket);
+		void							deleteUser(int socket, int cas);
 
 		std::map<std::string, Channel*> getListChannel() const;
 		std::vector<User*>				getListUser() const;

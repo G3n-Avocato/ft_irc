@@ -58,7 +58,6 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 			it->second->deleteUser(client->getNickname()); // delete the user of the chan ajouter pour les op 
 		}
 	}
-	//ajout securite ici pour test // hexchat quit puis co nc crash 
-	opt->deleteUser(socket);
+	opt->deleteUser(socket, 1);
 }
  
