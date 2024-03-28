@@ -45,11 +45,11 @@
 #define RPL_NOTOPIC(client, canal) (": 331 " + client + " " + canal + " :No topic is set\r\n")
 #define RPL_TOPIC(client, canal, sujet) (": 332 " + client + " " + canal + " :" + sujet + "\r\n")
 #define RPL_INVITING(client, pseudo, canal) (": 341 " + client + " " + pseudo + " " + canal + "\r\n")
-#define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " = " + canal + " : " + listuser + "\r\n")
+#define RPL_NAMREPLY(client, canal, listuser) (": 353 " + client + " = " + canal + " :" + listuser + "\r\n")
 
 #define RPL_WELCOME(client) (": 001 " + client + " :Welcome to Internet Relay Network " + client + "\r\n")
 #define RPL_JOIN(client, user, canal) (":" + client + "!" + user + " JOIN " + canal + "\r\n")
-#define RPL_PART(client, user, canal, msg) (":" + client + "!" + user + " PART " + canal + " " + msg + "\r\n")
+#define RPL_PART(client, user, canal, msg) (":" + client + "!" + user + " PART " + canal + " :" + msg + "\r\n")
 #define RPL_INVITE(client, pseudo, canal) (":" + client + " INVITE " + pseudo + " :" + canal + "\r\n")
 #define RPL_KICK(client, pseudo, canal, msg) (":" + client + " KICK " + canal + " " + pseudo + " :" + msg + "\r\n")
 #define RPL_QUIT(client, msg) (":" + client + " QUIT " + msg + "\r\n")

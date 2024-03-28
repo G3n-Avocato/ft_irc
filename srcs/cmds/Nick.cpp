@@ -25,15 +25,17 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 	regex_t	regex;
 	regcomp(&regex, "^([A-}])([A-}0-9-]{0,8})$", REG_EXTENDED);
 	std::vector<User*> lusers = opt->getListUser();
-	
+	std::string	str_nick = client->getNickname();
+	if (str_nick.empty())
+		str_nick = "* NICK";
 	if (cmd.size() < 2)	{      // if no nick given
 		regfree(&regex);
-		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(client->getNickname()), client);
+		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(str_nick), client);
 		return ;
 	}
 	else if (cmd[1].size() > 9 || regexec(&regex, cmd[1].c_str(), 0, NULL, 0) == REG_NOMATCH) { // check if nickname is allowed
 		regfree(&regex);
-		this->_send_data_to_client(ERR_ERRONEUSNICKNAME(client->getNickname(), cmd[1]), client);
+		this->_send_data_to_client(ERR_ERRONEUSNICKNAME(str_nick, cmd[1]), client);
 		return ;
 	}
 	else // check if nobody have this nickname
@@ -46,7 +48,7 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 		}
 		if (it != lusers.end())
 		{
-			this->_send_data_to_client(ERR_NICKNAMEINUSE(client->getNickname(), cmd[1]), client);
+			this->_send_data_to_client(ERR_NICKNAMEINUSE(str_nick, cmd[1]), client);
 			return;
 		}
 	}

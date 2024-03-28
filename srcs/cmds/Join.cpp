@@ -131,7 +131,7 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			itchan = listchan.find(itp->first);
 			rpl_msg = RPL_JOIN(client->getNickname(), client->getUsername(), itp->first);
 			this->sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
-			this->_sendJoinMsg(client, itchan->second);	
+			this->_sendJoinMsg(client, itchan->second);
 		}
 		//if CHANNEL EXIST 
 		else if (itchan != listchan.end()) {
@@ -156,7 +156,9 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			client->setnbChan(1);
 			rpl_msg = RPL_JOIN(client->getNickname(), client->getUsername(), itp->first);
 			this->sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
-			this->_sendJoinMsg(client, itchan->second);	
+			this->_sendJoinMsg(client, itchan->second);
+			itchan->second->deleteUserInvitList(client->getNickname());
+			client->deleteinvitchan(itp->first);
 		}
 	}
 }

@@ -49,10 +49,10 @@ void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt)
 						if (i + 1 != cmd.size())
 							tmp += " ";
 					}
+				}
 				std::string	msg = RPL_PART(client->getNickname(), client->getUsername(), itp->first, tmp);
 				this->sendMsgtoUserlist(before, msg);
 				tmp.clear();
-				}
 			}	
 		}
 	}

@@ -25,21 +25,28 @@ void	Command::_cmd_INVITE(std::vector<std::string> cmd, User* client, Server* op
 	itchan = chan.find(cmd[2]);
 	if (!vector_check_user(user_serv, cmd[1]))
 		this->_send_data_to_client(ERR_NOSUCHNICK(client->getNickname(), cmd[1]), client);
-	else if (itchan == chan.end())
-		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[2]), client);
-	else if (itchan != chan.end()) {
-		if (!vector_check_user(itchan->second->getListUsers(), client->getNickname()))
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[2]), client);
-		else if (!vector_check_user(itchan->second->getListChanop(), client->getNickname()))
-			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[2]), client);
-		else if (vector_check_user(itchan->second->getListUsers(), cmd[1]))
-			this->_send_data_to_client(ERR_USERONCHANNEL(client->getNickname(), cmd[1], cmd[2]), client);
-		else {
-			size_t	i = vector_search_user(user_serv, cmd[1]);
-			itchan->second->setListInvit(user_serv[i]);
-			user_serv[i]->setInviteChan(cmd[2]);
-			this->_send_data_to_client(RPL_INVITING(client->getNickname(), cmd[1], cmd[2]), client);
-			this->_send_data_to_client(RPL_INVITE(client->getNickname(), cmd[1], cmd[2]), user_serv[i]);
+	else {
+		if (itchan != chan.end()) {
+			if (!vector_check_user(itchan->second->getListUsers(), client->getNickname())) {
+				this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[2]), client);
+				return ;
+			}
+			else if (itchan->second->getFlagInvite() == true) {
+				if (!vector_check_user(itchan->second->getListChanop(), client->getNickname())) {
+					this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[2]), client);
+					return ;
+				}
+			}
+			else if (vector_check_user(itchan->second->getListUsers(), cmd[1])) {
+				this->_send_data_to_client(ERR_USERONCHANNEL(client->getNickname(), cmd[1], cmd[2]), client);
+				return ;
+			}
 		}
+		size_t	i = vector_search_user(user_serv, cmd[1]);
+		if (itchan != chan.end())
+			itchan->second->setListInvit(user_serv[i]);
+		user_serv[i]->setInviteChan(cmd[2]);
+		this->_send_data_to_client(RPL_INVITING(client->getNickname(), cmd[1], cmd[2]), client);
+		this->_send_data_to_client(RPL_INVITE(client->getNickname(), cmd[1], cmd[2]), user_serv[i]);
 	}
 }

@@ -198,6 +198,8 @@ bool	Channel::deleteChanop(std::string name) {
 }
 
 void	Channel::deleteUserInvitList(std::string name) {
+	if (vector_check_user(this->_list_invit, name) == false)
+		return ;
 	size_t	i = vector_search_user(this->_list_invit, name);
 	if (i < this->_list_invit.size()) {
 		std::vector<User*>::iterator	pos = this->_list_invit.begin() + i;
