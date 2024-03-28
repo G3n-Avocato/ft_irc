@@ -82,18 +82,3 @@ std::string			list_user_to_string(std::vector<User*> users, std::vector<User*> o
 	}
 	return (listuser);
 }
-
-void	delete_user_all_chan(std::string name, Server *opt) {
-	std::map<std::string, Channel*> listchan = opt->getListChannel();  //list channel
-	
-	for (std::map<std::string, Channel*>::iterator it = listchan.begin(); it != listchan.end(); it++) {
-		std::vector<User*> listuser = it->second->getListUsers();
-		std::vector<User*>::iterator ituser;
-		for (ituser = listuser.begin(); ituser != listuser.end(); ituser++) {
-			if (name == (*ituser)->getNickname())
-				break;
-		}
-		if (ituser != listuser.end())
-			it->second->deleteUser(name);
-	}
-}

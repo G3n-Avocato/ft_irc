@@ -248,3 +248,18 @@ void	Server::deleteUser(int socket, int cas) {
 		}
 	}
 }
+
+void	Server::_delete_user_all_chan(std::string name) {
+	for (std::map<std::string, Channel*>::iterator it = _l_channel.begin(); it != _l_channel.end(); it++) {
+		std::vector<User*> listuser = it->second->getListUsers();
+		std::vector<User*>::iterator ituser;
+		for (ituser = listuser.begin(); ituser != listuser.end(); ituser++) {
+			if ((*ituser)->getNickname().compare(name) == 0)
+				break;
+		}
+		if (ituser != listuser.end()) {
+			it->second->deleteUser(name);
+			it->second->deleteChanop(name);
+		}
+	}
+}

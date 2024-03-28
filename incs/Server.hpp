@@ -54,7 +54,7 @@ class Server {
 		Server(const Server&);
 		Server&	operator=(const Server&);
 
-		//server socket
+		//server socket start
 		const char						*_port;
 		const std::string				_password;
 
@@ -78,11 +78,13 @@ class Server {
 		void*							_get_in_addr(struct sockaddr *sa);
 		void							_recv_send_data();
 		std::vector<User*>::iterator	_find_client_socket_to_i();
-		//end
+		//server socket end
 		
-		Command									_bible; //bibliotheque des commandes de notre server
-		std::vector<User*>						_l_user; //list user sur server
-		std::map<std::string, Channel*>			_l_channel; //list channel
+		Command									_bible; //lib_commands for serv
+		std::vector<User*>						_l_user; //list_users on serv
+		std::map<std::string, Channel*>			_l_channel; //list_channels
+
+		void									_delete_user_all_chan(std::string);
 
 		void									_printUsers(std::vector<User*> users);
 		
