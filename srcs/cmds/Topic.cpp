@@ -50,31 +50,22 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);
 		return ;
 	}
-	
 	std::map<std::string, Channel*> listchan = opt->getListChannel();  //list channel
 	std::map<std::string, Channel*>::iterator it = listchan.find(cmd[1]);	//check if channel exist
 	if (it == listchan.end())
-	{
 		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[1]), client);
-		return ;
-	}
-	else
-	{
-		if (this->_check_user(cmd, client, it) == 1)
-			return ;
-	}
-	if (cmd.size() == 2) // check si c'est la commande /topic <nom du channel>
+	else if (!vector_check_user(it->second->getListUsers(), client->getNickname()))
+		this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
+	else if (cmd.size() == 2) // check si c'est la commande /topic <nom du channel>
 	{
 		std::string subj = it->second->getSubject();
-		if (subj.size() != 0) { //check if channel have a subject
+		if (subj.size() != 0) //check if channel have a subject
 			this->_send_data_to_client(RPL_TOPIC(client->getNickname(), cmd[1], subj), client); //affiche le topic du chan
-			return ;
-		}
-		else {
+		else
 			this->_send_data_to_client(RPL_NOTOPIC(client->getNickname(), cmd[1]), client); // pas de topic pour le chan
-			return ;
-		}
 	}
+	else if (this->_check_user(cmd, client, it))
+		return ;
 	else
 	{
 		std::string subj;
@@ -92,6 +83,5 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 		for (std::vector<User*>::iterator it = listuser.begin(); it != listuser.end(); it++) {
 			this->_send_data_to_client(RPL_TOPIC((*it)->getNickname(), cmd[1], subj), (*it));
 		}
-
 	}
 }

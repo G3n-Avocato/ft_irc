@@ -25,21 +25,23 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 	
 	//	KICK #test user1,user2
 
-	for (size_t i = 0;  i != cmd.size(); i++) {
+	for (size_t i = 0; i != cmd.size(); i++) {
 		std::cout << "cmd[" << i << "] : " << cmd[i] << std::endl;
 	}
 
 	std::map<std::string, Channel*> listchan = opt->getListChannel();  //list channel
 	std::map<std::string, Channel*>::iterator it = listchan.find(cmd[1]);	//check if channel exist
 
-	if (it == listchan.end())
-	{
+	if (it == listchan.end()) {
 		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[1]), client);
 		return ;
 	}
-
 	if (this->_check_user(cmd, client, it) == 1)
 		return ;
+	if (!vector_check_user(it->second->getListChanop(), client->getNickname())) {
+		this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
+		return ;
+	}
 	else 
 	{
 		std::vector<std::string>user = string_to_vector_(cmd[2], ",");
@@ -65,9 +67,10 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 				//set le nbchan du user
 				(*ite)->setnbChan(-1);
 				//faire le msg de kick
+				std::string	msgkick = "";
 				if (cmd.size() != 3)
 				{
-					std::string msgkick;
+					msgkick.clear();
 					for (unsigned int i = 3; i != cmd.size(); i++) // recover the msg
 					{
 						msgkick += cmd[i];
@@ -86,7 +89,7 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 				{
 					//send msg to user 
 					for ( ite = listuser.begin(); ite != listuser.end(); ite++) {
-						this->_send_data_to_client(RPL_KICK(client->getNickname(), user[l], cmd[1], client->getNickname()), (*ite));
+						this->_send_data_to_client(RPL_KICK(client->getNickname(), user[l], cmd[1], msgkick), (*ite));
 					}
 				}
 			}

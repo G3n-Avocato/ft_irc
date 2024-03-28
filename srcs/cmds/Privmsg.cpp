@@ -45,57 +45,56 @@ std::vector<std::string> string_to_vector(std::string str, std::string arg){
 void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server* server){
     std::vector<User*>              userLst     = server->getListUser(); 
     std::map<std::string, Channel*> channelLst   = server->getListChannel();
-    if(rawCmd.size() >= 3 && rawCmd[0].find("MSGPRIV")){
+
+    if (rawCmd.size() >= 3 && rawCmd[0].find("MSGPRIV")) { 
         std::string                         data    = rebuild_data(rawCmd, 2); 
         std::vector<std::string>            sendLst = string_to_vector(rawCmd[1], ",");
         std::vector<std::string>::iterator  it_send = sendLst.begin();
-        if(it_send == sendLst.end()){
-            _send_data_to_client(ERR_NORECIPIENT(client->getNickname(), "/msg"), client);
+        if(it_send == sendLst.end()) {
+            this->_send_data_to_client(ERR_NORECIPIENT(client->getNickname(), rawCmd[0]), client);
             return;
         }
-        for(unsigned long i = 0; sendLst.size() > 0 && i < sendLst.size(); i++){
+        // ??????
+        for (unsigned long i = 0; sendLst.size() > 0 && i < sendLst.size(); i++) {
             std::string tmp = sendLst[i];
-            for(unsigned long j = i + 1; j < sendLst.size(); j++){
-                if(!tmp.compare(sendLst[j])){
-                    _send_data_to_client(ERR_TOOMANYTARGETS(sendLst[j]), client);
+            for (unsigned long j = i + 1; j < sendLst.size(); j++) {
+                if (!tmp.compare(sendLst[j])) {
+                    this->_send_data_to_client(ERR_TOOMANYTARGETS(sendLst[j]), client);
                     return ;
                 }
             }
         }
-        while(it_send != sendLst.end()){
+        while (it_send != sendLst.end()) {
             std::string current_user = *it_send;
-            if(!current_user.find("#")){
+            if (!current_user.find("#")) {
 		        std::map<std::string, Channel*>::iterator channel_it = channelLst.find(current_user);
-                if(channel_it != channelLst.end()){
+                if (channel_it != channelLst.end()) {
                     std::vector<User*>	ChannelUserLst = channel_it->second->getListUsers();
-                    std::vector<User*>::iterator it_user = ChannelUserLst.begin();
-                    while (it_user != ChannelUserLst.end()){
+                    for (std::vector<User*>::iterator it_user = ChannelUserLst.begin(); it_user != ChannelUserLst.end(); it_user++) {
                         if(client->getNickname().compare((*it_user)->getNickname()))
-                            _send_data_to_client(CHAN_MSG(client->getNickname(), channel_it->second->getName(), data), (*it_user));
-                        it_user++;
+                            this->_send_data_to_client(CHAN_MSG(client->getNickname(), channel_it->second->getName(), data), (*it_user));
                     }
                 }
                 else
-                     _send_data_to_client(ERR_CANNOTSENDTOCHAN(client->getNickname(), current_user), client);
+                    this->_send_data_to_client(ERR_CANNOTSENDTOCHAN(client->getNickname(), current_user), client);
             }
-            else{
+            else {
                 std::vector<User*>::iterator it_user = userLst.begin();
                 while (it_user != userLst.end()) {
                     if (!current_user.compare((*it_user)->getNickname()))
                         break ;
                     it_user++;
                 }
-                if(it_user != userLst.end()){
-                    _send_data_to_client(USER_MSG(client->getNickname(), current_user, data), (*it_user));
-                }
-                else{
-                    _send_data_to_client(ERR_NOSUCHNICK(client->getNickname(), current_user), client);
-                }
+                if (it_user != userLst.end())
+                    this->_send_data_to_client(USER_MSG(client->getNickname(), current_user, data), (*it_user));
+                else
+                    this->_send_data_to_client(ERR_NOSUCHNICK(client->getNickname(), current_user), client);
             }
             it_send++;
         }
     }
-    else if(rawCmd.size() == 2){
-        _send_data_to_client(ERR_NOTEXTTOSEND(client->getNickname()), client);
-    }
-}
+    else if(rawCmd.size() == 2)
+        this->_send_data_to_client(ERR_NOTEXTTOSEND(client->getNickname()), client);
+    else if (rawCmd.size() < 2)
+        this->_send_data_to_client(ERR_NORECIPIENT(client->getNickname(), rawCmd[0]), client);
+}   

@@ -52,7 +52,7 @@
 #define RPL_PART(client, user, canal, msg) (":" + client + "!" + user + " PART " + canal + " " + msg + "\r\n")
 #define RPL_INVITE(client, pseudo, canal) (":" + client + " INVITE " + pseudo + " :" + canal + "\r\n")
 #define RPL_KICK(client, pseudo, canal, msg) (":" + client + " KICK " + canal + " " + pseudo + " :" + msg + "\r\n")
-#define RPL_QUIT(client, msg) (":" + client + " QUIT :Quit: " + msg + "\r\n")
+#define RPL_QUIT(client, msg) (":" + client + " QUIT " + msg + "\r\n")
 #define RPL_PASSNEED() ("You need the Password before\r\n")
 #define RPL_NICKNEED() ("You need the Nickname before\r\n")
 

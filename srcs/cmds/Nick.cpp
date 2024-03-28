@@ -14,7 +14,6 @@
 #include "../../incs/Server.hpp"
 #include "../../incs/Error.hpp"
 
-
 void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt) {
 
 	if (client->getInit() == 0)

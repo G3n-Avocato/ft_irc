@@ -174,7 +174,6 @@ void	Command::_sendJoinMsg(User* client, Channel* canal) {
 		std::string	rpl_msg = RPL_NAMREPLY((*it)->getNickname(), canal->getName(), usein);
 		this->_send_data_to_client(rpl_msg, *it);
 	}
-	//this->_sendMsgtoUserlist(canal->getListUsers(), rpl_msg);
 	usein.clear();
 	if (!canal->getSubject().empty())
 		this->_send_data_to_client(RPL_TOPIC(client->getNickname(), canal->getName(), canal->getSubject()), client);
