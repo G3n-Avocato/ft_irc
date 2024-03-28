@@ -56,6 +56,7 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 					this->_send_data_to_client(RPL_QUIT(client->getNickname(), msg), (*ituser));
 			}
 			it->second->deleteUser(client->getNickname()); // delete the user of the chan ajouter pour les op 
+			it->second->deleteChanop(client->getNickname());
 		}
 	}
 	opt->deleteUser(socket, 1);

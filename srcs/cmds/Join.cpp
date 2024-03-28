@@ -130,7 +130,7 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			listchan = opt->getListChannel();
 			itchan = listchan.find(itp->first);
 			rpl_msg = RPL_JOIN(client->getNickname(), client->getUsername(), itp->first);
-			this->_sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
+			this->sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
 			this->_sendJoinMsg(client, itchan->second);	
 		}
 		//if CHANNEL EXIST 
@@ -155,13 +155,13 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);
 			rpl_msg = RPL_JOIN(client->getNickname(), client->getUsername(), itp->first);
-			this->_sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
+			this->sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
 			this->_sendJoinMsg(client, itchan->second);	
 		}
 	}
 }
 
-void	Command::_sendMsgtoUserlist(std::vector<User*> list, std::string msg) {
+void	Command::sendMsgtoUserlist(std::vector<User*> list, std::string msg) {
 	for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
 		this->_send_data_to_client(msg, *it);
 	}

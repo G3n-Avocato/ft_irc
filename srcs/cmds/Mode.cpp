@@ -140,7 +140,7 @@ void	Command::_mode_is(std::vector<std::string> cmd, User* client, Channel* cana
 	else if (cmd.size() >= 3) {
 		mode = cmd[2];
 		std::string msg = RPL_CHANNELMODEIS(client->getNickname(), canal->getName(), mode, para);
-		this->_sendMsgtoUserlist(canal->getListUsers(), msg);
+		this->sendMsgtoUserlist(canal->getListUsers(), msg);
 	}
 	mode.clear();
 }

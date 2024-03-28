@@ -32,6 +32,7 @@ class Command {
 		~Command();
 
 		void	choose_cmds(User* client, Server*);
+		void	sendMsgtoUserlist(std::vector<User*>, std::string);
 
  	private:
 		
@@ -55,7 +56,6 @@ class Command {
 		std::map<std::string, std::string>	_parsing_cmd_join(std::string, std::string, User*);
 		bool								_check_channel_users_limits(std::map<std::string, Channel*>::iterator, User*, std::string);
 		bool								_check_channel_invite(std::map<std::string, Channel*>::iterator, User*, std::string);
-		void								_sendMsgtoUserlist(std::vector<User*>, std::string);
 		void								_sendJoinMsg(User*, Channel*);
 
 		//mode.cpp
