@@ -169,7 +169,7 @@ void	Server::_recv_send_data() {
 			for (std::vector<User*>::iterator it = _l_user.begin(); it != _l_user.end(); ++it)
 			{
 				if ((*it)->getSocket() == i)
-					delete_user_all_chan((*it)->getNickname(), this);
+					this->_delete_user_all_chan((*it)->getNickname());
 			}
 			deleteUser(i, 0);
 		}
