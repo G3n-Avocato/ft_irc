@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:46:18 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/29 18:27:57 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:11:20 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ class bot
         std::string	                _res_calcul;
 		std::string                 _re_transformation(long int);
 		std::string                 _calculator_precedence(std::string);
+        std::string                 server_ip;
         std::vector<std::string>	_calcul;
-        const char *                server_ip;
         int                         server_port;
         int                         server_socket;
         struct sockaddr_in          server_address;
-        struct sockaddr             *_server_address;
         bool		                _parsing_nb(std::string);
 		bool		                _parsing_verif(int);
 		bool		                _check_precedence();

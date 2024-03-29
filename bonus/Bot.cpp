@@ -6,14 +6,14 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:46:27 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/29 18:28:07 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/29 19:11:39 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bot.hpp"
 
 void    bot::set_server_info(std::string ip, int port, std::string pass){
-    this->server_ip = ip.c_str();
+    this->server_ip = ip;
     this->server_port = port;
     this->server_pass = pass;
 }
@@ -50,25 +50,74 @@ void bot::bot_connect(std::string to_channel){
     this->bot_chan = to_channel;
     this->server_address.sin_family = AF_INET;
     this->server_address.sin_port = htons(this->server_port);
-    std::cout << "IP = " << this->server_ip << std::endl;
-    int ip = inet_pton(AF_INET, this->server_ip, &this->server_address.sin_addr);
+    // std::cout << "IP = " << this->server_ip << std::endl;
+    inet_pton(AF_INET, this->server_ip.c_str(), &this->server_address.sin_addr);
 
-    if (connect(server_socket, (struct sockaddr *)&server_address, sizeof(server_address)) == -1) {
-        if (errno != EINPROGRESS) {
-            std::cerr << "Failed to connect to server" << std::endl;
-            return;
-        }
-        std::cout << "debug : " << ip << std::endl;
+    // Attempt connection
+    int result = connect(this->server_socket, (struct sockaddr*)&server_address, sizeof(server_address));
+    if (result == -1 && (errno != EINPROGRESS)) {
+        std::cerr << "Failed to connect to server" << std::endl << errno << std::endl;
+        close(this->server_socket);
+        return;
     }
-    send_message("PASS " + this->server_pass + "\r\n");
-    // check_error("000");
-    send_message("NICK " + this->bot_nick + "\r\n");
-    check_error(": 433");
-    send_message("USER " + this->bot_user + " 0 * :realname" + "\r\n");
-    // check_error("000");
-    send_message("JOIN " + this->bot_chan + "\r\n");
-    // check_error("000");
+    else if (result == -1 && (errno == EINPROGRESS || errno == EWOULDBLOCK))
+    {
+
+        // Wait for connection to complete
+        fd_set writefds;
+        FD_ZERO(&writefds);
+        FD_SET(this->server_socket, &writefds);
+    
+        struct timeval timeout;
+        timeout.tv_sec = 10;  // Adjust the timeout as needed
+        timeout.tv_usec = 0;
+        
+        result = select(this->server_socket + 1, NULL, &writefds, NULL, &timeout);
+        if (result > 0 && FD_ISSET(this->server_socket, &writefds)) {
+            std::cout << "Connected successfully" << std::endl;
+            send_message("PASS " + this->server_pass + "\r\n");
+            send_message("NICK " + this->bot_nick + "\r\n");
+            send_message("USER " + this->bot_user + " 0 * :realname" + "\r\n");
+            send_message("JOIN " + this->bot_chan + "\r\n");
+        } else {
+            std::cerr << "Failed to connect to server within timeout" << std::endl;
+        }
+    }
+    else {
+                        std::cout << "Connected successfully" << std::endl;
+            send_message("PASS " + this->server_pass + "\r\n");
+            send_message("NICK " + this->bot_nick + "\r\n");
+            send_message("USER " + this->bot_user + " 0 * :realname" + "\r\n");
+            send_message("JOIN " + this->bot_chan + "\r\n");
+    }
+        // Connection established
+
+    // close(this->server_socket);
 }
+
+// void bot::bot_connect(std::string to_channel){
+//     this->bot_chan = to_channel;
+//     this->server_address.sin_family = AF_INET;
+//     this->server_address.sin_port = htons(this->server_port);
+//     std::cout << "IP = " << this->server_ip << std::endl;
+//     inet_pton(AF_INET, this->server_ip, &this->server_address.sin_addr);
+
+//     if (connect(server_socket, (struct sockaddr *)&server_address, sizeof(server_address)) == -1) {
+//         if (errno == EINPROGRESS) {
+//             std::cerr << "Failed to connect to server" << std::endl;
+//             return;
+//         }
+//         std::cout << "debug : " << errno << std::endl;
+//     }
+//     send_message("PASS " + this->server_pass + "\r\n");
+//     // check_error("000");
+//     send_message("NICK " + this->bot_nick + "\r\n");
+//     check_error(": 433");
+//     send_message("USER " + this->bot_user + " 0 * :realname" + "\r\n");
+//     // check_error("000");
+//     send_message("JOIN " + this->bot_chan + "\r\n");
+//     // check_error("000");
+// }
 
 size_t find_second_occurrence(const std::string& str, char target) {
     size_t first_occurrence = str.find(target);
