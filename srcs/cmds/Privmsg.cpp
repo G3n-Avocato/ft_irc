@@ -54,7 +54,6 @@ void	Command::_cmd_PRIVMSG(std::vector<std::string> rawCmd, User* client, Server
             this->_send_data_to_client(ERR_NORECIPIENT(client->getNickname(), rawCmd[0]), client);
             return;
         }
-        // ??????
         for (unsigned long i = 0; sendLst.size() > 0 && i < sendLst.size(); i++) {
             std::string tmp = sendLst[i];
             for (unsigned long j = i + 1; j < sendLst.size(); j++) {

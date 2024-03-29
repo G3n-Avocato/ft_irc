@@ -223,8 +223,10 @@ void	Server::setListUser(User* client) {
 
 void	Server::deleteChannel(const std::string name) {
 	std::map<std::string, Channel*>::iterator it = this->_l_channel.find(name);
-	if (it != this->_l_channel.end())
+	if (it != this->_l_channel.end()) {
+		delete it->second ;
 		this->_l_channel.erase(it);
+	}
 }
 
 std::string	Server::getPass() const {
@@ -250,6 +252,7 @@ void	Server::deleteUser(int socket, int cas) {
 }
 
 void	Server::_delete_user_all_chan(std::string name) {
+	std::vector<std::string>	del_chan;
 	for (std::map<std::string, Channel*>::iterator it = _l_channel.begin(); it != _l_channel.end(); it++) {
 		std::vector<User*> listuser = it->second->getListUsers();
 		std::vector<User*>::iterator ituser;
@@ -262,7 +265,9 @@ void	Server::_delete_user_all_chan(std::string name) {
 			it->second->deleteUser(name);
 			it->second->deleteChanop(name);
 			if (listuser.size() == 1)
-				this->deleteChannel(it->second->getName());
+				del_chan.push_back(it->second->getName());
 		}
 	}
+	for (std::vector<std::string>::iterator del = del_chan.begin(); del != del_chan.end(); del++)
+		this->deleteChannel(*del);
 }

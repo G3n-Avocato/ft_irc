@@ -37,12 +37,12 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 		msg = "Leaving";
 
 	std::map<std::string, Channel*> listchan = opt->getListChannel();  //list channel
-	
+	std::vector<std::string>		del_chan;
+
 	for (std::map<std::string, Channel*>::iterator it = listchan.begin(); it != listchan.end(); it++) // check in every chan if the user is in
 	{
-
-		std::vector<User*> listuser = it->second->getListUsers();
-		std::vector<User*>::iterator ituser;
+		std::vector<User*>				listuser = it->second->getListUsers();
+		std::vector<User*>::iterator	ituser;
 		for (ituser = listuser.begin(); ituser != listuser.end(); ituser++)
 		{
 			if (client->getNickname() == (*ituser)->getNickname())
@@ -58,9 +58,12 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 			it->second->deleteUser(client->getNickname()); // delete the user of the chan ajouter pour les op 
 			it->second->deleteChanop(client->getNickname());
 			if (listuser.size() == 1)
-				opt->deleteChannel(it->second->getName());
+				del_chan.push_back(it->second->getName());
 		}
 	}
+	for (std::vector<std::string>::iterator del = del_chan.begin(); del != del_chan.end(); del++)
+		opt->deleteChannel(*del);
+
 	opt->deleteUser(socket, 1);
 }
  

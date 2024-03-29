@@ -53,7 +53,7 @@ bool	Command::_check_client_init_to_exec_cmds(User* client, std::string cmd) {
 	if (client->getInit() != 3) {
 		if (!cmd.compare("PASS") || !cmd.compare("NICK") || !cmd.compare("USER") || !cmd.compare("QUIT"))
 			return (true);
-		std::string	msg = "* NICK";
+		std::string	msg = "NICK";
 		if (!client->getNickname().empty()) {
 			std::cout << "teste" << std::endl;
 			msg = client->getNickname();
