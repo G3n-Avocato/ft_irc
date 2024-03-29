@@ -27,7 +27,7 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 	std::vector<User*> lusers = opt->getListUser();
 	std::string	str_nick = client->getNickname();
 	if (str_nick.empty())
-		str_nick = "* NICK";
+		str_nick = "NICK";
 	if (cmd.size() < 2)	{      // if no nick given
 		regfree(&regex);
 		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(str_nick), client);

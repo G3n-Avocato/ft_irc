@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/03 00:26:15 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/29 16:36:40 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,6 @@ void	Server::_accept_connect_client() {
 	std::cout << "----------NEW CONNECTION----------" << std::endl;
 	
 	char		remoteIP[INET6_ADDRSTRLEN];
-
-//	struct sockaddr_storage	test;
-//	socklen_t	len = sizeof test;
 	
 	newclient->setSocket(accept(this->_fd_l, (struct sockaddr*)(&newclient->getRefSockaddr()), &addrlen));
 	
