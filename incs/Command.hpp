@@ -33,6 +33,7 @@ class Command {
 
 		void	choose_cmds(User* client, Server*);
 		void	sendMsgtoUserlist(std::vector<User*>, std::string);
+		void	notsendMsgtoUserlist(std::vector<User*>, std::string, std::string);
 
  	private:
 		

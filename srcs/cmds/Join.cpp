@@ -159,10 +159,11 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);
 			rpl_msg = RPL_JOIN(client->getNickname(), client->getUsername(), itp->first);
-			this->sendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg);
+			this->_send_data_to_client(rpl_msg, client);
 			this->_sendJoinMsg(client, itchan->second);
 			itchan->second->deleteUserInvitList(client->getNickname());
 			client->deleteinvitchan(itp->first);
+			this->notsendMsgtoUserlist(itchan->second->getListUsers(), rpl_msg, client->getNickname());
 		}
 	}
 }
@@ -170,6 +171,14 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 void	Command::sendMsgtoUserlist(std::vector<User*> list, std::string msg) {
 	for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
 		this->_send_data_to_client(msg, *it);
+	}
+}
+
+
+void	Command::notsendMsgtoUserlist(std::vector<User*> list, std::string msg, std::string name) {
+	for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
+		if (name.compare((*it)->getNickname()) != 0)
+			this->_send_data_to_client(msg, *it);
 	}
 }
 
