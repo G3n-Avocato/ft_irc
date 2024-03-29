@@ -53,6 +53,10 @@ void	Command::_cmd_PART(std::vector<std::string> cmd, User* client, Server* opt)
 				std::string	msg = RPL_PART(client->getNickname(), client->getUsername(), itp->first, tmp);
 				this->sendMsgtoUserlist(before, msg);
 				tmp.clear();
+				if (before.size() == 1) {
+					std::cout << "test delete chan" << std::endl;
+					opt->deleteChannel(itp->first);
+				}
 			}	
 		}
 	}

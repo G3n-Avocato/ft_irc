@@ -155,12 +155,12 @@ void	Command::_cmd_MODE(std::vector<std::string> cmd, User* client, Server* opt)
 	std::map<std::string, Channel*>::iterator itchan = listchan.find(cmd[1]);
 	if (itchan == listchan.end())
 		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[1]), client);
+	else if (!vector_check_user(itchan->second->getListUsers(), client->getNickname()))
+			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
 	else if (cmd.size() == 2)
 		this->_mode_is(cmd, client, itchan->second, "");
 	else {
-		if (!vector_check_user(itchan->second->getListUsers(), client->getNickname()))
-			this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
-		else if (!vector_check_user(itchan->second->getListChanop(), client->getNickname()))
+		if (!vector_check_user(itchan->second->getListChanop(), client->getNickname()))
 			this->_send_data_to_client(ERR_CHANOPRIVSNEEDED(client->getNickname(), cmd[1]), client);
 		else if (!this->_flag_mode_check_exist(cmd[2], client))
 			;
