@@ -56,13 +56,13 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 		this->_send_data_to_client(ERR_NOSUCHCHANNEL(client->getNickname(), cmd[1]), client);
 	else if (!vector_check_user(it->second->getListUsers(), client->getNickname()))
 		this->_send_data_to_client(ERR_NOTONCHANNEL(client->getNickname(), cmd[1]), client);
-	else if (cmd.size() == 2) // check si c'est la commande /topic <nom du channel>
+	else if (cmd.size() == 2) // check if cmd /topic <name_channel>
 	{
 		std::string subj = it->second->getSubject();
 		if (subj.size() != 0) //check if channel have a subject
-			this->_send_data_to_client(RPL_TOPIC(client->getNickname(), cmd[1], subj), client); //affiche le topic du chan
+			this->_send_data_to_client(RPL_TOPIC(client->getNickname(), cmd[1], subj), client);
 		else
-			this->_send_data_to_client(RPL_NOTOPIC(client->getNickname(), cmd[1]), client); // pas de topic pour le chan
+			this->_send_data_to_client(RPL_NOTOPIC(client->getNickname(), cmd[1]), client);
 	}
 	else if (this->_check_user(cmd, client, it))
 		return ;
@@ -79,7 +79,7 @@ void	Command::_cmd_TOPIC(std::vector<std::string> cmd, User* client, Server* opt
 		subj.erase(subj.end() - 1); //delete the " " at the end
 		it->second->setSubject(subj); 
 
-		std::vector<User*> listuser = opt->getListUser();
+		std::vector<User*> listuser = it->second->getListUsers();
 		for (std::vector<User*>::iterator it = listuser.begin(); it != listuser.end(); it++) {
 			this->_send_data_to_client(RPL_TOPIC((*it)->getNickname(), cmd[1], subj), (*it));
 		}

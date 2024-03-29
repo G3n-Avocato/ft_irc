@@ -13,7 +13,7 @@
 NAME			= ./ircserv
 NAME_BOT		= ./bot
 CXX				= c++
-CXXFLAGS		= -Wall -Wextra -Werror -std=c++98 -g3
+CXXFLAGS		= -Wall -Wextra -Werror -std=c++98
 RM				= rm -rf
 
 SRC				= srcs/main.cpp \
@@ -35,9 +35,8 @@ SRC				= srcs/main.cpp \
 				  srcs/cmds/Invite.cpp \
 				  srcs/cmds/Kick.cpp
 
-SRC_BOT			= bonus/Bot.cpp \
-				  bonus/main.cpp\
-				  bonus/Parsing.cpp	\
+SRC_BOT			= bonus/main.cpp \
+				  bonus/bot.cpp \
 				  bonus/calcul_bot2.cpp			
 
 OBJ				= ${SRC:%.cpp=%.o}

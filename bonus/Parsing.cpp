@@ -20,7 +20,6 @@ static int stoi(std::string &s) {
     return i;
 }
 
-
 bool bot::parsing_input(int size, char **input){
 
     if(size < 6){

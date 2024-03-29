@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bot.cpp                                            :+:      :+:    :+:   */
+/*   bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bot.hpp"
+#include "bot.hpp"
+
+bot::bot() {
+    this->server_socket = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_socket == -1) {
+        std::cerr << "Failed to create socket" << std::endl;
+        return;
+    }
+    int flags = fcntl(server_socket, F_GETFL, 0);
+    fcntl(server_socket, F_SETFL, flags | O_NONBLOCK);
+}
+
+bot::~bot() {
+    close(this->server_socket);
+}
 
 void    bot::set_server_info(std::string ip, int port, std::string pass){
     this->server_ip = ip;
@@ -26,7 +40,6 @@ void    bot::set_bot_info(std::string nick, std::string user, std::string name){
 void bot::send_message(const std::string& message) {
     send(this->server_socket, message.c_str(), message.size(), 0);
 }
-
 
 void bot::check_error(std::string flag){
     std::string message = receive_message(1024);
@@ -150,23 +163,36 @@ std::string bot::receive_message(const int buffer_size) {
     return buffer;
 }
 
-
-int bot::get_server_socket(){
+int bot::get_server_socket() {
     return this->server_socket;
 }
 
-bot::bot()
-{
-    this->server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket == -1) {
-        std::cerr << "Failed to create socket" << std::endl;
-        return;
-    }
-    int flags = fcntl(server_socket, F_GETFL, 0);
-    fcntl(server_socket, F_SETFL, flags | O_NONBLOCK);
+// "127.0.0.1" "4444" "1234" "Jimmy" "MyBot" "#loby"
+
+static int stoi(std::string &s) {
+    int i;
+    std::istringstream(s) >> i;
+    return i;
 }
 
-bot::~bot()
-{
-    close(this->server_socket);
+bool bot::parsing_input(int size, char **input){
+
+    if(size < 6){
+        std::cout << size << std::endl;
+        std::cout << "Error Input ( \"IP\" \"Port\" \"Password\" \"Nickname\" \"Username\" \"Channel\" )" << std::endl;
+        return true;
+    }
+    std::string port(input[2]);
+    if(stoi(port) > 65535){
+        std::cout << "Error Port max is 65535 you port is: " << input[2] << std::endl;
+        return true;
+    }
+    if(input[6][0] != '#'){
+        std::cout << "Error Bad Channel Name example: #loby" << std::endl;
+        return true;
+    }
+    set_server_info(input[1], stoi(port), input[3]);
+    set_bot_info(input[4], input[4], input[5]);
+    this->bot_chan = input[6];
+    return false;
 }

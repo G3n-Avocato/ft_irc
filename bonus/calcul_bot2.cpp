@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bot.hpp"
+#include "bot.hpp"
 
 bool	bot::_parsing_nb(std::string tmp) {
 	for (size_t i = 0; i < tmp.size(); i++) {

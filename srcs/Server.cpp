@@ -25,17 +25,13 @@ Server::Server(const char *port, const std::string password) : _port(port) , _pa
 Server::~Server() {
 	freeaddrinfo(this->_servinfo);
 
-	std::vector<User *>::iterator it;
 	std::vector<User *>listuser = this->getListUser();
-
-	for (it = listuser.begin(); it != listuser.end(); it++) {
+	for (std::vector<User *>::iterator it = listuser.begin(); it != listuser.end(); it++) {
 		delete *it;
 	}
 
-	std::map<std::string, Channel*>::iterator itc;
 	std::map<std::string, Channel*>	listchannel = this->getListChannel();
-
-	for (itc = listchannel.begin(); itc != listchannel.end(); itc++) {
+	for (std::map<std::string, Channel*>::iterator itc = listchannel.begin(); itc != listchannel.end(); itc++) {
 		delete itc->second;
 	}
 }

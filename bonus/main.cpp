@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Bot.hpp"
+#include "bot.hpp"
+#include <signal.h>
 
 void	signal_sigint(int signal)
 {
@@ -19,8 +20,9 @@ void	signal_sigint(int signal)
 }
 
 int main(int argv, char **argc){
-    bot MyBot;
-	try {
+    try {
+        bot MyBot;
+        signal(SIGINT, signal_sigint);
         if(MyBot.parsing_input(argv, argc))
             return (1);
         MyBot.bot_connect(argc[6]);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Bot.hpp                                            :+:      :+:    :+:   */
+/*   bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -52,6 +52,9 @@ class bot
 		void		                _calcul_msg_to_string(std::string);
 
     public:
+        bot();
+        ~bot();
+
         const char          *get_ip();
         int                 get_server_socket();
 
@@ -64,6 +67,4 @@ class bot
         void        handle_message(const std::string message);
         std::string receive_message(const int buffer_size);
 
-        bot();
-        ~bot();
 };
