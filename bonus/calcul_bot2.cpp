@@ -3,25 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   calcul_bot2.cpp                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lamasson <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 21:55:09 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/23 17:06:35 by lamasson         ###   ########.fr       */
+/*   Updated: 2024/03/29 17:37:08 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "calcul_bot.hpp"
-#include <climits>
-#include <cstdlib>
-#include <sstream>
+#include "Bot.hpp"
 
-Bot::Bot() {
-}
-
-Bot::~Bot() {
-}
-
-bool	Bot::_parsing_nb(std::string tmp) {
+bool	bot::_parsing_nb(std::string tmp) {
 	for (size_t i = 0; i < tmp.size(); i++) {
 		if (!isdigit(tmp[i]))
 			return (this->_string_error());
@@ -42,7 +33,7 @@ bool	Bot::_parsing_nb(std::string tmp) {
 	return (true);
 }
 
-bool	Bot::_parsing_verif(int i) {
+bool	bot::_parsing_verif(int i) {
 	int	j = -1;
 	if (!this->_calcul.empty()) {
 		std::string	test = this->_calcul.back();
@@ -56,7 +47,7 @@ bool	Bot::_parsing_verif(int i) {
 	return (true);
 }
 
-bool	Bot::_check_precedence() {
+bool	bot::_check_precedence() {
 	if (!this->_calcul.empty()) {
 		std::string check = this->_calcul.back();
 		if (check[0] == '*' || check[0] == '/')
@@ -65,14 +56,14 @@ bool	Bot::_check_precedence() {
 	return (false);
 }
 
-std::string	Bot::_re_transformation(long int res) {
+std::string	bot::_re_transformation(long int res) {
 	std::stringstream	ss;
 	ss << res;
 	std::string	str = ss.str();
 	return (str);
 }
 
-std::string	Bot::_calculator_precedence(std::string s2) {
+std::string	bot::_calculator_precedence(std::string s2) {
 	std::string	op = this->_calcul.back();
 	this->_calcul.pop_back();
 	if (this->_calcul.empty()) {
@@ -97,7 +88,7 @@ std::string	Bot::_calculator_precedence(std::string s2) {
 	return (s1);
 }
 
-bool	Bot::_calculator_classic() {
+bool	bot::_calculator_classic() {
 	std::vector<std::string>::iterator it = this->_calcul.begin();
 	long int	a = strtol((*it).c_str(), NULL, 10);
 	it = this->_calcul.erase(it);
@@ -125,7 +116,7 @@ bool	Bot::_calculator_classic() {
 	return (this->_string_error());
 }
 
-bool	Bot::_parsing(std::string tmp) {
+bool	bot::_parsing(std::string tmp) {
 	if (tmp.empty())
 		return (this->_string_error());
 	if (tmp[0] != '+' && tmp[0] != '-' && tmp[0] != '/' && tmp[0] != '*') {
@@ -142,7 +133,7 @@ bool	Bot::_parsing(std::string tmp) {
 	return (true);
 }
 
-bool	Bot::_algo(std::string line) {
+bool	bot::_algo(std::string line) {
 	std::string	tmp;
 	size_t		pos = 0;
 
@@ -166,22 +157,14 @@ bool	Bot::_algo(std::string line) {
 	return (true);
 }
 
-bool	Bot::_string_error() {
+bool	bot::_string_error() {
 	this->_res_calcul = "Syntax error for calcul.";
 	return (false);
 }
 
-void	Bot::_calcul_msg_to_string(std::string line) {
+void	bot::_calcul_msg_to_string(std::string line) {
 	this->_calcul.clear();
 	this->_res_calcul.clear();
 	this->_algo(line);
 	this->_calcul.clear();
-}
-
-int main(int argc, char **argv) {
-	Bot bot;
-	(void)argc;
-
-	bot._calcul_msg_to_string(argv[1]);
-	return (0);
 }
