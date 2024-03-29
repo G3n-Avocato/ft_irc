@@ -176,12 +176,10 @@ void	Command::sendMsgtoUserlist(std::vector<User*> list, std::string msg) {
 void	Command::_sendJoinMsg(User* client, Channel* canal) {
 	std::string			usein = list_user_to_string(canal->getListUsers(), canal->getListChanop());
 	std::vector<User*>	list = canal->getListUsers();
-	//for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
-	//	std::string	rpl_msg = RPL_NAMREPLY((*it)->getNickname(), canal->getName(), usein);
-	//	this->_send_data_to_client(rpl_msg, *it);
-	//}
-	std::string	msg = RPL_NAMREPLY(client->getNickname(), canal->getName(), usein);
-	this->sendMsgtoUserlist(list, msg);
+	for (std::vector<User*>::iterator it = list.begin(); it != list.end(); it++) {
+		std::string	rpl_msg = RPL_NAMREPLY((*it)->getNickname(), canal->getName(), usein);
+		this->_send_data_to_client(rpl_msg, *it);
+	}
 	usein.clear();
 	if (!canal->getSubject().empty())
 		this->_send_data_to_client(RPL_TOPIC(client->getNickname(), canal->getName(), canal->getSubject()), client);

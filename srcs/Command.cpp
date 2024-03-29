@@ -54,10 +54,8 @@ bool	Command::_check_client_init_to_exec_cmds(User* client, std::string cmd) {
 		if (!cmd.compare("PASS") || !cmd.compare("NICK") || !cmd.compare("USER") || !cmd.compare("QUIT"))
 			return (true);
 		std::string	msg = "NICK";
-		if (!client->getNickname().empty()) {
-			std::cout << "teste" << std::endl;
+		if (!client->getNickname().empty())
 			msg = client->getNickname();
-		}
 		this->_send_data_to_client(ERR_NOTREGISTERED(msg), client);
 		return (false);
 	}

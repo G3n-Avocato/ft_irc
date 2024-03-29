@@ -15,12 +15,7 @@
 #include "../../incs/Error.hpp"
 
 void	Command::_cmd_USER(std::vector<std::string> cmd, User* client, Server *opt) {
-	
 	(void)opt;
-	//if (client->getInit() == 0) {
-	//	this->_send_data_to_client(RPL_PASSNEED(), client);
-	//	return ;
-	//}
 	if (client->getInit() <= 1) {
 		this->_send_data_to_client(RPL_NICKNEED(), client);
 		return ;
@@ -38,5 +33,4 @@ void	Command::_cmd_USER(std::vector<std::string> cmd, User* client, Server *opt)
 	}
 	else
 		this->_send_data_to_client(ERR_NEEDMOREPARAMS(client->getNickname(), cmd[0]), client);	
-	
 }
