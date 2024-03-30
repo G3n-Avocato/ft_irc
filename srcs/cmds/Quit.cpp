@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 00:30:25 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/30 16:26:51 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:45:51 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	Command::_cmd_QUIT(std::vector<std::string> cmd, User* client, Server* opt)
 				if (client->getNickname() != (*ituser)->getNickname())
 					this->_send_data_to_client(RPL_QUIT(client->getNickname(), msg), (*ituser));
 			}
-			it->second->deleteUser(client->getNickname()); // delete the user of the chan ajouter pour les op 
+			it->second->deleteUser(client->getNickname()); // delete the user of the chan
 			it->second->deleteChanop(client->getNickname());
 			if (listuser.size() == 1)
 				del_chan.push_back(it->second->getName());
