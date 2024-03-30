@@ -82,3 +82,16 @@ std::string			list_user_to_string(std::vector<User*> users, std::vector<User*> o
 	}
 	return (listuser);
 }
+
+bool		check_nickname_cass(std::string name, std::string nick) {
+	std::string	res1 = name;
+	std::string res2 = nick;
+	for (std::string::iterator it = res1.begin(); it != res1.end(); it++)
+		*it = std::tolower(*it);
+	for (std::string::iterator it = res2.begin(); it != res2.end(); it++)
+		*it = std::tolower(*it);
+	
+	if (res1.compare(res2) == 0)
+		return (false);
+	return (true);
+}

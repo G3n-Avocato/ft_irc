@@ -94,6 +94,7 @@ void	Channel::setLimitUser(int nb) {
 		this->_limit_user = -1;
 	}
 }
+
 void	Channel::setListInvit(User* client) {
 	if (!vector_check_user(this->_list_invit, client->getNickname()))
 		this->_list_invit.push_back(client);

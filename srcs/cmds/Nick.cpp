@@ -28,7 +28,7 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 	std::string	str_nick = client->getNickname();
 	if (str_nick.empty())
 		str_nick = "NICK";
-	if (cmd.size() < 2)	{      // if no nick given
+	if (cmd.size() != 2) { // if no nick given
 		regfree(&regex);
 		this->_send_data_to_client(ERR_NONICKNAMEGIVEN(str_nick), client);
 		return ;
@@ -41,15 +41,11 @@ void	Command::_cmd_NICK(std::vector<std::string> cmd, User* client, Server* opt)
 	else // check if nobody have this nickname
 	{
 		regfree(&regex);
-		std::vector<User*>::iterator it;
-		for (it = lusers.begin(); it != lusers.end(); ++it) {
-			if ((*it)->getNickname() == cmd[1])
-				break ;
-		}
-		if (it != lusers.end())
-		{
-			this->_send_data_to_client(ERR_NICKNAMEINUSE(str_nick, cmd[1]), client);
-			return;
+		for (std::vector<User*>::iterator it = lusers.begin(); it != lusers.end(); ++it) {
+			if (check_nickname_cass((*it)->getNickname(), cmd[1]) == false) {
+				this->_send_data_to_client(ERR_NICKNAMEINUSE(str_nick, cmd[1]), client);
+				return;
+			}
 		}
 	}
 	regfree(&regex);

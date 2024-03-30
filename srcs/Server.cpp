@@ -13,7 +13,6 @@
 #include "../incs/Server.hpp"
 #include "../incs/Channel.hpp"
 #include "../incs/utils.hpp"
-
 #include <iostream>
 
 Server::Server(const char *port, const std::string password) : _port(port) , _password(password) {
@@ -47,7 +46,7 @@ void	Server::_get_server_info() {
 	status = getaddrinfo(NULL, this->_port, &this->_hints, &this->_servinfo);
 	if (status != 0) {
 		fprintf(stderr, "getaddrinfo error: %s\n", gai_strerror(status));
-		exit (1);
+		throw std::logic_error("Close server.\n");
 	}
 }
 
@@ -61,7 +60,8 @@ void	Server::_bind_socket_to_port() {
 			continue ;
 		if (setsockopt(this->_fd_l, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
 			perror("setsockopt");
-			exit (1);
+			freeaddrinfo(this->_servinfo);
+			throw std::logic_error("Close server.\n");
 		}
 		if (bind(this->_fd_l, this->_cp_serv->ai_addr, this->_cp_serv->ai_addrlen) < 0) {
 			close(this->_fd_l);
@@ -71,7 +71,8 @@ void	Server::_bind_socket_to_port() {
 	}
 	if (this->_cp_serv == NULL) {
 		fprintf(stderr, "serverinfo: failed to bind\n");
-		exit (2);
+		freeaddrinfo(this->_servinfo);
+		throw std::logic_error("Close server.\n");
 	}
 }
 
@@ -81,7 +82,8 @@ void	Server::_config_wait_fd_co() {
 
 	if (listen(this->_fd_l, 10) == -1) {
 		perror("listen");
-		exit (3);
+		freeaddrinfo(this->_servinfo);
+		throw std::logic_error("Close server.\n");
 	}
 
 	FD_SET(this->_fd_l, &this->_main);
@@ -96,7 +98,7 @@ void	Server::start_server_select() {
 		this->_setRead = this->_main;
 		if (select(this->_fdmax + 1, &this->_setRead, NULL, NULL, NULL) == -1) {
 			perror("select");
-			exit (4);
+			throw std::logic_error("Close server.\n");
 		}
 		for (i = 0; i <= this->_fdmax; i++) {
 			if (FD_ISSET(i, &this->_setRead)) {

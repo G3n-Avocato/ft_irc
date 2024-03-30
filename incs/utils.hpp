@@ -12,8 +12,6 @@
 
 #pragma once 
 
-#include <string>
-#include <vector>
 #include "Server.hpp"
 
 class User;
@@ -27,3 +25,4 @@ size_t						vector_search_user(std::vector<User*> list, std::string name);
 
 bool						vector_check_user(std::vector<User*> list, std::string name); 
 std::string					list_user_to_string(std::vector<User*> users, std::vector<User*> op);
+bool                        check_nickname_cass(std::string, std::string);
