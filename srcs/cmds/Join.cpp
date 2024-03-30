@@ -136,6 +136,10 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 		//if CHANNEL EXIST 
 		else if (itchan != listchan.end()) {
 			
+			if (vector_check_user(itchan->second->getListUsers(), client->getNickname()) == true) {
+				this->_send_data_to_client(ERR_ALREADYREGISTRED(client->getNickname()), client);
+				continue ;
+			}
 			//CHECK CHANNEL LIMIT USER -- CHECK USER LIMIT CHANNEL
 			if (!this->_check_channel_users_limits(itchan, client, itp->first))
 				continue ;	
@@ -151,10 +155,6 @@ void	Command::_cmd_JOIN(std::vector<std::string> cmd, User* client, Server* opt)
 					this->_send_data_to_client(ERR_BADCHANNELKEY(client->getNickname(), itp->first), client);
 					continue ;
 				}
-			}
-			if (vector_check_user(itchan->second->getListUsers(), client->getNickname()) == true) {
-				this->_send_data_to_client(ERR_ALREADYREGISTRED(client->getNickname()), client);
-				continue ;
 			}
 			itchan->second->setNewUser(client);
 			client->setnbChan(1);

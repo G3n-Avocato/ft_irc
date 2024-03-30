@@ -51,6 +51,8 @@ class bot
 		bool		                _string_error();
 		void		                _calcul_msg_to_string(std::string);
 
+        int                         _stoi(std::string &s);
+
     public:
         bot();
         ~bot();

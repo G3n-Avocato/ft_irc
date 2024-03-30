@@ -10,8 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME			= ./ircserv
-NAME_BOT		= ./bot
+NAME			= ircserv
+NAME_BOT		= bot
 CXX				= c++
 CXXFLAGS		= -Wall -Wextra -Werror -std=c++98
 RM				= rm -rf
@@ -37,7 +37,7 @@ SRC				= srcs/main.cpp \
 
 SRC_BOT			= bonus/main.cpp \
 				  bonus/bot.cpp \
-				  bonus/calcul_bot2.cpp			
+				  bonus/calcul_bot.cpp			
 
 OBJ				= ${SRC:%.cpp=%.o}
 
@@ -51,7 +51,7 @@ ${NAME_BOT}: ${OBJ_BOT}
 
 all:	${NAME}
 
-bot:	${NAME_BOT}
+mybot:	${NAME_BOT}
 
 clean:
 		@${RM} ${OBJ}
@@ -63,4 +63,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bot
+.PHONY: all clean fclean re mybot
