@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bot.hpp                                            :+:      :+:    :+:   */
+/*   Bot.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:46:18 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/29 19:11:20 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:40:54 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,12 @@
 #include <vector>
 #include <climits>
 
-class bot
+class Bot
 {
     private:
+
+        Bot(const Bot&);
+        Bot&    operator=(const Bot&);
         
         std::string                 bot_chan;
         std::string                 bot_nick;
@@ -60,8 +63,9 @@ class bot
 		void		                _calcul_msg_to_string(std::string);
 
     public:
-        bot();
-        ~bot();
+    
+        Bot();
+        ~Bot();
 
         const char          *get_ip();
         int                 get_server_socket();

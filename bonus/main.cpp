@@ -6,11 +6,11 @@
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:46:39 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/29 21:48:18 by arforgea         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:38:53 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bot.hpp"
+#include "Bot.hpp"
 #include <signal.h>
 
 void	signal_sigint(int signal)
@@ -21,7 +21,7 @@ void	signal_sigint(int signal)
 
 int main(int argv, char **argc){
     try {
-        bot MyBot;
+        Bot MyBot;
         signal(SIGINT, signal_sigint);
         if(MyBot.parsing_input(argv, argc))
             return (1);

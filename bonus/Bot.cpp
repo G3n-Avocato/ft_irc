@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bot.cpp                                            :+:      :+:    :+:   */
+/*   Bot.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/29 15:46:27 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/29 22:27:30 by arforgea         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:40:56 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "bot.hpp"
+#include "Bot.hpp"
 
-bot::bot() {
+Bot::Bot() {
     this->server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket == -1) {
         std::cerr << "Failed to create socket" << std::endl;
@@ -22,44 +22,27 @@ bot::bot() {
     fcntl(server_socket, F_SETFL, flags | O_NONBLOCK);
 }
 
-bot::~bot() {
+Bot::~Bot() {
     close(this->server_socket);
 }
 
-void    bot::_set_server_info(std::string ip, int port, std::string pass){
+void    Bot::_set_server_info(std::string ip, int port, std::string pass){
     this->server_ip = ip;
     this->server_port = port;
     this->server_pass = pass;
 }
 
-void    bot::_set_bot_info(std::string nick, std::string user, std::string name){
+void    Bot::_set_bot_info(std::string nick, std::string user, std::string name){
     this->bot_nick = nick;
     this->bot_user = user;
     this->bot_name = name;
 }
 
-void bot::_send_message(const std::string& message) {
+void Bot::_send_message(const std::string& message) {
     send(this->server_socket, message.c_str(), message.size(), 0);
 }
 
-void bot::_check_error(std::string flag){
-    std::string message = receive_message(1024);
-
-    if(message.empty()){
-        std::cout << "Empty Error!" << std::endl; 
-        return;
-    }
-
-    size_t pos = message.find(flag);
-    std::cout << message << std::endl;
-
-    if(pos != std::string::npos){
-        std::cout << "Error: Your Nickname and already used on this server." << std::endl;
-        throw std::logic_error("Bot close.\n");
-    }
-}
-
-void bot::bot_connect(std::string to_channel) {
+void Bot::bot_connect(std::string to_channel) {
     this->bot_chan = to_channel;
     this->server_address.sin_family = AF_INET;
     this->server_address.sin_port = htons(this->server_port);
@@ -109,16 +92,15 @@ void bot::bot_connect(std::string to_channel) {
     }
 }
 
-void    bot::_try_send_co() {
+void    Bot::_try_send_co() {
     std::cout << "Connected successfully" << std::endl;
     this->_send_message("PASS " + this->server_pass + "\r\n");
     this->_send_message("NICK " + this->bot_nick + "\r\n");
-    this->_check_error(": 433");
     this->_send_message("USER " + this->bot_user + " 0 * :realname" + "\r\n");
     this->_send_message("JOIN " + this->bot_chan + "\r\n");
 }
 
-size_t  bot::_find_second_occurrence(const std::string& str, char target) {
+size_t  Bot::_find_second_occurrence(const std::string& str, char target) {
     size_t first_occurrence = str.find(target);
     if (first_occurrence != std::string::npos) {
         size_t second_occurrence = str.find(target, first_occurrence + 1);
@@ -127,7 +109,7 @@ size_t  bot::_find_second_occurrence(const std::string& str, char target) {
     return std::string::npos;
 }
 
-void bot::handle_message(const std::string message) {
+void Bot::handle_message(const std::string message) {
     if(message.empty())
         return;
     std::string endStr = "\r\n";
@@ -147,7 +129,7 @@ void bot::handle_message(const std::string message) {
     }
 }
 
-std::string bot::receive_message(const int buffer_size) {
+std::string Bot::receive_message(const int buffer_size) {
     char buffer[buffer_size];
     int bytes_received = recv(server_socket, buffer, buffer_size, 0);
     if (bytes_received <= 0){
@@ -163,11 +145,11 @@ std::string bot::receive_message(const int buffer_size) {
     return buffer;
 }
 
-int bot::get_server_socket() {
+int Bot::get_server_socket() {
     return this->server_socket;
 }
 
-bool bot::parsing_input(int size, char **input) {
+bool Bot::parsing_input(int size, char **input) {
     if(size < 6) {
         std::cout << size << std::endl;
         std::cout << "Error Input ( \"IP\" \"Port\" \"Password\" \"Nickname\" \"Username\" \"Channel\" )" << std::endl;

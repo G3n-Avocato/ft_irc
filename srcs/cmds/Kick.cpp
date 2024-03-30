@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 09:55:33 by ecorvisi          #+#    #+#             */
-/*   Updated: 2024/03/07 19:44:25 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:26:32 by arforgea         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 
 		for (unsigned long l = 0; l < user.size(); l++)
 		{
-			//regarder si le user est dans le chan
 			std::vector<User*> listuser = it->second->getListUsers(); //list user in the channel
 			std::vector<User*>::iterator ite;
 			for ( ite = listuser.begin(); ite != listuser.end(); ite++) {	//find if the user kick is in the channel
@@ -56,11 +55,9 @@ void	Command::_cmd_KICK(std::vector<std::string> cmd, User* client, Server* opt)
 			else if (client->getNickname() == user[l])
 				return ;
 			else {
-				//le delete du chan
 				it->second->deleteUser(user[l]);
 				//set le nbchan du user
 				(*ite)->setnbChan(-1);
-				//faire le msg de kick
 				std::string	msgkick = "";
 				if (cmd.size() != 3)
 				{

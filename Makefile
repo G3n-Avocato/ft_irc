@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+         #
+#    By: arforgea <arforgea@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/22 22:27:18 by lamasson          #+#    #+#              #
-#    Updated: 2024/03/29 15:47:52 by ecorvisi         ###   ########.fr        #
+#    Updated: 2024/03/30 16:41:13 by arforgea         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ SRC				= srcs/main.cpp \
 				  srcs/cmds/Kick.cpp
 
 SRC_BOT			= bonus/main.cpp \
-				  bonus/bot.cpp \
-				  bonus/calcul_bot.cpp			
+				  bonus/Bot.cpp \
+				  bonus/Calcul_bot.cpp			
 
 OBJ				= ${SRC:%.cpp=%.o}
 
