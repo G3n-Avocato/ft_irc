@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/29 16:36:40 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/30 16:43:12 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ Server::~Server() {
 
 	std::vector<User *>listuser = this->getListUser();
 	for (std::vector<User *>::iterator it = listuser.begin(); it != listuser.end(); it++) {
+		close((*it)->getSocket());
+		FD_CLR((*it)->getSocket(), &this->_setRead);
+		FD_CLR((*it)->getSocket(), &this->_main);
 		delete *it;
 	}
 
@@ -33,6 +36,7 @@ Server::~Server() {
 	for (std::map<std::string, Channel*>::iterator itc = listchannel.begin(); itc != listchannel.end(); itc++) {
 		delete itc->second;
 	}
+	close(this->_fd_l);
 }
 
 void	Server::_get_server_info() {
