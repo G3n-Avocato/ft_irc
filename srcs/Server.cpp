@@ -6,7 +6,7 @@
 /*   By: ecorvisi <ecorvisi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 23:25:47 by lamasson          #+#    #+#             */
-/*   Updated: 2024/03/30 16:43:12 by ecorvisi         ###   ########.fr       */
+/*   Updated: 2024/03/30 18:30:15 by ecorvisi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,7 @@ void	Server::deleteUser(int socket, int cas) {
 			if (cas == 1) {
 				FD_CLR(socket, &this->_setRead);
 				FD_CLR(socket, &this->_main);
+				close(socket);
 			}
 			if (socket == this->_fdmax)
 				this->_fdmax -= 1;
