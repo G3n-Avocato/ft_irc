@@ -261,7 +261,7 @@ void	Server::_delete_user_all_chan(std::string name) {
 				break;
 		}
 		if (ituser != listuser.end()) {
-			this->_bible.sendMsgtoUserlist(listuser, RPL_QUIT(name, "Leaving"));
+			this->_bible.notsendMsgtoUserlist(listuser, RPL_QUIT(name, "Leaving"), (*ituser)->getNickname());
 			it->second->deleteUser(name);
 			it->second->deleteChanop(name);
 			if (listuser.size() == 1)

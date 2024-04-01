@@ -87,9 +87,7 @@ void	Command::_flag_mode_exec(std::vector<std::string> cmd, User* client, Server
 							this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[i], cmd[1]), client);
 					}
 					else {
-						if (!itchan->second->deleteChanop(cmd[i]))
-							this->_send_data_to_client(ERR_USERNOTINCHANNEL(client->getNickname(), cmd[i], cmd[1]), client);
-						else
+						if (itchan->second->deleteChanop(cmd[i]))
 							this->_mode_is(cmd, client, itchan->second, cmd[i]);
 					}
 				}

@@ -85,7 +85,6 @@ class Server {
 		std::map<std::string, Channel*>			_l_channel; //list_channels
 
 		void									_delete_user_all_chan(std::string);
-
 		void									_printUsers(std::vector<User*> users);
 		
 };
